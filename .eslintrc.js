@@ -9,8 +9,6 @@ module.exports = {
         'object-curly-newline': 'off',
         'linebreak-style': 'off',
         indent: 'off',
-        'space-before-function-paren': 'off',
-        '@typescript-eslint/space-before-function-paren': 'off',
         '@typescript-eslint/indent': [
             'warn',
             4,
