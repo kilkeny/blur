@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { CONFIG } from './Canvas.consts';
+import { GAME_RESOURCES } from './Canvas.resources';
+import { ResourcesLoader, ResourcesProps } from './utils';
 // import { GAME_RESOURCES } from './Canvas.resources';
 // import { ControlProps, CONTROL_KEY } from './Canvas.type';
 // import { ResourcesLoader, ResourcesProps } from './utils';
@@ -42,23 +44,22 @@ export const useCanvas = (
         // document.addEventListener('keydown', handleHeroAction, false);
         // document.addEventListener('keyup', handleHeroAction, false);
 
-        const drawCanvas = () => {
+        const drawCanvas = (resources?: ResourcesProps) => {
             draw(
-                { ctx, controller },
+                { ctx, controller, resources },
                 // handleGameOver,
                 // handleNextLevel,
                 // level,
             );
-            animationFrameId = window.requestAnimationFrame(() => drawCanvas());
+            animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
         };
 
-        // if (GAME_RESOURCES) {
-        //     ResourcesLoader.onReady(drawCanvas);
-        //     ResourcesLoader.load(GAME_RESOURCES);
-        // }
-        // else {
-        drawCanvas();
-        // }
+        if (GAME_RESOURCES) {
+            ResourcesLoader.onReady(drawCanvas);
+            ResourcesLoader.load(GAME_RESOURCES);
+        } else {
+            drawCanvas();
+        }
 
         return () => {
             window.cancelAnimationFrame(animationFrameId);

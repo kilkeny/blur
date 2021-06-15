@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { CONFIG } from './Canvas.consts';
+import { ResourcesProps } from './utils';
 import { Ball } from './utils/Ball';
 import { Point } from './utils/Point';
 import { Vector } from './utils/Vector';
@@ -13,6 +14,7 @@ export type ControllerProps = {
 export interface DrawCanvasProps {
     ctx: CanvasRenderingContext2D;
     controller: ControllerProps;
+    resources?: ResourcesProps;
 }
 
 export interface DrawCanvasPartProps extends DrawCanvasProps {}
@@ -65,8 +67,19 @@ export class GamePainter {
     }
 
     drawCanvas (options: DrawCanvasProps) {
-        const { ctx } = options;
+        const { ctx, resources } = options;
+        // if (!resources) return;
+        console.log(resources);
         GamePainter.clearCanvas(ctx);
+        if (resources) {
+            ctx.drawImage(
+                resources.level,
+                0,
+                0,
+                CONFIG.CANVAS.width,
+                CONFIG.CANVAS.height,
+            );
+        }
         this.ball.draw(options);
         this.ball.move();
         const nextStep = new Vector(

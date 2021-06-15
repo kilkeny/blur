@@ -3,8 +3,8 @@ export const tileSize = 25;
 export const CONFIG = {
     EPS: 0.1,
     CANVAS: {
-        width: 1000,
-        height: 1000,
+        width: 1440,
+        height: 1024,
         line: 0,
         color: '#cacad0',
     },
