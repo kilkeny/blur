@@ -3,13 +3,6 @@ import { CONFIG } from './Canvas.consts';
 import { Ball } from './utils/Ball';
 import { Point } from './utils/Point';
 import { Vector } from './utils/Vector';
-// import { LEVEL_CONFIG } from './Canvas.levels';
-// import { maps } from './maps';
-// import {
-//     Hero, IJumper, Jumper, Live, ResourcesProps, Timer,
-// } from './utils';
-// import { Finish } from './utils/Finish';
-// import { Hedgehog } from './utils/Hedgehog';
 
 export type ControllerProps = {
     up: boolean;
@@ -20,7 +13,6 @@ export type ControllerProps = {
 export interface DrawCanvasProps {
     ctx: CanvasRenderingContext2D;
     controller: ControllerProps;
-    // resources?: ResourcesProps;
 }
 
 export interface DrawCanvasPartProps extends DrawCanvasProps {}
@@ -51,7 +43,7 @@ export class GamePainter {
             ),
         );
 
-        this.border = new Vector(border[0], border[1]);
+        this.border = new Vector(border[1], border[0]);
     }
 
     static clearCanvas (ctx: CanvasRenderingContext2D) {
