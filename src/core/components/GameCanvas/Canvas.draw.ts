@@ -24,13 +24,34 @@ export class GamePainter {
 
     borders: Vector[][];
 
+    bordersUser: Vector[][];
+
     constructor () {
         this.drawCanvas = this.drawCanvas.bind(this);
         this.ball = new Ball(
-            new Point(CONFIG.CANVAS.width * 0.3, CONFIG.CANVAS.height * 0.3),
+            new Point(CONFIG.CANVAS.width * 0.2, CONFIG.CANVAS.height * 0.3),
         );
         this.borders = [];
+        this.bordersUser = [];
         // const border = [];
+        const shapes = Object.values(CONFIG.LEVELS.LEVEL1);
+        console.log(shapes);
+        shapes.forEach((shape) => {
+            const border = [];
+            for (let i = 0; i < shape.length - 1; i += 1) {
+                const start = new Point(shape[i].x, shape[i].y);
+                const end = new Point(shape[i + 1].x, shape[i + 1].y);
+                border.push(new Vector(start, end));
+            }
+            const start = new Point(
+                shape[shape.length - 1].x,
+                shape[shape.length - 1].y,
+            );
+            const end = new Point(shape[0].x, shape[0].y);
+            border.push(new Vector(end, start));
+            this.borders.push(border);
+        });
+        console.log(this.borders);
 
         // for (let i = 0; i < x.length - 1; i += 1) {
         //     border.push(
@@ -74,7 +95,7 @@ export class GamePainter {
             }
             borders.push(border);
         }
-        this.borders = borders;
+        this.bordersUser = borders;
     }
 
     drawCanvas (options: DrawCanvasProps) {
@@ -104,13 +125,34 @@ export class GamePainter {
                 if (Vector.Intersection(element, nextStep)) {
                     this.ball.reflection(element);
                 }
+                // const p1 = element.start;
+                // const p2 = element.end;
+                // ctx.save();
+                // ctx.beginPath();
+                // ctx.moveTo(p1.x, p1.y);
+                // ctx.lineTo(p2.x, p2.y);
+                // ctx.strokeStyle = '#6ea3f1';
+                // ctx.lineWidth = 3;
+                // ctx.stroke();
+                // ctx.closePath();
+                // ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < this.bordersUser.length; i += 1) {
+            const border = this.bordersUser[i];
+            for (let index = 0; index < border.length; index += 1) {
+                const element = border[index];
+                if (Vector.Intersection(element, nextStep)) {
+                    this.ball.reflection(element);
+                }
                 const p1 = element.start;
                 const p2 = element.end;
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = '#6ea3f1';
+                ctx.strokeStyle = 'green';
                 ctx.lineWidth = 3;
                 ctx.stroke();
                 ctx.closePath();

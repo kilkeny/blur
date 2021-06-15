@@ -24,7 +24,7 @@ export const useCanvas = (
 
         const controller: any[] = [[]];
         let animationFrameId: number;
-        // const isDraw = false;
+        let isDraw = false;
         const handleHeroAction = (e: KeyboardEvent) => {
             // const keyState = e.type === 'keydown';
             // eslint-disable-next-line default-case
@@ -57,27 +57,27 @@ export const useCanvas = (
         const handleStartBorder = (e: MouseEvent) => {
             getPoint(e);
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            // isDraw = true;
+            isDraw = true;
         };
 
-        // const handleDrawBorder = (e: MouseEvent) => {
-        //     if (isDraw) {
-        //         getPoint(e);
-        //     }
-        // };
+        const handleDrawBorder = (e: MouseEvent) => {
+            if (isDraw) {
+                getPoint(e);
+            }
+        };
 
         const handleEndBorder = (e: MouseEvent) => {
             getPoint(e);
-            // isDraw = false;
-            // controller.push([]);
-            console.log(controller);
+            isDraw = false;
+            controller.push([]);
+            // console.log(controller);
         };
 
         document.addEventListener('keydown', handleHeroAction, false);
         // document.addEventListener('keyup', handleHeroAction, false);
         if (canvas) {
             canvas.addEventListener('mousedown', handleStartBorder, false);
-            // canvas.addEventListener('mousemove', handleDrawBorder, false);
+            canvas.addEventListener('mousemove', handleDrawBorder, false);
             canvas.addEventListener('mouseup', handleEndBorder, false);
         }
 
@@ -101,7 +101,7 @@ export const useCanvas = (
         return () => {
             window.cancelAnimationFrame(animationFrameId);
             canvas?.removeEventListener('mousedown', handleStartBorder, false);
-            // canvas?.removeEventListener('mousemove', handleDrawBorder, false);
+            canvas?.removeEventListener('mousemove', handleDrawBorder, false);
             canvas?.removeEventListener('mouseup', handleEndBorder, false);
             // document.addEventListener('keyup', handleHeroAction, false);
         };
