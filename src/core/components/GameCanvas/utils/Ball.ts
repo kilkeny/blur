@@ -39,6 +39,19 @@ export class Ball implements IBall {
         this.setNewPosition(this.getNextStep());
     }
 
+    reflection (border: Vector) {
+        const normal = border.getNormal();
+        const nextStep = new Vector(this.position, this.getNextStep());
+
+        const scalar = Vector.Scalar(normal, nextStep);
+        const reflection = nextStep.subVector(
+            normal.multiplyScalar(2).multiplyScalar(scalar / normal.length),
+        );
+        const end = new Point(reflection.x, reflection.y);
+        const start = new Point(0, 0);
+        this.speed = new Vector(start, end);
+    }
+
     getNextStep () {
         const x = this.position.x + this.speed.x;
         const y = this.position.y + this.speed.y;
@@ -72,8 +85,8 @@ export class Ball implements IBall {
         ctx.beginPath();
         ctx.moveTo(this.position.x, this.position.y);
         ctx.lineTo(
-            this.position.x + this.speed.x * 10,
-            this.position.y + this.speed.y * 10,
+            this.position.x + this.speed.x * 5,
+            this.position.y + this.speed.y * 5,
         );
         ctx.strokeStyle = 'red';
         ctx.lineWidth = 1;

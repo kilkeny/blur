@@ -69,15 +69,7 @@ export class GamePainter {
             this.ball.getNextStep(),
         );
         if (Vector.Intersection(this.border, nextStep)) {
-            const normal = this.border.getNormal();
-
-            const scalar = Vector.Scalar(normal, nextStep);
-            const reflection = nextStep.subVector(
-                normal.multiplyScalar(2).multiplyScalar(scalar / normal.length),
-            );
-            const end = new Point(reflection.x, reflection.y);
-            const start = new Point(0, 0);
-            this.ball.speed = new Vector(start, end);
+            this.ball.reflection(this.border);
         }
         const p1 = this.border.start;
         const p2 = this.border.end;

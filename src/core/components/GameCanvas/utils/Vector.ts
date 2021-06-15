@@ -89,21 +89,6 @@ export class Vector extends Point {
         const m312 = Vector.Product(v12, v13);
         const v14 = new Vector(p1, p4);
         const m412 = Vector.Product(v12, v14);
-        if (m134 * m234 < 0 && m312 * m412 < 0) {
-            const angle = Math.atan2(
-                v12.x * v34.y - v12.y * v34.x,
-                v12.x * v34.x + v12.y * v34.y,
-            );
-            let angleDegree = (angle / Math.PI) * 180;
-            if (angleDegree < 0) {
-                angleDegree *= -1;
-            }
-            if (angleDegree > 90) {
-                angleDegree -= 90;
-            }
-            console.log(angleDegree);
-            return angleDegree;
-        }
-        return null;
+        return m134 * m234 < 0 && m312 * m412 < 0;
     }
 }
