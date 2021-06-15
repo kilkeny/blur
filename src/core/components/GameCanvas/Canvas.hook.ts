@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { CONFIG } from './Canvas.consts';
 import { GAME_RESOURCES } from './Canvas.resources';
-import { ResourcesLoader, ResourcesProps } from './utils';
+import { Point, ResourcesLoader, ResourcesProps } from './utils';
 // import { GAME_RESOURCES } from './Canvas.resources';
 // import { ControlProps, CONTROL_KEY } from './Canvas.type';
 // import { ResourcesLoader, ResourcesProps } from './utils';
@@ -22,27 +22,64 @@ export const useCanvas = (
 
         const ctx = canvas?.getContext('2d');
 
-        const controller = {};
+        const controller: any[] = [[]];
         let animationFrameId: number;
+        // const isDraw = false;
+        const handleHeroAction = (e: KeyboardEvent) => {
+            // const keyState = e.type === 'keydown';
+            // eslint-disable-next-line default-case
+            if (e.key === 'Escape') {
+                controller.push([]);
+            }
+            // switch (e.keyCode) {
+            //     case CONTROL_KEY.up:
+            //         controller.up = keyState;
+            //         break;
+            //     case CONTROL_KEY.left:
+            //         controller.left = keyState;
+            //         break;
+            //     case CONTROL_KEY.right:
+            //         controller.right = keyState;
+            //         break;
+            // }
+        };
 
-        // const handleHeroAction = (e: KeyboardEvent) => {
-        //     const keyState = e.type === 'keydown';
-        //     // eslint-disable-next-line default-case
-        //     switch (e.keyCode) {
-        //         case CONTROL_KEY.up:
-        //             controller.up = keyState;
-        //             break;
-        //         case CONTROL_KEY.left:
-        //             controller.left = keyState;
-        //             break;
-        //         case CONTROL_KEY.right:
-        //             controller.right = keyState;
-        //             break;
+        const getPoint = (e: MouseEvent) => {
+            if (canvas) {
+                const line = controller[controller.length - 1];
+                const x = e.pageX - canvas?.offsetLeft;
+                const y = e.pageY - canvas?.offsetTop;
+                const point = new Point(x, y);
+                line.push(point);
+            }
+        };
+
+        const handleStartBorder = (e: MouseEvent) => {
+            getPoint(e);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            // isDraw = true;
+        };
+
+        // const handleDrawBorder = (e: MouseEvent) => {
+        //     if (isDraw) {
+        //         getPoint(e);
         //     }
         // };
 
-        // document.addEventListener('keydown', handleHeroAction, false);
+        const handleEndBorder = (e: MouseEvent) => {
+            getPoint(e);
+            // isDraw = false;
+            // controller.push([]);
+            console.log(controller);
+        };
+
+        document.addEventListener('keydown', handleHeroAction, false);
         // document.addEventListener('keyup', handleHeroAction, false);
+        if (canvas) {
+            canvas.addEventListener('mousedown', handleStartBorder, false);
+            // canvas.addEventListener('mousemove', handleDrawBorder, false);
+            canvas.addEventListener('mouseup', handleEndBorder, false);
+        }
 
         const drawCanvas = (resources?: ResourcesProps) => {
             draw(
@@ -63,7 +100,9 @@ export const useCanvas = (
 
         return () => {
             window.cancelAnimationFrame(animationFrameId);
-            // document.removeEventListener('keydown', handleHeroAction, false);
+            canvas?.removeEventListener('mousedown', handleStartBorder, false);
+            // canvas?.removeEventListener('mousemove', handleDrawBorder, false);
+            canvas?.removeEventListener('mouseup', handleEndBorder, false);
             // document.addEventListener('keyup', handleHeroAction, false);
         };
     }, []);
