@@ -27,7 +27,6 @@ export class Ball implements IBall {
         this.speed = new Vector(start, end);
         this.radius = 10;
         this.color = 'red';
-        console.log(this);
     }
 
     move () {
@@ -68,6 +67,20 @@ export class Ball implements IBall {
 
     draw (options: DrawCanvasProps) {
         const { ctx } = options;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(this.position.x, this.position.y);
+        ctx.lineTo(
+            this.position.x + this.speed.x * 10,
+            this.position.y + this.speed.y * 10,
+        );
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+
         ctx.beginPath();
         ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = this.color;

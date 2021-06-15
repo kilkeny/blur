@@ -5,12 +5,25 @@ export class Vector extends Point {
 
     end: Point;
 
+    length: number;
+
     constructor (start: Point, end: Point) {
         const x = end.x - start.x;
         const y = end.y - start.y;
         super(x, y);
+        this.length = (end.x - start.x) * (end.x - start.x)
+            + (end.y - start.y) * (end.y - start.y);
         this.start = start;
         this.end = end;
+    }
+
+    getNormal () {
+        const x = this.start.y - this.end.y;
+        const y = this.end.x - this.start.x;
+        const end = new Point(x, y);
+        const start = new Point(0, 0);
+        const normal = new Vector(start, end);
+        return normal;
     }
 
     reflectionY () {
@@ -29,6 +42,28 @@ export class Vector extends Point {
         const { start } = this;
         const end = new Point(-this.end.x, -this.end.y);
         return new Vector(start, end);
+    }
+
+    subVector (v1: Vector) {
+        this.x -= v1.x;
+        this.y -= v1.y;
+        return this;
+    }
+
+    addVector (v1: Vector) {
+        this.x += v1.x;
+        this.y += v1.y;
+        return this;
+    }
+
+    multiplyScalar (n: number) {
+        this.x *= n;
+        this.y *= n;
+        return this;
+    }
+
+    static Scalar (v1: Vector, v2: Vector) {
+        return v1.x * v2.x + v1.y * v2.y;
     }
 
     static Product (v1: Vector, v2: Vector) {
@@ -55,8 +90,20 @@ export class Vector extends Point {
         const v14 = new Vector(p1, p4);
         const m412 = Vector.Product(v12, v14);
         if (m134 * m234 < 0 && m312 * m412 < 0) {
-            return true;
+            const angle = Math.atan2(
+                v12.x * v34.y - v12.y * v34.x,
+                v12.x * v34.x + v12.y * v34.y,
+            );
+            let angleDegree = (angle / Math.PI) * 180;
+            if (angleDegree < 0) {
+                angleDegree *= -1;
+            }
+            if (angleDegree > 90) {
+                angleDegree -= 90;
+            }
+            console.log(angleDegree);
+            return angleDegree;
         }
-        return false;
+        return null;
     }
 }

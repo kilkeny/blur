@@ -40,14 +40,14 @@ export class GamePainter {
 
         border.push(
             new Point(
-                0.2 * (CONFIG.CANVAS.width - 10 * 2) + 10,
+                0.9 * (CONFIG.CANVAS.width - 10 * 2) + 10,
                 0.2 * (CONFIG.CANVAS.height - 10 * 2) + 10,
             ),
         );
         border.push(
             new Point(
-                0.9 * (CONFIG.CANVAS.width - 10 * 2) + 10,
-                0.2 * (CONFIG.CANVAS.height - 10 * 2) + 10,
+                0.1 * (CONFIG.CANVAS.width - 10 * 2) + 10,
+                0.9 * (CONFIG.CANVAS.height - 10 * 2) + 10,
             ),
         );
 
@@ -64,14 +64,20 @@ export class GamePainter {
         GamePainter.clearCanvas(ctx);
         this.ball.draw(options);
         this.ball.move();
+        const nextStep = new Vector(
+            this.ball.position,
+            this.ball.getNextStep(),
+        );
+        if (Vector.Intersection(this.border, nextStep)) {
+            const normal = this.border.getNormal();
 
-        if (
-            Vector.Intersection(
-                this.border,
-                new Vector(this.ball.position, this.ball.getNextStep()),
-            )
-        ) {
-            this.ball.speed = this.ball.speed.reflectionY();
+            const scalar = Vector.Scalar(normal, nextStep);
+            const reflection = nextStep.subVector(
+                normal.multiplyScalar(2).multiplyScalar(scalar / normal.length),
+            );
+            const end = new Point(reflection.x, reflection.y);
+            const start = new Point(0, 0);
+            this.ball.speed = new Vector(start, end);
         }
         const p1 = this.border.start;
         const p2 = this.border.end;
