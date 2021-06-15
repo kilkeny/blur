@@ -123,6 +123,7 @@ export class GamePainter {
             for (let index = 0; index < border.length; index += 1) {
                 const element = border[index];
                 if (Vector.Intersection(element, nextStep)) {
+                    // if (this.ball.radius > 0) { this.ball.radius -= 1; }
                     this.ball.reflection(element);
                 }
                 // const p1 = element.start;

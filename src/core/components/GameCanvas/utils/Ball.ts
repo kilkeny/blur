@@ -9,12 +9,18 @@ export interface IBall {
     speed: Vector;
     color: string;
     radius: number;
+    blur: Point[];
+    length: number;
 }
 
 export class Ball implements IBall {
     position!: Point;
 
     speed!: Vector;
+
+    length: number;
+
+    blur: Point[];
 
     color: string;
 
@@ -27,6 +33,8 @@ export class Ball implements IBall {
         this.speed = new Vector(start, end);
         this.radius = 10;
         this.color = 'red';
+        this.length = 50;
+        this.blur = [];
     }
 
     move () {
@@ -37,6 +45,11 @@ export class Ball implements IBall {
             this.speed = this.speed.reflectionY();
         }
         this.setNewPosition(this.getNextStep());
+
+        if (this.blur.length >= this.length) {
+            this.blur.shift();
+        }
+        this.blur.push(this.position);
     }
 
     reflection (border: Vector) {
@@ -94,11 +107,19 @@ export class Ball implements IBall {
         ctx.closePath();
         ctx.restore();
 
-        ctx.beginPath();
-        ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
+        this.blur.forEach((pos, index) => {
+            ctx.beginPath();
+            ctx.arc(
+                pos.x,
+                pos.y,
+                this.radius * ((2 * index) / this.length),
+                0,
+                Math.PI * 2,
+            );
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+            ctx.fill();
+            ctx.closePath();
+        });
     }
 
     render (options: DrawCanvasProps) {
