@@ -20,7 +20,7 @@ export interface DrawCanvasPartProps extends DrawCanvasProps {}
 export class GamePainter {
     ball: Ball;
 
-    border: Vector;
+    border: Vector[];
 
     constructor () {
         this.drawCanvas = this.drawCanvas.bind(this);
@@ -30,20 +30,33 @@ export class GamePainter {
 
         const border = [];
 
-        border.push(
-            new Point(
-                0.9 * (CONFIG.CANVAS.width - 10 * 2) + 10,
-                0.2 * (CONFIG.CANVAS.height - 10 * 2) + 10,
-            ),
-        );
-        border.push(
-            new Point(
-                0.1 * (CONFIG.CANVAS.width - 10 * 2) + 10,
-                0.9 * (CONFIG.CANVAS.height - 10 * 2) + 10,
-            ),
+        const x = JSON.parse(
+            '[{"x":74,"y":73},{"x":74,"y":73},{"x":104,"y":360},{"x":104,"y":360},{"x":183,"y":567},{"x":183,"y":567},{"x":262,"y":659},{"x":263,"y":659},{"x":265,"y":659},{"x":267,"y":659},{"x":272,"y":659},{"x":276,"y":659},{"x":282,"y":659},{"x":287,"y":659},{"x":294,"y":659},{"x":305,"y":659},{"x":313,"y":659},{"x":317,"y":659},{"x":326,"y":659},{"x":334,"y":659},{"x":341,"y":659},{"x":348,"y":659},{"x":356,"y":659},{"x":362,"y":659},{"x":368,"y":659},{"x":374,"y":659},{"x":379,"y":658},{"x":380,"y":658},{"x":387,"y":657},{"x":389,"y":657},{"x":391,"y":656},{"x":394,"y":656},{"x":395,"y":655},{"x":397,"y":654},{"x":398,"y":654},{"x":399,"y":653},{"x":400,"y":653},{"x":401,"y":653},{"x":401,"y":653},{"x":401,"y":653},{"x":402,"y":653},{"x":402,"y":653}]',
         );
 
-        this.border = new Vector(border[1], border[0]);
+        for (let i = 0; i < x.length - 1; i += 1) {
+            border.push(
+                new Vector(
+                    new Point(x[i].x, x[i].y),
+                    new Point(x[i + 1].x, x[i + 1].y),
+                ),
+            );
+        }
+        this.border = border;
+        // border.push(
+        //     new Point(
+        //         0.9 * (CONFIG.CANVAS.width - 10 * 2) + 10,
+        //         0.2 * (CONFIG.CANVAS.height - 10 * 2) + 10,
+        //     ),
+        // );
+        // border.push(
+        //     new Point(
+        //         0.1 * (CONFIG.CANVAS.width - 10 * 2) + 10,
+        //         0.9 * (CONFIG.CANVAS.height - 10 * 2) + 10,
+        //     ),
+        // );
+
+        // this.border = new Vector(border[1], border[0]);
     }
 
     static clearCanvas (ctx: CanvasRenderingContext2D) {
@@ -60,19 +73,22 @@ export class GamePainter {
             this.ball.position,
             this.ball.getNextStep(),
         );
-        if (Vector.Intersection(this.border, nextStep)) {
-            this.ball.reflection(this.border);
+        for (let index = 0; index < this.border.length; index += 1) {
+            const element = this.border[index];
+            if (Vector.Intersection(element, nextStep)) {
+                this.ball.reflection(element);
+            }
+            const p1 = element.start;
+            const p2 = element.end;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = '#6ea3f1';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.closePath();
+            ctx.restore();
         }
-        const p1 = this.border.start;
-        const p2 = this.border.end;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = '#6ea3f1';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.closePath();
-        ctx.restore();
     }
 }
