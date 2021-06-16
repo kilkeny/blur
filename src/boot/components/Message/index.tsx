@@ -14,7 +14,7 @@ interface MessageProps {
 }
 
 const Message: FC<MessageProps> = memo(({ type, text, author, date }) => (
-  <Box mb={type === MessageEnum.Question ? '40px' : '15px'}>
+  <Box mb={type === MessageEnum.Question ? '40px' : '10px'}>
     <Typography variant="body1" gutterBottom color="textSecondary">
       {author}
       {' '}
