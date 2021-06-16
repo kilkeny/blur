@@ -1,7 +1,17 @@
 import React, { FC, memo } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
+import Header from '@core/components/Header';
+import Discussion from '@pages/Discussion';
+import { globalThemeOverride } from './globalThemeOverride';
 
-export const App: FC = memo(() => {
-    const label = 'App';
-
-    return <div>{label}</div>;
-});
+export const App: FC = memo(() => (
+  <ThemeProvider theme={globalThemeOverride}>
+    <CssBaseline />
+    <Container fixed maxWidth={false}>
+      <Header />
+      <Discussion />
+    </Container>
+  </ThemeProvider>
+));
