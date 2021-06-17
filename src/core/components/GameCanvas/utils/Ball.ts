@@ -28,11 +28,11 @@ export class Ball implements IBall {
     constructor (position: Point) {
         this.position = position;
         const start = new Point(0, 0);
-        const end = new Point(7, 7);
+        const end = new Point(CONFIG.BALL.speed, CONFIG.BALL.speed);
         this.speed = new Vector(start, end);
-        this.radius = 7;
-        this.color = 'red';
-        this.length = 10;
+        this.radius = CONFIG.BALL.radius;
+        this.color = CONFIG.BALL.color;
+        this.length = CONFIG.BALL.length;
         this.blur = [];
     }
 
@@ -100,7 +100,7 @@ export class Ball implements IBall {
             this.position.x + this.speed.x * 5,
             this.position.y + this.speed.y * 5,
         );
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = CONFIG.BALL.normalColor;
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.closePath();
@@ -113,6 +113,7 @@ export class Ball implements IBall {
         this.blur.forEach((pos, index) => {
             ctx.beginPath();
             ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
+            // TODO: эта история будет решаться после того как у нас будет тема
             ctx.fillStyle = `rgba(66, 0, 255, ${(1 / this.length) * index})`;
             ctx.fill();
             ctx.closePath();

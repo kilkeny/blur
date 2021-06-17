@@ -85,8 +85,8 @@ export class GamePainter {
         const { ctx, resources, controller } = options;
         if (!resources) return;
 
-        this.setBarriers(controller);
         GamePainter.clearCanvas(ctx);
+
         if (resources) {
             ctx.drawImage(
                 resources.level,
@@ -96,8 +96,12 @@ export class GamePainter {
                 CONFIG.CANVAS.height,
             );
         }
+
+        this.setBarriers(controller);
+
         this.ball.draw(options);
         this.ball.move();
+
         const nextStep = new Vector(
             this.ball.position,
             this.ball.getNextStep(),

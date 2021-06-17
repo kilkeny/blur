@@ -7,7 +7,6 @@ export const CONFIG = {
     CANVAS: {
         width: 1440,
         height: 1024,
-        line: 0,
         color: 'white',
     },
     // TODO: цвета пока взяты для отладки механики
@@ -22,5 +21,15 @@ export const CONFIG = {
         width: 1440,
         height: 1024,
         LEVEL1: mapLevel,
+    },
+    BALL: {
+        speed: 7,
+        radius: 7,
+        color: 'rgb(44, 0, 255)',
+        // Цвет направления движения нарика
+        normalColor: 'red',
+        // Величина шлефа, количество шариков после первого
+        length: 10,
+
     },
 };
