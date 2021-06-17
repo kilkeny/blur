@@ -71,7 +71,9 @@ export class Ball implements IBall {
     }
 
     setNewPosition (position: Point) {
-        this.position = position;
+        const { x } = position;
+        const { y } = position;
+        this.position = new Point(x, y);
     }
 
     left () {

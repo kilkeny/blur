@@ -1,5 +1,5 @@
 import level from './level.png';
 
-export const RESOURCES = {
+export const GAME_RESOURCES = {
     level,
 };

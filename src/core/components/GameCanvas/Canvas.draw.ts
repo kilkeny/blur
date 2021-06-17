@@ -33,14 +33,14 @@ export class GamePainter {
             for (let i = 0; i < shape.length - 1; i += 1) {
                 const start = new Point(shape[i].x, shape[i].y);
                 const end = new Point(shape[i + 1].x, shape[i + 1].y);
-                border.addLine(start, end);
+                border.addLine(start.transformMap(), end.transformMap());
             }
             const start = new Point(
                 shape[shape.length - 1].x,
                 shape[shape.length - 1].y,
             );
             const end = new Point(shape[0].x, shape[0].y);
-            border.addLine(start, end);
+            border.addLine(start.transformMap(), end.transformMap());
             this.borders.push(border);
         });
     }
