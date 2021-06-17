@@ -1,24 +1,12 @@
-/* eslint-disable import/no-cycle */
 import { CONFIG } from './Canvas.consts';
-import { ResourcesProps } from './utils';
-import { Ball } from './utils/Ball';
-import { Border } from './utils/Border';
-import { Point } from './utils/Point';
-import { Vector } from './utils/Vector';
+import { Ball, Border, Point, Vector } from './utils';
+import { DrawCanvasProps } from './Canvas.types';
 
 export type ControllerProps = {
     up: boolean;
     left: boolean;
     right: boolean;
 };
-
-export interface DrawCanvasProps {
-    ctx: CanvasRenderingContext2D;
-    controller: any;
-    resources?: ResourcesProps;
-}
-
-export interface DrawCanvasPartProps extends DrawCanvasProps {}
 
 export class GamePainter {
     ball: Ball;
@@ -38,7 +26,10 @@ export class GamePainter {
         const shapes = Object.values(CONFIG.LEVELS.LEVEL1);
 
         shapes.forEach((shape) => {
-            const border = new Border('red');
+            const border = new Border(
+                CONFIG.LEVELS.lineColor,
+                CONFIG.LEVELS.fillColor,
+            );
             for (let i = 0; i < shape.length - 1; i += 1) {
                 const start = new Point(shape[i].x, shape[i].y);
                 const end = new Point(shape[i + 1].x, shape[i + 1].y);
@@ -65,7 +56,10 @@ export class GamePainter {
             if (line.length > 2) {
                 const start = line[0];
                 const end = line[line.length - 1];
-                const barrier = new Border('rgb(44, 0, 255)');
+                const barrier = new Border(
+                    CONFIG.BARRIER.lineColor,
+                    CONFIG.BARRIER.fillColor,
+                );
                 barrier.addLine(start, end);
                 barriers.push(barrier);
             }
@@ -89,7 +83,7 @@ export class GamePainter {
 
     drawCanvas (options: DrawCanvasProps) {
         const { ctx, resources, controller } = options;
-        // if (!resources) return;
+        if (!resources) return;
 
         this.setBarriers(controller);
         GamePainter.clearCanvas(ctx);

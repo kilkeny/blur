@@ -1,31 +1,29 @@
-// eslint-disable-next-line import/no-cycle
-import { DrawCanvasProps } from '../Canvas.draw';
+import { DrawCanvasProps } from '../Canvas.types';
 import { Point } from './Point';
 import { Vector } from './Vector';
 
 export interface IBorder {
     lines: Vector[];
-    color: string;
+    lineColor: string;
+    fillColor: string;
 }
 
 export class Border implements IBorder {
     lines: Vector[];
 
-    color: string;
+    lineColor: string;
 
-    constructor (color: string) {
+    fillColor: string;
+
+    constructor (lineColor: string, fillColor: string) {
         this.lines = [];
-        this.color = color;
+        this.lineColor = lineColor;
+        this.fillColor = fillColor;
     }
 
     addLine (start: Point, end: Point) {
         const line = new Vector(start, end);
         this.lines.push(line);
-    }
-
-    static drawLine (ctx: CanvasRenderingContext2D, line: Vector) {
-        const p2 = line.end;
-        ctx.lineTo(p2.x, p2.y);
     }
 
     collision (v1: Vector) {
@@ -43,10 +41,14 @@ export class Border implements IBorder {
             ctx.beginPath();
             const { start } = this.lines[0];
             ctx.moveTo(start.x, start.y);
-            this.lines.forEach((line) => Border.drawLine(ctx, line));
-            ctx.strokeStyle = this.color;
+            this.lines.forEach((line) => {
+                const p2 = line.end;
+                ctx.lineTo(p2.x, p2.y);
+            });
             ctx.lineWidth = 2;
-            ctx.fillStyle = '#F8F8F8';
+            ctx.strokeStyle = this.lineColor;
+            ctx.fillStyle = this.fillColor;
+            ctx.stroke();
             ctx.fill();
             ctx.closePath();
             ctx.restore();

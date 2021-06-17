@@ -2,14 +2,9 @@ import { useEffect, useRef } from 'react';
 import { CONFIG } from './Canvas.consts';
 import { GAME_RESOURCES } from './Canvas.resources';
 import { Point, ResourcesLoader, ResourcesProps } from './utils';
-// import { GAME_RESOURCES } from './Canvas.resources';
-// import { ControlProps, CONTROL_KEY } from './Canvas.type';
-// import { ResourcesLoader, ResourcesProps } from './utils';
 
 export const useCanvas = (
     draw: Function,
-    // handleGameOver: Function,
-    // handleNextLevel: Function,
 ) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -25,24 +20,6 @@ export const useCanvas = (
         const controller: any[] = [[]];
         let animationFrameId: number;
         let isDraw = false;
-        const handleHeroAction = (e: KeyboardEvent) => {
-            // const keyState = e.type === 'keydown';
-            // eslint-disable-next-line default-case
-            if (e.key === 'Escape') {
-                controller.push([]);
-            }
-            // switch (e.keyCode) {
-            //     case CONTROL_KEY.up:
-            //         controller.up = keyState;
-            //         break;
-            //     case CONTROL_KEY.left:
-            //         controller.left = keyState;
-            //         break;
-            //     case CONTROL_KEY.right:
-            //         controller.right = keyState;
-            //         break;
-            // }
-        };
 
         const getPoint = (e: MouseEvent) => {
             if (canvas) {
@@ -56,7 +33,6 @@ export const useCanvas = (
 
         const handleStartBorder = (e: MouseEvent) => {
             getPoint(e);
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             isDraw = true;
         };
 
@@ -70,11 +46,8 @@ export const useCanvas = (
             getPoint(e);
             isDraw = false;
             controller.push([]);
-            // console.log(controller);
         };
 
-        document.addEventListener('keydown', handleHeroAction, false);
-        // document.addEventListener('keyup', handleHeroAction, false);
         if (canvas) {
             canvas.addEventListener('mousedown', handleStartBorder, false);
             canvas.addEventListener('mousemove', handleDrawBorder, false);
@@ -82,12 +55,7 @@ export const useCanvas = (
         }
 
         const drawCanvas = (resources?: ResourcesProps) => {
-            draw(
-                { ctx, controller, resources },
-                // handleGameOver,
-                // handleNextLevel,
-                // level,
-            );
+            draw({ ctx, controller, resources });
             animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
         };
 
@@ -103,7 +71,6 @@ export const useCanvas = (
             canvas?.removeEventListener('mousedown', handleStartBorder, false);
             canvas?.removeEventListener('mousemove', handleDrawBorder, false);
             canvas?.removeEventListener('mouseup', handleEndBorder, false);
-            // document.addEventListener('keyup', handleHeroAction, false);
         };
     }, []);
 

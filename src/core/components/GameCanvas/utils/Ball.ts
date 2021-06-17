@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-cycle
-import { DrawCanvasProps } from '../Canvas.draw';
+import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
 import { Point } from './Point';
 import { Vector } from './Vector';
