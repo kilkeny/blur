@@ -31,9 +31,9 @@ export class Ball implements IBall {
         const start = new Point(0, 0);
         const end = new Point(7, 7);
         this.speed = new Vector(start, end);
-        this.radius = 10;
+        this.radius = 7;
         this.color = 'red';
-        this.length = 50;
+        this.length = 10;
         this.blur = [];
     }
 
@@ -91,9 +91,7 @@ export class Ball implements IBall {
         return this.position.y + this.radius;
     }
 
-    draw (options: DrawCanvasProps) {
-        const { ctx } = options;
-
+    drawNormal (ctx: CanvasRenderingContext2D) {
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(this.position.x, this.position.y);
@@ -106,17 +104,15 @@ export class Ball implements IBall {
         ctx.stroke();
         ctx.closePath();
         ctx.restore();
+    }
+
+    draw (options: DrawCanvasProps) {
+        const { ctx } = options;
 
         this.blur.forEach((pos, index) => {
             ctx.beginPath();
-            ctx.arc(
-                pos.x,
-                pos.y,
-                this.radius * ((2 * index) / this.length),
-                0,
-                Math.PI * 2,
-            );
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+            ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(66, 0, 255, ${(1 / this.length) * index})`;
             ctx.fill();
             ctx.closePath();
         });

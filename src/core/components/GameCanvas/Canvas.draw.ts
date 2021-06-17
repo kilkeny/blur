@@ -2,6 +2,7 @@
 import { CONFIG } from './Canvas.consts';
 import { ResourcesProps } from './utils';
 import { Ball } from './utils/Ball';
+import { Border } from './utils/Border';
 import { Point } from './utils/Point';
 import { Vector } from './utils/Vector';
 
@@ -22,9 +23,9 @@ export interface DrawCanvasPartProps extends DrawCanvasProps {}
 export class GamePainter {
     ball: Ball;
 
-    borders: Vector[][];
+    borders: Border[];
 
-    bordersUser: Vector[][];
+    barriers: Border[];
 
     constructor () {
         this.drawCanvas = this.drawCanvas.bind(this);
@@ -32,50 +33,25 @@ export class GamePainter {
             new Point(CONFIG.CANVAS.width * 0.2, CONFIG.CANVAS.height * 0.3),
         );
         this.borders = [];
-        this.bordersUser = [];
-        // const border = [];
+        this.barriers = [];
+
         const shapes = Object.values(CONFIG.LEVELS.LEVEL1);
-        console.log(shapes);
+
         shapes.forEach((shape) => {
-            const border = [];
+            const border = new Border('red');
             for (let i = 0; i < shape.length - 1; i += 1) {
                 const start = new Point(shape[i].x, shape[i].y);
                 const end = new Point(shape[i + 1].x, shape[i + 1].y);
-                border.push(new Vector(start, end));
+                border.addLine(start, end);
             }
             const start = new Point(
                 shape[shape.length - 1].x,
                 shape[shape.length - 1].y,
             );
             const end = new Point(shape[0].x, shape[0].y);
-            border.push(new Vector(end, start));
+            border.addLine(start, end);
             this.borders.push(border);
         });
-        console.log(this.borders);
-
-        // for (let i = 0; i < x.length - 1; i += 1) {
-        //     border.push(
-        //         new Vector(
-        //             new Point(x[i].x, x[i].y),
-        //             new Point(x[i + 1].x, x[i + 1].y),
-        //         ),
-        //     );
-        // }
-        // this.border = border;
-        // border.push(
-        //     new Point(
-        //         0.9 * (CONFIG.CANVAS.width - 10 * 2) + 10,
-        //         0.2 * (CONFIG.CANVAS.height - 10 * 2) + 10,
-        //     ),
-        // );
-        // border.push(
-        //     new Point(
-        //         0.1 * (CONFIG.CANVAS.width - 10 * 2) + 10,
-        //         0.9 * (CONFIG.CANVAS.height - 10 * 2) + 10,
-        //     ),
-        // );
-
-        // this.border = new Vector(border[1], border[0]);
     }
 
     static clearCanvas (ctx: CanvasRenderingContext2D) {
@@ -83,25 +59,39 @@ export class GamePainter {
         ctx.fillRect(0, 0, CONFIG.CANVAS.width, CONFIG.CANVAS.height);
     }
 
-    setBorder (controller: any) {
-        const borders = [];
-        for (let i = 0; i < controller.length; i += 1) {
-            const line = controller[i];
-            const border = [];
-            for (let j = 0; j < line.length - 1; j += 1) {
-                const start = line[j];
-                const end = line[j + 1];
-                border.push(new Vector(start, end));
+    setBarriers (controller: any) {
+        const barriers: Border[] = [];
+        controller.forEach((line: any[]) => {
+            if (line.length > 2) {
+                const start = line[0];
+                const end = line[line.length - 1];
+                const barrier = new Border('rgb(44, 0, 255)');
+                barrier.addLine(start, end);
+                barriers.push(barrier);
             }
-            borders.push(border);
-        }
-        this.bordersUser = borders;
+        });
+        this.barriers = barriers;
+    }
+
+    updateBorder (
+        options: DrawCanvasProps,
+        nextStep: Vector,
+        borders: Border[],
+    ) {
+        borders.forEach((border) => {
+            const line = border.collision(nextStep);
+            border.render(options);
+            if (line) {
+                this.ball.reflection(line);
+            }
+        });
     }
 
     drawCanvas (options: DrawCanvasProps) {
         const { ctx, resources, controller } = options;
         // if (!resources) return;
-        this.setBorder(controller);
+
+        this.setBarriers(controller);
         GamePainter.clearCanvas(ctx);
         if (resources) {
             ctx.drawImage(
@@ -118,47 +108,8 @@ export class GamePainter {
             this.ball.position,
             this.ball.getNextStep(),
         );
-        for (let i = 0; i < this.borders.length; i += 1) {
-            const border = this.borders[i];
-            for (let index = 0; index < border.length; index += 1) {
-                const element = border[index];
-                if (Vector.Intersection(element, nextStep)) {
-                    // if (this.ball.radius > 0) { this.ball.radius -= 1; }
-                    this.ball.reflection(element);
-                }
-                // const p1 = element.start;
-                // const p2 = element.end;
-                // ctx.save();
-                // ctx.beginPath();
-                // ctx.moveTo(p1.x, p1.y);
-                // ctx.lineTo(p2.x, p2.y);
-                // ctx.strokeStyle = '#6ea3f1';
-                // ctx.lineWidth = 3;
-                // ctx.stroke();
-                // ctx.closePath();
-                // ctx.restore();
-            }
-        }
 
-        for (let i = 0; i < this.bordersUser.length; i += 1) {
-            const border = this.bordersUser[i];
-            for (let index = 0; index < border.length; index += 1) {
-                const element = border[index];
-                if (Vector.Intersection(element, nextStep)) {
-                    this.ball.reflection(element);
-                }
-                const p1 = element.start;
-                const p2 = element.end;
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = 'green';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-                ctx.closePath();
-                ctx.restore();
-            }
-        }
+        this.updateBorder(options, nextStep, this.borders);
+        this.updateBorder(options, nextStep, this.barriers);
     }
 }
