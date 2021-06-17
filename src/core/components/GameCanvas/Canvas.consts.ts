@@ -1,7 +1,5 @@
 import { mapLevel } from './resources/level';
 
-export const tileSize = 25;
-
 export const CONFIG = {
     EPS: 0.1,
     CANVAS: {
