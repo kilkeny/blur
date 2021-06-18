@@ -1,5 +1,5 @@
 import { CONFIG } from './Canvas.consts';
-import { Ball, Border, Point, Vector } from './utils';
+import { Ball, Border, Point } from './utils';
 import { DrawCanvasProps } from './Canvas.types';
 
 export type ControllerProps = {
@@ -69,11 +69,12 @@ export class GamePainter {
 
     updateBorder (
         options: DrawCanvasProps,
-        nextStep: Vector,
+        startPoint: Point,
+        aroundPoints: Point[],
         borders: Border[],
     ) {
         borders.forEach((border) => {
-            const line = border.collision(nextStep);
+            const line = border.collision(startPoint, aroundPoints);
             border.render(options);
             if (line) {
                 this.ball.reflection(line);
@@ -106,10 +107,9 @@ export class GamePainter {
             .getNextStep()
             .getAround(this.ball.radius);
 
-        aroundPoints.forEach((endPoint) => {
-            const nextStep = new Vector(this.ball.position, endPoint);
-            this.updateBorder(options, nextStep, this.borders);
-            this.updateBorder(options, nextStep, this.barriers);
-        });
+        const startPoint = this.ball.position;
+
+        this.updateBorder(options, startPoint, aroundPoints, this.borders);
+        this.updateBorder(options, startPoint, aroundPoints, this.barriers);
     }
 }

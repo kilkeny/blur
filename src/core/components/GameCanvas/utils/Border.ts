@@ -26,10 +26,14 @@ export class Border implements IBorder {
         this.lines.push(line);
     }
 
-    collision (v1: Vector) {
+    collision (startPoint: Point, aroundPoints: Point[]) {
         for (let i = 0; i < this.lines.length; i += 1) {
-            if (Vector.isIntersection(this.lines[i], v1)) {
-                return this.lines[i];
+            for (let j = 0; j < aroundPoints.length; j += 1) {
+                const endPoint = aroundPoints[j];
+                const v1 = new Vector(startPoint, endPoint);
+                if (Vector.isIntersection(this.lines[i], v1)) {
+                    return this.lines[i];
+                }
             }
         }
         return null;
