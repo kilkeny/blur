@@ -3,10 +3,10 @@ const { filename } = require('./filename');
 const { BUILD_DIR, SRC_DIR, STATIC_DIR } = require('./consts');
 
 module.exports = {
-    isProd,
-    isDev,
-    filename,
-    BUILD_DIR,
-    SRC_DIR,
-    STATIC_DIR,
+  isProd,
+  isDev,
+  filename,
+  BUILD_DIR,
+  SRC_DIR,
+  STATIC_DIR,
 };

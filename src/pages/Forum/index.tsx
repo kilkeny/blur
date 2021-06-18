@@ -1,17 +1,17 @@
 import React, { FC, memo } from 'react';
 import { Button, Box } from '@material-ui/core';
-import PageHeader from '@core/components/PageHeader';
-import ForumCard from '@boot/components/ForumCard';
+import { PageHeader } from '@core/components/PageHeader';
+import { ForumCard } from '@boot/components/ForumCard';
+import { forumCardsData } from './forum.mock';
 
-const Forum: FC = memo(() => (
-  <>
-      <PageHeader title="forum"><Button variant="text" color="primary" onClick={() => console.log('create new')}>+ create new</Button></PageHeader>
+export const Forum: FC = memo(() => {
+  const handleFormCardClick = () => console.log('create new');
+  return (
+    <>
+      <PageHeader title="forum"><Button variant="text" color="primary" onClick={handleFormCardClick}>+ create new</Button></PageHeader>
       <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-      <Box mb="60px"><ForumCard title="тема обсуждения с каким-то длинным названием которое не помещается на карточке очень-очнь длинным и..." date="may 10, 2021" author="username" answers={10} /></Box>
-      <Box mb="60px"><ForumCard title="тема 1" date="may 10, 2021" author="username" answers={10} /></Box>
-      <Box mb="60px"><ForumCard title="тема 2" date="may 10, 2021" author="username" answers={10} /></Box>
-    </Box>
+        {forumCardsData.map((card) => <Box mb="60px"><ForumCard title={card.title} date={card.date} author={card.author} answers={card.answers} /></Box>)}
+      </Box>
     </>
-));
-
-export default Forum;
+  );
+});

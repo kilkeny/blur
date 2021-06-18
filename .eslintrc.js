@@ -10,9 +10,10 @@ module.exports = {
         'linebreak-style': 'off',
         indent: 'off',
         'react/prop-types': 'off',
+        'react/jsx-one-expression-per-line': ['off', 'always'],
         '@typescript-eslint/indent': [
             'warn',
-            4,
+            2,
             {
                 ignoredNodes: ['JSXElement *', 'JSXElement'],
             },

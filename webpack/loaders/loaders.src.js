@@ -1,55 +1,55 @@
 const { isDev } = require('../env');
 
 const babelOptions = (preset) => {
-    const opts = {
-        presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-class-properties'],
-    };
+  const opts = {
+    presets: ['@babel/preset-env'],
+    plugins: ['@babel/plugin-proposal-class-properties'],
+  };
 
-    if (preset) {
-        opts.presets.push(preset);
-    }
-    return opts;
+  if (preset) {
+    opts.presets.push(preset);
+  }
+  return opts;
 };
 
 const jsLoaders = () => {
-    const loaders = [
-        {
-            loader: 'babel-loader',
-            options: babelOptions(),
-        },
-    ];
+  const loaders = [
+    {
+      loader: 'babel-loader',
+      options: babelOptions(),
+    },
+  ];
 
-    if (isDev) {
-        loaders.push('eslint-loader');
-    }
+  if (isDev) {
+    loaders.push('eslint-loader');
+  }
 
-    return loaders;
+  return loaders;
 };
 
 const JSLoader = {
-    test: /\.js$/,
-    exclude: /node_modules/,
-    use: jsLoaders(),
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: jsLoaders(),
 };
 
 const JSXLoader = {
-    test: /\.jsx$/,
-    exclude: /node_modules/,
-    use: {
-        loader: 'babel-loader',
-        options: babelOptions('@babel/preset-react'),
-    },
+  test: /\.jsx$/,
+  exclude: /node_modules/,
+  use: {
+    loader: 'babel-loader',
+    options: babelOptions('@babel/preset-react'),
+  },
 };
 
 const TSLoader = {
-    test: /\.(ts|tsx)$/,
-    exclude: /node_modules/,
-    use: {
-        loader: 'babel-loader',
-        options: babelOptions('@babel/preset-typescript'),
-    },
+  test: /\.(ts|tsx)$/,
+  exclude: /node_modules/,
+  use: {
+    loader: 'babel-loader',
+    options: babelOptions('@babel/preset-typescript'),
+  },
 };
 module.exports = {
-    LoadersSrc: [JSLoader, JSXLoader, TSLoader],
+  LoadersSrc: [JSLoader, JSXLoader, TSLoader],
 };
