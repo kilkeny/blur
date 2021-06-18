@@ -70,12 +70,11 @@ export class Vector extends Point {
         return v1.x * v2.y - v2.x * v1.y;
     }
 
-    static Intersection (v12: Vector, v34: Vector) {
+    static isIntersection (v12: Vector, v34: Vector) {
         const p1 = v12.start;
         const p2 = v12.end;
         const p3 = v34.start;
         const p4 = v34.end;
-
         // Первая проверка что точки P1 и P2 находятся слева и справа от V34
         // Требуется найти векторные произведения V34 * V31, V34 * V32
         const v31 = new Vector(p3, p1);
@@ -89,6 +88,6 @@ export class Vector extends Point {
         const m312 = Vector.Product(v12, v13);
         const v14 = new Vector(p1, p4);
         const m412 = Vector.Product(v12, v14);
-        return m134 * m234 < 0 && m312 * m412 < 0;
+        return m134 * m234 <= 0 && m312 * m412 <= 0;
     }
 }

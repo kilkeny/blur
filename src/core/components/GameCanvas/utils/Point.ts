@@ -15,6 +15,21 @@ export class Point implements PointProps {
         this.y = y;
     }
 
+    getAround (buffer: number) {
+        // 1 - означает "+", -1 - означает "-"",
+        const { x, y } = this;
+        const combinePosition = [
+            [1, 1],
+            [1, -1],
+            [-1, 1],
+            [-1, -1],
+        ];
+        const aroundPoints = combinePosition.map(
+            ([dx, dy]) => new Point(x + dx * buffer, y + dy * buffer),
+        );
+        return aroundPoints;
+    }
+
     transformMap () {
         const dx = CONFIG.CANVAS.width / CONFIG.LEVELS.width;
         const dy = CONFIG.CANVAS.height / CONFIG.LEVELS.height;

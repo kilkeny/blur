@@ -102,12 +102,14 @@ export class GamePainter {
         this.ball.draw(options);
         this.ball.move();
 
-        const nextStep = new Vector(
-            this.ball.position,
-            this.ball.getNextStep(),
-        );
+        const aroundPoints = this.ball
+            .getNextStep()
+            .getAround(this.ball.radius);
 
-        this.updateBorder(options, nextStep, this.borders);
-        this.updateBorder(options, nextStep, this.barriers);
+        aroundPoints.forEach((endPoint) => {
+            const nextStep = new Vector(this.ball.position, endPoint);
+            this.updateBorder(options, nextStep, this.borders);
+            this.updateBorder(options, nextStep, this.barriers);
+        });
     }
 }

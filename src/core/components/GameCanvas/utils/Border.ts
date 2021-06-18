@@ -28,7 +28,7 @@ export class Border implements IBorder {
 
     collision (v1: Vector) {
         for (let i = 0; i < this.lines.length; i += 1) {
-            if (Vector.Intersection(this.lines[i], v1)) {
+            if (Vector.isIntersection(this.lines[i], v1)) {
                 return this.lines[i];
             }
         }
