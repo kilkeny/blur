@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { DrawCanvasProps } from '../Canvas.types';
 import { Point } from './Point';
 import { Vector } from './Vector';
@@ -27,10 +28,10 @@ export class Border implements IBorder {
     }
 
     collision (startPoint: Point, aroundPoints: Point[]) {
-        for (let i = 0; i < this.lines.length; i += 1) {
-            for (let j = 0; j < aroundPoints.length; j += 1) {
-                const endPoint = aroundPoints[j];
-                const v1 = new Vector(startPoint, endPoint);
+        for (let j = 0; j < aroundPoints.length; j += 1) {
+            const endPoint = aroundPoints[j];
+            const v1 = new Vector(startPoint, endPoint);
+            for (let i = 0; i < this.lines.length; i += 1) {
                 if (Vector.isIntersection(this.lines[i], v1)) {
                     return this.lines[i];
                 }

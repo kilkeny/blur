@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
 import { Point } from './Point';
@@ -26,13 +27,14 @@ export class Ball implements IBall {
     radius: number;
 
     constructor (position: Point) {
+        const { speed, radius, color, length } = CONFIG.BALL;
         this.position = position;
         const start = new Point(0, 0);
-        const end = new Point(CONFIG.BALL.speed, CONFIG.BALL.speed);
+        const end = new Point(speed, speed);
         this.speed = new Vector(start, end);
-        this.radius = CONFIG.BALL.radius;
-        this.color = CONFIG.BALL.color;
-        this.length = CONFIG.BALL.length;
+        this.radius = radius;
+        this.color = color;
+        this.length = length;
         this.blur = [];
     }
 

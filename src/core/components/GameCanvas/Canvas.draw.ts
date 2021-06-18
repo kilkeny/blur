@@ -15,10 +15,17 @@ export class GamePainter {
 
     barriers: Border[];
 
+    width: number;
+
+    height: number;
+
     constructor () {
         this.drawCanvas = this.drawCanvas.bind(this);
+
+        this.width = CONFIG.CANVAS.width;
+        this.height = CONFIG.CANVAS.height;
         this.ball = new Ball(
-            new Point(CONFIG.CANVAS.width * 0.2, CONFIG.CANVAS.height * 0.3),
+            new Point(this.width * 0.2, CONFIG.CANVAS.height * 0.3),
         );
         this.borders = [];
         this.barriers = [];
@@ -45,14 +52,14 @@ export class GamePainter {
         });
     }
 
-    static clearCanvas (ctx: CanvasRenderingContext2D) {
+    clearCanvas (ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = CONFIG.CANVAS.color;
-        ctx.fillRect(0, 0, CONFIG.CANVAS.width, CONFIG.CANVAS.height);
+        ctx.fillRect(0, 0, this.width, this.height);
     }
 
-    setBarriers (controller: any) {
+    setBarriers (controller: Point[][]) {
         const barriers: Border[] = [];
-        controller.forEach((line: any[]) => {
+        controller.forEach((line) => {
             if (line.length > 2) {
                 const start = line[0];
                 const end = line[line.length - 1];
@@ -86,15 +93,15 @@ export class GamePainter {
         const { ctx, resources, controller } = options;
         if (!resources) return;
 
-        GamePainter.clearCanvas(ctx);
+        this.clearCanvas(ctx);
 
         if (resources) {
             ctx.drawImage(
                 resources.level,
                 0,
                 0,
-                CONFIG.CANVAS.width,
-                CONFIG.CANVAS.height,
+                this.width,
+                this.height,
             );
         }
 
@@ -107,9 +114,7 @@ export class GamePainter {
             .getNextStep()
             .getAround(this.ball.radius);
 
-        const startPoint = this.ball.position;
-
-        this.updateBorder(options, startPoint, aroundPoints, this.borders);
-        this.updateBorder(options, startPoint, aroundPoints, this.barriers);
+        this.updateBorder(options, this.ball.position, aroundPoints, this.borders);
+        this.updateBorder(options, this.ball.position, aroundPoints, this.barriers);
     }
 }
