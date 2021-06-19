@@ -1,5 +1,5 @@
 import React, { memo, FC } from 'react';
-import { useCanvas } from './Canvas.hook';
+import { useCanvas } from './useCanvas';
 
 export type CanvasProps = {
     draw: Function;
