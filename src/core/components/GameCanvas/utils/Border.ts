@@ -3,13 +3,13 @@ import { DrawCanvasProps } from '../Canvas.types';
 import { Point } from './Point';
 import { Vector } from './Vector';
 
-export interface IBorder {
+export interface BorderParams {
     lines: Vector[];
     lineColor: string;
     fillColor: string;
 }
 
-export class Border implements IBorder {
+export class Border implements BorderParams {
     lines: Vector[];
 
     lineColor: string;

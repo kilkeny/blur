@@ -4,7 +4,7 @@ import { CONFIG } from '../Canvas.consts';
 import { Point } from './Point';
 import { Vector } from './Vector';
 
-export interface IBall {
+export interface BallParams {
     position: Point;
     speed: Vector;
     color: string;
@@ -13,7 +13,7 @@ export interface IBall {
     length: number;
 }
 
-export class Ball implements IBall {
+export class Ball implements BallParams {
     position!: Point;
 
     speed!: Vector;
