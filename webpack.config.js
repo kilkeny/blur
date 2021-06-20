@@ -6,6 +6,7 @@ module.exports = {
     mode: process.env.NODE_ENV,
     entry: path.resolve(__dirname, SRC_DIR, 'index.tsx'),
     output: {
+        publicPath: '/',
         filename: filename('js'),
         path: path.resolve(__dirname, BUILD_DIR),
     },
