@@ -12,3 +12,6 @@ Blur — это игра-головоломка. Ваша задача помо�
 ## Дизайн.
 **Ссылки на фигму**:
 - https://www.figma.com/file/stKPjJpe6wJflnSMXGuj2y/Praktikum-Kilkenny-Blur-Game?node-id=7%3A2
+
+# deploy
+https://blur-app.herokuapp.com/
