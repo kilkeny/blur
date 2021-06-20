@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Box, Link, Typography } from '@material-ui/core';
-import { Logo } from '@core/components/Logo';
-import { routes } from '@core/utils/routes';
+import { Logo } from '@components/Logo';
+import { routes } from '../../utils/routes';
 
 export const Header: FC = () => (
   <Box component="header" position="relative" display="flex" alignItems="center" justifyContent="space-between" height={193}>

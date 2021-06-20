@@ -12,9 +12,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
     alias: {
-      '@boot': path.resolve(__dirname, SRC_DIR, 'boot'),
       '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
-      '@core': path.resolve(__dirname, SRC_DIR, 'core'),
+      '@components': path.resolve(__dirname, SRC_DIR, 'components'),
     },
   },
   devServer: {

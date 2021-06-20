@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-import { Header } from '@core/components/Header';
+import { Header } from '@components/Header';
 import { Forum } from '@pages/Forum';
 import { Discussion } from '@pages/Discussion';
 import { globalThemeOverride } from './globalThemeOverride';

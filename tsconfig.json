@@ -21,11 +21,8 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            "@boot/*": [
-                "./src/boot/*"
-            ],
-            "@core/*": [
-                "./src/core/*"
+            "@components/*": [
+              "./src/components/*"
             ],
             "@pages/*": [
                 "./src/pages/*"

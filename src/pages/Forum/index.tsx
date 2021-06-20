@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import { Button, Box } from '@material-ui/core';
-import { PageHeader } from '@core/components/PageHeader';
-import { ForumCard } from '@boot/components/ForumCard';
+import { PageHeader } from '@components/PageHeader';
+import { ForumCard } from '@components/ForumCard';
 import { forumCardsData } from './forum.mock';
 
 export const Forum: FC = memo(() => {

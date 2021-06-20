@@ -1,7 +1,7 @@
 import React, { FC, memo } from 'react';
 import { Link, Paper, Box } from '@material-ui/core';
-import { PageHeader } from '@core/components/PageHeader';
-import { Message, MessageEnum } from '@boot/components/Message';
+import { PageHeader } from '@components/PageHeader';
+import { Message, MessageEnum } from '@components/Message';
 import { discussionData } from './discussion.mock';
 
 export const Discussion: FC = memo(() => (
