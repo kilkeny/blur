@@ -1,4 +1,3 @@
-import { Canvas, GamePainter } from '@components/GameCanvas';
 import React, { FC, memo } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -10,19 +9,15 @@ import { Login } from '@pages/Login';
 import { SignUp } from '@pages/SignUp';
 import { globalThemeOverride } from './globalThemeOverride';
 
-export const App: FC = memo(() => {
-  const draw = new GamePainter();
-  return (
-    <ThemeProvider theme={globalThemeOverride}>
-      <CssBaseline />
-      <Container fixed maxWidth={false}>
-        <Header />
-        <Forum />
-        <Discussion />
-        <Canvas draw={draw.drawCanvas} />
-        <Login />
-        <SignUp />
-      </Container>
-    </ThemeProvider>
-  );
-});
+export const App: FC = memo(() => (
+  <ThemeProvider theme={globalThemeOverride}>
+    <CssBaseline />
+    <Container fixed maxWidth={false}>
+      <Header />
+      <Forum />
+      <Discussion />
+      <Login />
+      <SignUp />
+    </Container>
+  </ThemeProvider>
+));

@@ -5,7 +5,9 @@ export type CanvasProps = {
   draw: Function;
 };
 
-export const Canvas: FC<CanvasProps> = memo(({ draw }: CanvasProps) => {
-  const canvasRef = useCanvas(draw);
-  return <canvas ref={canvasRef} />;
-});
+export const Canvas: FC<CanvasProps> = memo(
+  ({ draw }: CanvasProps) => {
+    const canvasRef = useCanvas(draw);
+    return <canvas ref={canvasRef} />;
+  },
+);
