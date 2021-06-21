@@ -19,10 +19,10 @@ export const App: FC = memo(() => {
         <Header />
         <Forum />
         <Discussion />
+        <Canvas draw={draw.drawCanvas} />
+        <Login />
+        <SignUp />
       </Container>
-      <Canvas draw={draw.drawCanvas} />
-      <Login />
-      <SignUp />
     </ThemeProvider>
   );
 });
