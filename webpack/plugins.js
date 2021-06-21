@@ -11,53 +11,53 @@ const { isProd } = require('./env');
 const { filename } = require('./filename');
 
 const dfPlugin = new webpack.DefinePlugin({
-    'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-    },
+  'process.env': {
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+  },
 });
 
 const htmlPlugin = new HTMLWebpackPlugin({
-    template: path.join('public', 'index.html'),
-    minify: {
-        collapseWhitespace: isProd,
-    },
+  template: path.join('public', 'index.html'),
+  minify: {
+    collapseWhitespace: isProd,
+  },
 });
 
 const cleanPlugin = new CleanWebpackPlugin();
 
 const copyPlugin = new CopyWebpackPlugin({
-    patterns: [
-        {
-            from: path.join('public', 'favicon.ico'),
-            to: path.resolve(BUILD_DIR),
-        },
-    ],
+  patterns: [
+    {
+      from: path.join('public', 'favicon.ico'),
+      to: path.resolve(BUILD_DIR),
+    },
+  ],
 });
 
 const minicssPlugin = new MiniCssExtractPlugin({
-    filename: filename('css'),
+  filename: filename('css'),
 });
 
 const eslintPlugin = new ESLintPlugin({
-    extensions: ['js', 'jsx', 'ts', 'tsx'],
+  extensions: ['js', 'jsx', 'ts', 'tsx'],
 });
 
 const checkerTsPlugin = new ForkTsCheckerWebpackPlugin({
-    async: false,
+  async: false,
 });
 
 const plugins = () => {
-    const base = [
-        dfPlugin,
-        htmlPlugin,
-        copyPlugin,
-        minicssPlugin,
-        checkerTsPlugin,
-        eslintPlugin,
-        cleanPlugin,
-    ];
+  const base = [
+    dfPlugin,
+    htmlPlugin,
+    copyPlugin,
+    minicssPlugin,
+    checkerTsPlugin,
+    eslintPlugin,
+    cleanPlugin,
+  ];
 
-    return base;
+  return base;
 };
 
 module.exports = { Plugins: plugins() };

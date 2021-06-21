@@ -4,20 +4,20 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const { isProd } = require('./utils');
 
 const optimization = () => {
-    const config = {
-        splitChunks: {
-            chunks: 'all',
-        },
-    };
+  const config = {
+    splitChunks: {
+      chunks: 'all',
+    },
+  };
 
-    if (isProd) {
-        config.minimizer = [
-            new CssMinimizerPlugin(),
-            new TerserWebpackPlugin(),
-        ];
-    }
+  if (isProd) {
+    config.minimizer = [
+      new CssMinimizerPlugin(),
+      new TerserWebpackPlugin(),
+    ];
+  }
 
-    return config;
+  return config;
 };
 
 module.exports = { Optimization: optimization() };

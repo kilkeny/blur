@@ -4,16 +4,18 @@ module.exports = {
         project: './tsconfig.eslint.json',
     },
     rules: {
-        'space-before-function-paren': ['error', 'always'],
+        'space-before-function-paren': ['off', 'always'],
         '@typescript-eslint/space-before-function-paren': ['error'],
         'object-curly-newline': 'off',
         '@typescript-eslint/space-before-function-paren': 'off',
         'space-before-function-paren': 'off',
         'linebreak-style': 'off',
         indent: 'off',
+        'react/prop-types': 'off',
+        'react/jsx-one-expression-per-line': ['off', 'always'],
         '@typescript-eslint/indent': [
             'warn',
-            4,
+            2,
             {
                 ignoredNodes: ['JSXElement *', 'JSXElement'],
             },
