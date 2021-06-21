@@ -1,4 +1,4 @@
-import { RulesObj, RulesOptions } from '@boot/components/FormInput/types/types';
+import { RulesObj, RulesOptions } from '../components/FormInput/FormInput.types';
 
 export const makeValidationRules = (options: RulesOptions) => {
   const { required, minLength, maxLength, pattern, valueAsNumber } = options;
@@ -6,16 +6,16 @@ export const makeValidationRules = (options: RulesOptions) => {
   const rules: RulesObj = {
     minLength: {
       value: minLength,
-      message: `Please enter between ${minLength} and ${maxLength} characters.`,
+      message: `Пожалуйста, введите от ${minLength} до ${maxLength} символов.`,
     },
     maxLength: {
       value: maxLength,
-      message: `Please enter between ${minLength} and ${maxLength} characters.`,
+      message: `Пожалуйста, введите от ${minLength} до ${maxLength} символов.`,
     },
   };
 
   if (required) {
-    rules.required = 'This field is required';
+    rules.required = 'Пожалуйста, заполните это поле.';
   }
 
   if (pattern) {
@@ -26,5 +26,6 @@ export const makeValidationRules = (options: RulesOptions) => {
     rules.valueAsNumber = valueAsNumber;
   }
 
+  console.log(rules);
   return rules;
 };

@@ -1,11 +1,9 @@
-export type InputNameType = 'firstName' | 'lastName' | 'login' | 'email' | 'phone' | 'password';
-
 export interface RulesOptions {
   required: boolean,
   minLength: number,
   maxLength: number,
   pattern?: {
-    value: RegExp,
+    value: string,
     message: string
   },
   valueAsNumber?: boolean,
@@ -22,8 +20,26 @@ export interface RulesObj {
     message: string
   },
   pattern?: {
-    value: RegExp,
+    value: string,
     message: string
   },
   valueAsNumber?: boolean,
+}
+
+export enum DefaultInputsNamesEnum {
+  Login = 'login',
+  FirstName = 'first_name',
+  LastName = 'second_name',
+  Email = 'email',
+  Phone = 'phone',
+  Password = 'password',
+}
+
+export interface FormData {
+  login: string,
+  password: string
+  first_name?: string,
+  second_name?: string,
+  email?: string,
+  phone?: string,
 }

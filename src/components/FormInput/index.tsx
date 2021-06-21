@@ -2,15 +2,14 @@ import React, { FC } from 'react';
 import { TextField } from '@material-ui/core';
 import { Control, Controller, FieldValues } from 'react-hook-form';
 import { defaultInputs } from './data/defaultInputs.data';
-import { InputNameType } from './types/types';
+import { DefaultInputsNamesEnum } from './FormInput.types';
 
 interface FormInputProps {
-  inputName: InputNameType,
+  inputName: DefaultInputsNamesEnum,
   control: Control<FieldValues>
 }
 
-export const FormInput: FC<FormInputProps> = (props) => {
-  const { inputName, control } = props;
+export const FormInput: FC<FormInputProps> = ({ inputName, control }) => {
   const inputInfo = defaultInputs[inputName];
   const { name, label, type, rules } = inputInfo;
 
@@ -19,14 +18,14 @@ export const FormInput: FC<FormInputProps> = (props) => {
       name={name}
       control={control}
       defaultValue=""
+      // @ts-ignore
       rules={rules}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           label={label}
           type={type}
-          variant="standard"
           value={value}
-          helperText={error ? error.message : null}
+          helperText={error?.message}
           onChange={onChange}
           fullWidth
         />

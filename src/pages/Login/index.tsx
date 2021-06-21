@@ -1,35 +1,39 @@
 import React from 'react';
-import { FormInput } from '@boot/components/FormInput';
 import { useForm } from 'react-hook-form';
-import { ButtonComponent } from '@boot/components/Button';
-import { Box, Link, Paper } from '@material-ui/core';
-import { InputNameType } from '@boot/components/FormInput/types/types';
-import { v4 as uuidv4 } from 'uuid';
+import { Box, Button, Link, Paper } from '@material-ui/core';
+import { FormInput } from '../../components/FormInput';
+import { DefaultInputsNamesEnum, FormData } from '../../components/FormInput/FormInput.types';
 
 export const Login = () => {
   const { handleSubmit, control } = useForm();
-  const inputs: InputNameType[] = ['login', 'password'];
-  const onSubmit = (data: {}) => console.log(data);
+  const { Login: LoginInput, Password } = DefaultInputsNamesEnum;
+  const inputs: DefaultInputsNamesEnum[] = [LoginInput, Password];
+  const onSubmit = (data: FormData) => console.log(data);
+
+  const inputControl = inputs.map((inputName) => (
+    <FormInput
+      {...{ inputName, control }}
+      key={inputName}
+    />
+  ));
 
   return (
     <Box width="427px">
-      <Paper elevation={22} square={false}>
+      <Paper elevation={22}>
         <Box px="72px" minHeight="580px">
           <form name="login_form" onSubmit={handleSubmit(onSubmit)}>
             <Box py="175px">
-              {
-                inputs.map((inputName) => (
-                  <FormInput
-                    inputName={inputName}
-                    control={control}
-                    key={uuidv4()}
-                  />
-                ))
-              }
+              {inputControl}
             </Box>
             <Box display="flex" justifyContent="space-around">
-              <ButtonComponent text="login" />
-              <Link href="signup">sign up</Link>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                Войти
+              </Button>
+              <Link href="signup">Зарегистрироваться</Link>
             </Box>
           </form>
         </Box>
