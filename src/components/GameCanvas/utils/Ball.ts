@@ -5,124 +5,124 @@ import { Point } from './Point';
 import { Vector } from './Vector';
 
 export interface BallParams {
-    position: Point;
-    speed: Vector;
-    color: string;
-    radius: number;
-    blur: Point[];
-    length: number;
+  position: Point;
+  speed: Vector;
+  color: string;
+  radius: number;
+  blur: Point[];
+  length: number;
 }
 
 export class Ball implements BallParams {
-    position!: Point;
+  position!: Point;
 
-    speed!: Vector;
+  speed!: Vector;
 
-    length: number;
+  length: number;
 
-    blur: Point[];
+  blur: Point[];
 
-    color: string;
+  color: string;
 
-    radius: number;
+  radius: number;
 
-    constructor (position: Point) {
-        const { speed, radius, color, length } = CONFIG.BALL;
-        this.position = position;
-        const start = new Point(0, 0);
-        const end = new Point(speed, speed);
-        this.speed = new Vector(start, end);
-        this.radius = radius;
-        this.color = color;
-        this.length = length;
-        this.blur = [];
+  constructor (position: Point) {
+    const { speed, radius, color, length } = CONFIG.BALL;
+    this.position = position;
+    const start = new Point(0, 0);
+    const end = new Point(speed, speed);
+    this.speed = new Vector(start, end);
+    this.radius = radius;
+    this.color = color;
+    this.length = length;
+    this.blur = [];
+  }
+
+  move () {
+    if (this.left() < 0 || this.right() > CONFIG.CANVAS.width) {
+      this.speed = this.speed.reflectionX();
     }
-
-    move () {
-        if (this.left() < 0 || this.right() > CONFIG.CANVAS.width) {
-            this.speed = this.speed.reflectionX();
-        }
-        if (this.top() < 0 || this.bottom() > CONFIG.CANVAS.height) {
-            this.speed = this.speed.reflectionY();
-        }
-        this.setNewPosition(this.getNextStep());
-
-        if (this.blur.length >= this.length) {
-            this.blur.shift();
-        }
-        this.blur.push(this.position);
+    if (this.top() < 0 || this.bottom() > CONFIG.CANVAS.height) {
+      this.speed = this.speed.reflectionY();
     }
+    this.setNewPosition(this.getNextStep());
 
-    reflection (border: Vector) {
-        const normal = border.getNormal();
-        const nextStep = new Vector(this.position, this.getNextStep());
-
-        const scalar = Vector.Scalar(normal, nextStep);
-        const reflection = nextStep.subVector(
-            normal.multiplyScalar(2).multiplyScalar(scalar / normal.length),
-        );
-        const end = new Point(reflection.x, reflection.y);
-        const start = new Point(0, 0);
-        this.speed = new Vector(start, end);
+    if (this.blur.length >= this.length) {
+      this.blur.shift();
     }
+    this.blur.push(this.position);
+  }
 
-    getNextStep () {
-        const x = this.position.x + this.speed.x;
-        const y = this.position.y + this.speed.y;
-        return new Point(x, y);
-    }
+  reflection (border: Vector) {
+    const normal = border.getNormal();
+    const nextStep = new Vector(this.position, this.getNextStep());
 
-    setNewPosition (position: Point) {
-        const { x } = position;
-        const { y } = position;
-        this.position = new Point(x, y);
-    }
+    const scalar = Vector.Scalar(normal, nextStep);
+    const reflection = nextStep.subVector(
+      normal.multiplyScalar(2).multiplyScalar(scalar / normal.length),
+    );
+    const end = new Point(reflection.x, reflection.y);
+    const start = new Point(0, 0);
+    this.speed = new Vector(start, end);
+  }
 
-    left () {
-        return this.position.x - this.radius;
-    }
+  getNextStep () {
+    const x = this.position.x + this.speed.x;
+    const y = this.position.y + this.speed.y;
+    return new Point(x, y);
+  }
 
-    right () {
-        return this.position.x + this.radius;
-    }
+  setNewPosition (position: Point) {
+    const { x } = position;
+    const { y } = position;
+    this.position = new Point(x, y);
+  }
 
-    top () {
-        return this.position.y - this.radius;
-    }
+  left () {
+    return this.position.x - this.radius;
+  }
 
-    bottom () {
-        return this.position.y + this.radius;
-    }
+  right () {
+    return this.position.x + this.radius;
+  }
 
-    drawNormal (ctx: CanvasRenderingContext2D) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(this.position.x, this.position.y);
-        ctx.lineTo(
-            this.position.x + this.speed.x * 5,
-            this.position.y + this.speed.y * 5,
-        );
-        ctx.strokeStyle = CONFIG.BALL.normalColor;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.closePath();
-        ctx.restore();
-    }
+  top () {
+    return this.position.y - this.radius;
+  }
 
-    draw (options: DrawCanvasProps) {
-        const { ctx } = options;
+  bottom () {
+    return this.position.y + this.radius;
+  }
 
-        this.blur.forEach((pos, index) => {
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
-            // TODO: эта история будет решаться после того как у нас будет тема
-            ctx.fillStyle = `rgba(66, 0, 255, ${(1 / this.length) * index})`;
-            ctx.fill();
-            ctx.closePath();
-        });
-    }
+  drawNormal (ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(this.position.x, this.position.y);
+    ctx.lineTo(
+      this.position.x + this.speed.x * 5,
+      this.position.y + this.speed.y * 5,
+    );
+    ctx.strokeStyle = CONFIG.BALL.normalColor;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.closePath();
+    ctx.restore();
+  }
 
-    render (options: DrawCanvasProps) {
-        this.draw(options);
-    }
+  draw (options: DrawCanvasProps) {
+    const { ctx } = options;
+
+    this.blur.forEach((pos, index) => {
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
+      // TODO: эта история будет решаться после того как у нас будет тема
+      ctx.fillStyle = `rgba(66, 0, 255, ${(1 / this.length) * index})`;
+      ctx.fill();
+      ctx.closePath();
+    });
+  }
+
+  render (options: DrawCanvasProps) {
+    this.draw(options);
+  }
 }

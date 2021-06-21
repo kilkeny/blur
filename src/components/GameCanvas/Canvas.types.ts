@@ -2,7 +2,7 @@
 import { Point, ResourcesProps } from './utils';
 
 export interface DrawCanvasProps {
-    ctx: CanvasRenderingContext2D;
-    controller: Point[][];
-    resources?: ResourcesProps;
+  ctx: CanvasRenderingContext2D;
+  controller: Point[][];
+  resources?: ResourcesProps;
 }
