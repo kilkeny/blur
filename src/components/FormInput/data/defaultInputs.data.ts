@@ -6,40 +6,42 @@ import {
   PHONE_VALIDATION,
 } from './validationRules';
 
+import { DefaultInputsNamesEnum } from '../FormInput.types';
+
 export const defaultInputs = {
-  firstName: {
-    name: 'first_name',
-    label: 'first name',
+  first_name: {
+    name: DefaultInputsNamesEnum.FirstName,
+    label: 'Имя',
     type: 'text',
     rules: NAME_VALIDATION,
   },
-  lastName: {
-    name: 'second_name',
-    label: 'last name',
+  second_name: {
+    name: DefaultInputsNamesEnum.LastName,
+    label: 'Фамилия',
     type: 'text',
     rules: NAME_VALIDATION,
   },
   login: {
-    name: 'login',
-    label: 'nickname',
+    name: DefaultInputsNamesEnum.Login,
+    label: 'Логин',
     type: 'text',
     rules: LOGIN_VALIDATION,
   },
   email: {
-    name: 'email',
-    label: 'email',
+    name: DefaultInputsNamesEnum.Email,
+    label: 'Почта',
     type: 'email',
     rules: EMAIL_VALIDATION,
   },
   phone: {
-    name: 'phone',
-    label: 'phone',
+    name: DefaultInputsNamesEnum.Phone,
+    label: 'Номер телефона',
     type: 'tel',
     rules: PHONE_VALIDATION,
   },
   password: {
-    name: 'password',
-    label: 'password',
+    name: DefaultInputsNamesEnum.Password,
+    label: 'Пароль',
     type: 'password',
     rules: PASSWORD_VALIDATION,
   },

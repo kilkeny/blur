@@ -82,12 +82,14 @@
   },
   "dependencies": {
     "@material-ui/core": "4.11.4",
+<<<<<<< HEAD
     "express": "4.17.1",
+=======
+>>>>>>> 3069bce (BL-11 Исправления после ревью)
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "7.8.8",
     "react-router": "5.2.0",
-    "react-router-dom": "5.2.0",
-    "uuid": "3.4.0"
+    "react-router-dom": "5.2.0"
   }
 }
