@@ -7,6 +7,8 @@ module.exports = {
         'space-before-function-paren': ['error', 'always'],
         '@typescript-eslint/space-before-function-paren': ['error'],
         'object-curly-newline': 'off',
+        '@typescript-eslint/space-before-function-paren': 'off',
+        'space-before-function-paren': 'off',
         'linebreak-style': 'off',
         indent: 'off',
         '@typescript-eslint/indent': [
@@ -28,5 +30,13 @@ module.exports = {
                 allowIndentationTabs: true,
             },
         ],
+    },
+    settings: {
+        'import/resolver': {
+            node: {
+                extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                paths: ['./src'],
+            },
+        },
     },
 };
