@@ -17,8 +17,8 @@ export const App: FC = memo(() => {
         <Header />
         <Forum />
         <Discussion />
+        <Canvas draw={draw.drawCanvas} />
       </Container>
-      <Canvas draw={draw.drawCanvas} />
     </ThemeProvider>
   );
 });
