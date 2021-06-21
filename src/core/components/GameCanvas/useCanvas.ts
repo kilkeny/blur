@@ -3,7 +3,7 @@ import { CONFIG } from './Canvas.consts';
 import { GAME_RESOURCES } from './resources';
 import { Point, ResourcesLoader, ResourcesProps } from './utils';
 
-export const useCanvas = (draw: Function) => {
+export const useCanvas = (draw: Function, handleGameOver: Function) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export const useCanvas = (draw: Function) => {
         }
 
         const drawCanvas = (resources?: ResourcesProps) => {
-            draw({ ctx, controller, resources });
+            draw({ ctx, controller, resources }, handleGameOver);
             animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
         };
 

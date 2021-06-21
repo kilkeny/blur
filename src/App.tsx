@@ -1,8 +1,4 @@
-import { Canvas, GamePainter } from '@core/components/GameCanvas';
+import { StartGame } from '@core/pages';
 import React, { FC, memo } from 'react';
 
-export const App: FC = memo(() => {
-    const draw = new GamePainter();
-    //! Тестовая штука
-    return <Canvas draw={draw.drawCanvas} />;
-});
+export const App: FC = memo(() => <StartGame />);

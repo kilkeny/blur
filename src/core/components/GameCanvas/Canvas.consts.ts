@@ -28,6 +28,13 @@ export const CONFIG = {
         normalColor: 'red',
         // Величина шлефа, количество шариков после первого
         length: 10,
-
+    },
+    FINISH: {
+        x: 196,
+        y: 982,
+        length: 10,
+        step: 15,
+        radius: 5,
+        color: 'green',
     },
 };
