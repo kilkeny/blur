@@ -1,20 +1,26 @@
 import React from 'react';
 import { Box, Button, Link, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { FormInput } from '../../components/FormInput';
-import { DefaultInputsNamesEnum } from '../../components/FormInput/FormInput.types';
+import {
+  FormInput,
+  NameInput,
+} from '@components/FormInput';
 
 export const SignUp = () => {
-  const { Login, FirstName, LastName, Phone, Email, Password } = DefaultInputsNamesEnum;
-  const inputs: DefaultInputsNamesEnum[] = [FirstName, LastName, Login, Email, Phone, Password];
+  const inputNames: NameInput[] = [
+    'first_name',
+    'second_name',
+    'login',
+    'email',
+    'phone',
+    'password',
+  ];
+
   const { handleSubmit, control } = useForm();
   const onSubmit = (data: FormData) => console.log(data);
 
-  const inputControl = inputs.map((inputName) => (
-    <FormInput
-      {...{ inputName, control }}
-      key={inputName}
-    />
+  const inputControl = inputNames.map((inputName) => (
+    <FormInput {...{ inputName, control }} key={inputName} />
   ));
 
   return (
@@ -33,7 +39,9 @@ export const SignUp = () => {
               >
                 Зарегистрироваться
               </Button>
-              <Link href="login">Войти</Link>
+              <Link href="login">
+                Войти
+              </Link>
             </Box>
           </form>
         </Box>

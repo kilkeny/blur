@@ -1,29 +1,29 @@
 export interface RulesOptions {
-  required: boolean,
-  minLength: number,
-  maxLength: number,
+  required: boolean;
+  minLength: number;
+  maxLength: number;
   pattern?: {
-    value: string,
-    message: string
-  },
-  valueAsNumber?: boolean,
+    value: string;
+    message: string;
+  };
+  valueAsNumber?: boolean;
 }
 
 export interface RulesObj {
-  required?: string,
+  required?: string;
   minLength: {
-    value: number,
-    message: string
-  },
+    value: number;
+    message: string;
+  };
   maxLength: {
-    value: number,
-    message: string
-  },
+    value: number;
+    message: string;
+  };
   pattern?: {
-    value: string,
-    message: string
-  },
-  valueAsNumber?: boolean,
+    value: string;
+    message: string;
+  };
+  valueAsNumber?: boolean;
 }
 
 export enum DefaultInputsNamesEnum {
@@ -35,11 +35,24 @@ export enum DefaultInputsNamesEnum {
   Password = 'password',
 }
 
-export interface FormData {
-  login: string,
-  password: string
-  first_name?: string,
-  second_name?: string,
-  email?: string,
-  phone?: string,
-}
+export type FormData = {
+  login: string;
+  password: string;
+  first_name?: string;
+  second_name?: string;
+  email?: string;
+  phone?: string;
+};
+
+export type NameInput = keyof FormData;
+
+export type MetaInput = {
+  name: NameInput;
+  label: string;
+  type: string;
+  rules: RulesObj;
+};
+
+export type MetaInputs = {
+  [key in NameInput]: MetaInput;
+};
