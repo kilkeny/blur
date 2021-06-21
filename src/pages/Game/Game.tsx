@@ -1,54 +1,58 @@
 import { Canvas, GamePainter } from '@components/index';
-import { Button, Paper } from '@material-ui/core';
-import React, { FC, memo, useMemo, useRef, useState } from 'react';
+import { makeStyles, Paper, useTheme } from '@material-ui/core';
+import React, { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
 import { useSizeComponents } from '@core/index';
+import { v4 as uuid } from 'uuid';
+import { GameStart } from './components';
+import { ColorVariant } from './components/ColorBall';
+
+const useStyles = makeStyles({
+  root: {
+    maxHeight: 1000,
+    minHeight: 600,
+    display: 'flex',
+  },
+});
+
+type TypeStatusGame = 'game' | 'start' | 'finish';
 
 export const Game: FC = memo(() => {
-  // TODO: Тестовый компонент для проверки работы механизма завершения игры
-  const [time, setTime] = useState<null | number>(null);
   const ref = useRef(null);
-
   const size = useSizeComponents(ref);
 
-  const [attempt, setAttempt] = useState(0);
+  const classes = useStyles();
+  const [variant, setVariant] = useState<ColorVariant>('primary');
+  const theme = useTheme();
 
-  const handleGameOver = () => {
-    setTime(null);
-  };
+  const [status, setStatus] = useState<TypeStatusGame>('start');
 
-  const handleRetry = () => {
-    setAttempt(attempt + 1);
-    setTime(null);
-  };
+  const draw = useMemo(() => new GamePainter(size, uuid(), theme.palette[variant].main), [
+    size,
+    status,
+  ]);
 
-  const draw = useMemo(() => {
-    if (size[0] && size[1] && size[1] <= 1000) {
-      console.log(size);
-      return new GamePainter({ width: size[0], height: size[1] });
+  const handleChangeStatus = useCallback(
+    (value: TypeStatusGame) => () => setStatus(value),
+    [],
+  );
+
+  const handleChangeColor = useCallback((event) => {
+    const { target } = event;
+    const elem = target.closest('svg');
+    setVariant(elem.id);
+  }, []);
+
+  // TODO: Это затравка на завершение игры
+  const controlGame = useMemo(() => {
+    if (status === 'game' && draw) {
+      return <Canvas draw={draw} key={draw.id} />;
     }
-    return null;
-  }, [size, time]);
-
-  const controlCanvas = useMemo(() => {
-    if (draw && time === null) {
-      return (
-        <Canvas
-          {...{ handleGameOver, draw }}
-          key={`${draw.width}${draw.height}`}
-        />
-      );
-    }
-    return (
-      <div>
-        <h1>{`Your time: ${((time || 1) / 1000).toFixed(2)} (sec)`}</h1>
-        <Button onClick={handleRetry}>{'play again >'}</Button>
-      </div>
-    );
-  }, [time, draw]);
+    return <GameStart {...{ handleChangeStatus, handleChangeColor }} />;
+  }, [draw]);
 
   return (
-    <Paper style={{ minWidth: 600, minHeight: 600, maxHeight: 1000 }} ref={ref}>
-      {controlCanvas}
+    <Paper className={classes.root} ref={ref}>
+      {controlGame}
     </Paper>
   );
 });

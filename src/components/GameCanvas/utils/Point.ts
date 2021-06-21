@@ -1,3 +1,4 @@
+import { SizeProps } from '@core/hooks';
 import { CONFIG } from '../Canvas.consts';
 
 export interface PointProps {
@@ -30,7 +31,8 @@ export class Point implements PointProps {
     return aroundPoints;
   }
 
-  transformMap (width: number, height: number) {
+  transformMap (size: SizeProps) {
+    const { width, height } = size;
     const dx = width / CONFIG.LEVELS.width;
     const dy = height / CONFIG.LEVELS.height;
     this.x *= dx;

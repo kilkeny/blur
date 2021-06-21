@@ -11,13 +11,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export type CanvasProps = {
   draw: GamePainter;
-  handleGameOver: Function;
 };
 
 export const Canvas: FC<CanvasProps> = memo(
-  ({ draw, handleGameOver }: CanvasProps) => {
+  ({ draw }: CanvasProps) => {
     const classes = useStyles();
-    const canvasRef = useCanvas(draw, handleGameOver);
+    const canvasRef = useCanvas(draw);
     return <canvas ref={canvasRef} className={classes.root} />;
   },
 );

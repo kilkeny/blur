@@ -3,15 +3,14 @@ import { GamePainter } from './Canvas.draw';
 import { GAME_RESOURCES } from './resources';
 import { Point, ResourcesLoader, ResourcesProps } from './utils';
 
-export const useCanvas = (draw: GamePainter, handleGameOver: Function) => {
+export const useCanvas = (draw: GamePainter) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      console.log(draw);
-      canvas.width = draw.width;
-      canvas.height = draw.height;
+      canvas.width = draw.size.width;
+      canvas.height = draw.size.height;
     }
 
     const ctx = canvas?.getContext('2d');
@@ -58,7 +57,7 @@ export const useCanvas = (draw: GamePainter, handleGameOver: Function) => {
 
     const drawCanvas = (resources?: ResourcesProps) => {
       if (ctx) {
-        draw.drawCanvas({ ctx, controller, resources }, handleGameOver);
+        draw.drawCanvas({ ctx, controller, resources });
         animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
       }
     };
