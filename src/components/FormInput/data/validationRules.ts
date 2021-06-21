@@ -1,7 +1,9 @@
 import { makeValidationRules } from '../../../utils/makeValidationRules';
+import { NameInput, RulesObj } from '../FormInput.types';
 
 const REGEXP: { [key: string]: string } = {
-  EMAIL: '/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/i',
+  EMAIL:
+        '/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/i',
   PASSWORD: '/^[\\w!@#$%^&*]$/gi',
   LOGIN: '/^[a-zA-Z0-9_]$/gi',
   NAME: '/^[a-zA-Zа-яёА-ЯЁ]*$/gi',
@@ -14,7 +16,7 @@ const BASE_TEXT_VALIDATION = {
   maxLength: 20,
 };
 
-export const NAME_VALIDATION = makeValidationRules({
+const NAME_VALIDATION = makeValidationRules({
   ...BASE_TEXT_VALIDATION,
   pattern: {
     value: REGEXP.NAME,
@@ -22,33 +24,36 @@ export const NAME_VALIDATION = makeValidationRules({
   },
 });
 
-export const LOGIN_VALIDATION = makeValidationRules({
+const LOGIN_VALIDATION = makeValidationRules({
   ...BASE_TEXT_VALIDATION,
   pattern: {
     value: REGEXP.LOGIN,
-    message: 'Логин может состоять только из латинских букв, цифр и символа _',
+    message:
+            'Логин может состоять только из латинских букв, цифр и символа _',
   },
 });
 
-export const EMAIL_VALIDATION = makeValidationRules({
+const EMAIL_VALIDATION = makeValidationRules({
   ...BASE_TEXT_VALIDATION,
   pattern: {
     value: REGEXP.EMAIL,
-    message: 'Введите корректный адрес электронной почты. Пример: ya@test.ru',
+    message:
+            'Введите корректный адрес электронной почты. Пример: ya@test.ru',
   },
 });
 
-export const PHONE_VALIDATION = makeValidationRules({
+const PHONE_VALIDATION = makeValidationRules({
   required: true,
   minLength: 10,
   maxLength: 12,
   pattern: {
     value: REGEXP.PHONE,
-    message: 'Номер должен состоять из цифр, а также может содержать символы +-(). Пример: +7(123)456-78-90',
+    message:
+            'Номер должен состоять из цифр, а также может содержать символы +-(). Пример: +7(123)456-78-90',
   },
 });
 
-export const PASSWORD_VALIDATION = makeValidationRules({
+const PASSWORD_VALIDATION = makeValidationRules({
   required: true,
   minLength: 8,
   maxLength: 30,
@@ -57,3 +62,16 @@ export const PASSWORD_VALIDATION = makeValidationRules({
     message: 'Пароль может содержать буквы, цифры и символы !@#$%^&*',
   },
 });
+
+export type ValidationsProps = {
+  [key in NameInput]: RulesObj;
+};
+
+export const VALIDATION: ValidationsProps = {
+  first_name: NAME_VALIDATION,
+  second_name: NAME_VALIDATION,
+  login: LOGIN_VALIDATION,
+  email: EMAIL_VALIDATION,
+  phone: PHONE_VALIDATION,
+  password: PASSWORD_VALIDATION,
+};

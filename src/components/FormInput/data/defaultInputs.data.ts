@@ -1,48 +1,41 @@
-import {
-  EMAIL_VALIDATION,
-  LOGIN_VALIDATION,
-  NAME_VALIDATION,
-  PASSWORD_VALIDATION,
-  PHONE_VALIDATION,
-} from './validationRules';
+import { VALIDATION } from './validationRules';
+import { MetaInputs } from '../FormInput.types';
 
-import { DefaultInputsNamesEnum } from '../FormInput.types';
-
-export const defaultInputs = {
+export const defaultInputs: MetaInputs = {
   first_name: {
-    name: DefaultInputsNamesEnum.FirstName,
+    name: 'first_name',
     label: 'Имя',
     type: 'text',
-    rules: NAME_VALIDATION,
+    rules: VALIDATION.first_name,
   },
   second_name: {
-    name: DefaultInputsNamesEnum.LastName,
+    name: 'second_name',
     label: 'Фамилия',
     type: 'text',
-    rules: NAME_VALIDATION,
+    rules: VALIDATION.second_name,
   },
   login: {
-    name: DefaultInputsNamesEnum.Login,
+    name: 'login',
     label: 'Логин',
     type: 'text',
-    rules: LOGIN_VALIDATION,
+    rules: VALIDATION.login,
   },
   email: {
-    name: DefaultInputsNamesEnum.Email,
+    name: 'email',
     label: 'Почта',
     type: 'email',
-    rules: EMAIL_VALIDATION,
+    rules: VALIDATION.email,
   },
   phone: {
-    name: DefaultInputsNamesEnum.Phone,
+    name: 'phone',
     label: 'Номер телефона',
     type: 'tel',
-    rules: PHONE_VALIDATION,
+    rules: VALIDATION.phone,
   },
   password: {
-    name: DefaultInputsNamesEnum.Password,
+    name: 'password',
     label: 'Пароль',
     type: 'password',
-    rules: PASSWORD_VALIDATION,
+    rules: VALIDATION.password,
   },
 };
