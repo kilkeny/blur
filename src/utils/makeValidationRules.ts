@@ -26,6 +26,5 @@ export const makeValidationRules = (options: RulesOptions) => {
     rules.valueAsNumber = valueAsNumber;
   }
 
-  console.log(rules);
   return rules;
 };
