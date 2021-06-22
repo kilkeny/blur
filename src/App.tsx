@@ -6,6 +6,8 @@ import { Container } from '@material-ui/core';
 import { Header } from '@components/Header';
 import { Forum } from '@pages/Forum';
 import { Discussion } from '@pages/Discussion';
+import { Login } from '@pages/Login';
+import { SignUp } from '@pages/SignUp';
 import { globalThemeOverride } from './globalThemeOverride';
 
 export const App: FC = memo(() => {
@@ -19,6 +21,8 @@ export const App: FC = memo(() => {
         <Discussion />
       </Container>
       <Canvas draw={draw.drawCanvas} />
+      <Login />
+      <SignUp />
     </ThemeProvider>
   );
 });
