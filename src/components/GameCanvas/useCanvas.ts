@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CONFIG } from './Canvas.consts';
+import { GamePainter } from './Canvas.draw';
 import { GAME_RESOURCES } from './resources';
 import { Point, ResourcesLoader, ResourcesProps } from './utils';
 
