@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react';
-import { CONFIG } from './Canvas.consts';
+import { GamePainter } from './Canvas.draw';
 import { GAME_RESOURCES } from './resources';
 import { Point, ResourcesLoader, ResourcesProps } from './utils';
 
-export const useCanvas = (draw: Function) => {
+export const useCanvas = (draw: GamePainter, handleGameOver: Function) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.width = CONFIG.CANVAS.width;
-      canvas.height = CONFIG.CANVAS.height;
+      console.log(draw);
+      canvas.width = draw.width;
+      canvas.height = draw.height;
     }
 
     const ctx = canvas?.getContext('2d');
@@ -56,8 +57,10 @@ export const useCanvas = (draw: Function) => {
     }
 
     const drawCanvas = (resources?: ResourcesProps) => {
-      draw({ ctx, controller, resources });
-      animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
+      if (ctx) {
+        draw.drawCanvas({ ctx, controller, resources }, handleGameOver);
+        animationFrameId = window.requestAnimationFrame(() => drawCanvas(resources));
+      }
     };
 
     if (GAME_RESOURCES) {

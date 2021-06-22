@@ -30,8 +30,7 @@ export class Point implements PointProps {
     return aroundPoints;
   }
 
-  transformMap () {
-    const { width, height } = CONFIG.CANVAS;
+  transformMap (width: number, height: number) {
     const dx = width / CONFIG.LEVELS.width;
     const dy = height / CONFIG.LEVELS.height;
     this.x *= dx;
