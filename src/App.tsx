@@ -6,6 +6,7 @@ import { Container } from '@material-ui/core';
 import { Header } from '@components/Header';
 import { Forum } from '@pages/Forum';
 import { Discussion } from '@pages/Discussion';
+import { Leaderboard } from '@pages/Leaderboard';
 import { globalThemeOverride } from './globalThemeOverride';
 
 export const App: FC = memo(() => {
@@ -15,6 +16,7 @@ export const App: FC = memo(() => {
       <CssBaseline />
       <Container fixed maxWidth={false}>
         <Header />
+        <Leaderboard />
         <Forum />
         <Discussion />
       </Container>
