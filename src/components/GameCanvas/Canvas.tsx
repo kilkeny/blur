@@ -2,12 +2,13 @@ import React, { memo, FC } from 'react';
 import { useCanvas } from './useCanvas';
 
 export type CanvasProps = {
-  draw: Function;
+  draw: GamePainter;
 };
 
 export const Canvas: FC<CanvasProps> = memo(
   ({ draw }: CanvasProps) => {
+    const classes = useStyles();
     const canvasRef = useCanvas(draw);
-    return <canvas ref={canvasRef} />;
+    return <canvas ref={canvasRef} className={classes.root} />;
   },
 );

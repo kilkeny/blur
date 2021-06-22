@@ -1,3 +1,4 @@
+import { SizeProps } from '@core/hooks';
 import { CONFIG } from './Canvas.consts';
 import { Ball, Border, Point } from './utils';
 import { DrawCanvasProps } from './Canvas.types';
@@ -15,17 +16,14 @@ export class GamePainter {
 
   barriers: Border[];
 
-  width: number;
+  size: SizeProps;
 
-  height: number;
-
-  constructor () {
+  constructor (size: SizeProps) {
     this.drawCanvas = this.drawCanvas.bind(this);
 
-    this.width = CONFIG.CANVAS.width;
-    this.height = CONFIG.CANVAS.height;
+    this.size = size;
     this.ball = new Ball(
-      new Point(this.width * 0.2, CONFIG.CANVAS.height * 0.3),
+      new Point(this.size.width * 0.2, this.size.height * 0.3),
     );
     this.borders = [];
     this.barriers = [];
@@ -40,21 +38,27 @@ export class GamePainter {
       for (let i = 0; i < shape.length - 1; i += 1) {
         const start = new Point(shape[i].x, shape[i].y);
         const end = new Point(shape[i + 1].x, shape[i + 1].y);
-        border.addLine(start.transformMap(), end.transformMap());
+        border.addLine(
+          start.transformMap(this.size),
+          end.transformMap(this.size),
+        );
       }
       const start = new Point(
         shape[shape.length - 1].x,
         shape[shape.length - 1].y,
       );
       const end = new Point(shape[0].x, shape[0].y);
-      border.addLine(start.transformMap(), end.transformMap());
+      border.addLine(
+        start.transformMap(this.size),
+        end.transformMap(this.size),
+      );
       this.borders.push(border);
     });
   }
 
   clearCanvas (ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = CONFIG.CANVAS.color;
-    ctx.fillRect(0, 0, this.width, this.height);
+    ctx.fillRect(0, 0, this.size.width, this.size.height);
   }
 
   setBarriers (controller: Point[][]) {
@@ -91,30 +95,34 @@ export class GamePainter {
 
   drawCanvas (options: DrawCanvasProps) {
     const { ctx, resources, controller } = options;
+    const { width, height } = this.size;
     if (!resources) return;
 
     this.clearCanvas(ctx);
 
     if (resources) {
-      ctx.drawImage(
-        resources.level,
-        0,
-        0,
-        this.width,
-        this.height,
-      );
+      ctx.drawImage(resources.level, 0, 0, width, height);
     }
 
     this.setBarriers(controller);
-
     this.ball.draw(options);
-    this.ball.move();
+    this.ball.move(this.size);
 
     const aroundPoints = this.ball
       .getNextStep()
       .getAround(this.ball.radius);
 
-    this.updateBorder(options, this.ball.position, aroundPoints, this.borders);
-    this.updateBorder(options, this.ball.position, aroundPoints, this.barriers);
+    this.updateBorder(
+      options,
+      this.ball.position,
+      aroundPoints,
+      this.borders,
+    );
+    this.updateBorder(
+      options,
+      this.ball.position,
+      aroundPoints,
+      this.barriers,
+    );
   }
 }

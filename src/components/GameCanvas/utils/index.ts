@@ -4,4 +4,3 @@ export * from './Point';
 export * from './Ball';
 export * from './Vector';
 export * from './Border';
-export * from './Finish';
