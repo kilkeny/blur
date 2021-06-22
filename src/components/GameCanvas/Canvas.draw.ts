@@ -1,16 +1,12 @@
+import { SizeProps } from '@core/hooks';
 import { CONFIG } from './Canvas.consts';
-import { Ball, Border, Point, Vector, Finish } from './utils';
+import { Ball, Border, Point } from './utils';
 import { DrawCanvasProps } from './Canvas.types';
 
 export type ControllerProps = {
   up: boolean;
   left: boolean;
   right: boolean;
-};
-
-type SizeProps = {
-  width: number;
-  height: number;
 };
 
 export class GamePainter {
@@ -20,19 +16,15 @@ export class GamePainter {
 
   barriers: Border[];
 
-  width: number;
-
-  height: number;
-
-  finish: Finish;
+  size: SizeProps;
 
   constructor (size: SizeProps) {
     this.drawCanvas = this.drawCanvas.bind(this);
 
-    this.finish = new Finish();
-    this.width = size.width;
-    this.height = size.width;
-    this.ball = new Ball(new Point(this.width * 0.2, this.height * 0.3));
+    this.size = size;
+    this.ball = new Ball(
+      new Point(this.size.width * 0.2, this.size.height * 0.3),
+    );
     this.borders = [];
     this.barriers = [];
 
@@ -47,8 +39,8 @@ export class GamePainter {
         const start = new Point(shape[i].x, shape[i].y);
         const end = new Point(shape[i + 1].x, shape[i + 1].y);
         border.addLine(
-          start.transformMap(this.width, this.height),
-          end.transformMap(this.width, this.height),
+          start.transformMap(this.size),
+          end.transformMap(this.size),
         );
       }
       const start = new Point(
@@ -57,8 +49,8 @@ export class GamePainter {
       );
       const end = new Point(shape[0].x, shape[0].y);
       border.addLine(
-        start.transformMap(this.width, this.height),
-        end.transformMap(this.width, this.height),
+        start.transformMap(this.size),
+        end.transformMap(this.size),
       );
       this.borders.push(border);
     });
@@ -66,7 +58,7 @@ export class GamePainter {
 
   clearCanvas (ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = CONFIG.CANVAS.color;
-    ctx.fillRect(0, 0, this.width, this.height);
+    ctx.fillRect(0, 0, this.size.width, this.size.height);
   }
 
   setBarriers (controller: Point[][]) {
@@ -101,32 +93,25 @@ export class GamePainter {
     });
   }
 
-  drawCanvas (options: DrawCanvasProps, handleGameOver: Function) {
+  drawCanvas (options: DrawCanvasProps) {
     const { ctx, resources, controller } = options;
+    const { width, height } = this.size;
     if (!resources) return;
 
     this.clearCanvas(ctx);
 
     if (resources) {
-      ctx.drawImage(resources.level, 0, 0, this.width, this.height);
+      ctx.drawImage(resources.level, 0, 0, width, height);
     }
 
     this.setBarriers(controller);
-    this.finish.render(options);
     this.ball.draw(options);
-    this.ball.move(this.width, this.height);
+    this.ball.move(this.size);
 
     const aroundPoints = this.ball
       .getNextStep()
       .getAround(this.ball.radius);
 
-    const dis = new Vector(this.ball.getNextStep(), this.finish.position);
-
-    if (dis.length < this.finish.distanse) {
-      handleGameOver(
-        Math.ceil(this.finish.endTime - this.finish.startTime),
-      );
-    }
     this.updateBorder(
       options,
       this.ball.position,

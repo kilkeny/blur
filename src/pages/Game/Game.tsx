@@ -1,53 +1,56 @@
 import { Canvas, GamePainter } from '@components/index';
-import { Button, Paper } from '@material-ui/core';
-import React, { FC, memo, useMemo, useRef, useState } from 'react';
+import { makeStyles, Paper } from '@material-ui/core';
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSizeComponents } from '@core/index';
+import { GameStart } from './components';
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 600,
+    minHeight: 600,
+    maxHeight: 1000,
+    display: 'flex',
+  },
+});
+
+type TypeStatusGame = 'game' | 'start' | 'finish';
 
 export const Game: FC = memo(() => {
-  // TODO: Тестовый компонент для проверки работы механизма завершения игры
-  const [time, setTime] = useState<null | number>(null);
   const ref = useRef(null);
-
+  const classes = useStyles();
   const size = useSizeComponents(ref);
 
-  const [attempt, setAttempt] = useState(0);
+  const [status, setStatus] = useState<TypeStatusGame>('start');
 
-  const handleGameOver = () => {
-    setTime(null);
-  };
+  const draw = useMemo(
+    () => new GamePainter(size),
+    [size, status],
+  );
 
-  const handleRetry = () => {
-    setAttempt(attempt + 1);
-    setTime(null);
-  };
+  const handleChangeStatus = useCallback(
+    (value: TypeStatusGame) => () => setStatus(value),
+    [],
+  );
 
-  const draw = useMemo(() => {
-    if (size[0] && size[1] && size[1] <= 1000) {
-      console.log(size);
-      return new GamePainter({ width: size[0], height: size[1] });
-    }
-    return null;
-  }, [size, time]);
+  useEffect(() => console.log(size), [size]);
 
   const controlCanvas = useMemo(() => {
-    if (draw && time === null) {
-      return (
-        <Canvas
-          {...{ handleGameOver, draw }}
-          key={`${draw.width}${draw.height}`}
-        />
-      );
+    if (status === 'game' && draw) {
+      return <Canvas draw={draw} key={`${draw.width}${draw.height}`} />;
     }
-    return (
-      <div>
-        <h1>{`Your time: ${((time || 1) / 1000).toFixed(2)} (sec)`}</h1>
-        <Button onClick={handleRetry}>{'play again >'}</Button>
-      </div>
-    );
-  }, [time, draw]);
+    return <GameStart {...{ handleChangeStatus }} />;
+  }, [draw]);
 
   return (
-    <Paper style={{ minWidth: 600, minHeight: 600, maxHeight: 1000 }} ref={ref}>
+    <Paper className={classes.root} ref={ref}>
       {controlCanvas}
     </Paper>
   );

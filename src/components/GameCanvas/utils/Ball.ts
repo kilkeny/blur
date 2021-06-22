@@ -1,4 +1,5 @@
-// eslint-disable-next-line import/no-cycle
+/* eslint-disable import/no-cycle */
+import { SizeProps } from '@core/hooks';
 import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
 import { Point } from './Point';
@@ -38,7 +39,8 @@ export class Ball implements BallParams {
     this.blur = [];
   }
 
-  move (width: number, height: number) {
+  move (size: SizeProps) {
+    const { width, height } = size;
     if (this.left() < 0 || this.right() > width) {
       this.speed = this.speed.reflectionX();
     }
