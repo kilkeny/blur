@@ -12,13 +12,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
     alias: {
-<<<<<<< HEAD
       '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
-=======
-      '@boot': path.resolve(__dirname, SRC_DIR, 'boot'),
-      '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
-      '@core': path.resolve(__dirname, SRC_DIR, 'core'),
->>>>>>> 4f93807 (update)
       '@components': path.resolve(__dirname, SRC_DIR, 'components'),
     },
   },
