@@ -29,11 +29,12 @@ export class GamePainter {
 
     this.id = id;
     this.size = size;
+    const { width, height } = this.size;
 
     this.kt = CONFIG.LEVELS.width / this.size.width;
 
     this.ball = new Ball(
-      new Point(this.size.width * 0.2, this.size.height * 0.3),
+      new Point(width * 0.2, height * 0.3),
       this.kt,
       color,
     );
@@ -69,8 +70,9 @@ export class GamePainter {
   }
 
   clearCanvas (ctx: CanvasRenderingContext2D) {
+    const { width, height } = this.size;
     ctx.fillStyle = CONFIG.CANVAS.color;
-    ctx.fillRect(0, 0, this.size.width, this.size.height);
+    ctx.fillRect(0, 0, width, height);
   }
 
   setBarriers (controller: Point[][]) {
@@ -94,15 +96,16 @@ export class GamePainter {
     options: DrawCanvasProps,
     startPoint: Point,
     aroundPoints: Point[],
-    borders: Border[],
   ) {
-    borders.forEach((border) => {
-      const line = border.collision(startPoint, aroundPoints);
-      border.render(options);
-      if (line) {
-        this.ball.reflection(line);
-      }
-    });
+    return (borders: Border[]) => {
+      borders.forEach((border) => {
+        const line = border.collision(startPoint, aroundPoints);
+        border.render(options);
+        if (line) {
+          this.ball.reflection(line);
+        }
+      });
+    };
   }
 
   drawCanvas (options: DrawCanvasProps) {
@@ -124,17 +127,12 @@ export class GamePainter {
       .getNextStep()
       .getAround(this.ball.radius);
 
-    this.updateBorder(
+    const updateBorder = this.updateBorder(
       options,
       this.ball.position,
       aroundPoints,
-      this.borders,
     );
-    this.updateBorder(
-      options,
-      this.ball.position,
-      aroundPoints,
-      this.barriers,
-    );
+    updateBorder(this.borders);
+    updateBorder(this.barriers);
   }
 }

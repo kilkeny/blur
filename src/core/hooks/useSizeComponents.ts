@@ -6,22 +6,28 @@ export type SizeProps = {
 };
 
 export function useSizeComponents<T> (ref?: RefObject<T>) {
-  const [size, setSize] = useState<SizeProps>({ width: 0, height: 0 });
+  const initSize = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
 
-  useLayoutEffect(() => {
-    function updateSize () {
-      let newSize = {
-        width: window.innerWidth,
-        height: window.innerHeight,
+  const [size, setSize] = useState<SizeProps>(initSize);
+
+  function updateSize () {
+    let newSize = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+    if (ref?.current instanceof HTMLElement) {
+      newSize = {
+        width: ref.current.offsetWidth,
+        height: ref.current.offsetHeight,
       };
-      if (ref?.current instanceof HTMLElement) {
-        newSize = {
-          width: ref.current.offsetWidth,
-          height: ref.current.offsetHeight,
-        };
-      }
       setSize(newSize);
     }
+  }
+
+  useLayoutEffect(() => {
     window.addEventListener('resize', updateSize);
     updateSize();
     return () => window.removeEventListener('resize', updateSize);
