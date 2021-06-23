@@ -16,8 +16,8 @@ export interface RoutesType {
   login: RouteType,
   'sign up': RouteType,
   blur: RouteType,
-  profile: RouteType,
-  leaderboard: RouteType
+  profile?: RouteType,
+  leaderboard?: RouteType
 }
 
 export type RouteName = keyof RoutesType;

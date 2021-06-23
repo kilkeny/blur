@@ -38,10 +38,10 @@ export const ROUTES: RoutesType = {
     name: 'blur',
   },
   // profile: {
-  //   path: PathEnum.USER_PAGE,
+  //   path: PathEnum.SIGN_UP,
   //   hasHeader: true,
   //   component: Profile,
-  //   name: 'profile'
+  //   name: 'profile',
   // },
   // leaderboard: {
   //   path: PathEnum.LEADERBOARD,
