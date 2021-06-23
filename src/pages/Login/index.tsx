@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Paper } from '@material-ui/core';
 import { FormData, NameInput, FormInput } from '@components/FormInput';
-import { PathEnum } from '@components/Routing/Routing.types';
-import { makeLinks } from '../../utils/makeLinks';
+import { ROUTES } from '@components/Routing/Routing.data';
+import { Linking } from '@components/Linking';
 
 export const Login = () => {
   const { handleSubmit, control } = useForm();
@@ -31,7 +31,7 @@ export const Login = () => {
               >
                 Войти
               </Button>
-              {makeLinks({ name: 'sign up', path: PathEnum.SIGN_UP })}
+              <Linking routes={{ ...ROUTES.signup }} />
             </Box>
           </form>
         </Box>

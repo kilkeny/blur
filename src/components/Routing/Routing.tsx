@@ -1,20 +1,13 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Header } from '@components/Header';
-import { GamePainter } from '@components/GameCanvas';
-import { RoutesType } from './Routing.types';
+import { ROUTES } from './Routing.data';
 
-export const Routing: FC<RoutesType> = (routes) => {
-  const { drawCanvas } = new GamePainter();
-
-  const pages = Object.values(routes).map(({ path, component: Page, hasHeader }) => (
+export const Routing: FC = () => {
+  const pages = Object.values(ROUTES).map(({ path, component: Page }) => (
     <Route key={path} path={path} exact>
-      { hasHeader && <Header /> }
-      {path === '/' ? (
-        <Page draw={drawCanvas} />
-      ) : (
-        <Page />
-      )}
+      <Header />
+      <Page />
     </Route>
   ));
   return <Switch>{pages}</Switch>;

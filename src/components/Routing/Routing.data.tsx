@@ -1,52 +1,38 @@
-import { Canvas } from '@components/GameCanvas';
 import { Discussion } from '@pages/Discussion';
 import { Forum } from '@pages/Forum';
 import { Login } from '@pages/Login';
 import { SignUp } from '@pages/SignUp';
-import { FC } from 'react';
-import { RoutesType, PathEnum } from './Routing.types';
+import { RoutesType } from './Routing.types';
 
 export const ROUTES: RoutesType = {
   forum: {
-    path: PathEnum.FORUM,
-    hasHeader: true,
+    path: '/forum',
     component: Forum,
     name: 'forum',
   },
   discussion: {
-    path: PathEnum.DISCUSSION,
-    hasHeader: true,
+    path: '/discussion',
     component: Discussion,
     name: 'discussion',
   },
-  login: {
-    path: PathEnum.LOGIN,
-    hasHeader: true,
+  signin: {
+    path: '/signin',
     component: Login,
-    name: 'login',
+    name: 'signin',
   },
-  'sign up': {
-    path: PathEnum.SIGN_UP,
-    hasHeader: true,
+  signup: {
+    path: '/signup',
     component: SignUp,
-    name: 'sign up',
+    name: 'signup',
   },
-  blur: {
-    path: PathEnum.GAME,
-    hasHeader: false,
-    component: Canvas as FC,
-    name: 'blur',
+  profile: {
+    path: '/profile',
+    component: Forum,
+    name: 'profile',
   },
-  // profile: {
-  //   path: PathEnum.SIGN_UP,
-  //   hasHeader: true,
-  //   component: Profile,
-  //   name: 'profile',
-  // },
-  // leaderboard: {
-  //   path: PathEnum.LEADERBOARD,
-  //   hasHeader: true,
-  //   component: Leaderboard,
-  //   name: 'leaderboard',
-  // },
+  leaderboard: {
+    path: '/leaderboard',
+    component: Forum,
+    name: 'leaderboard',
+  },
 };

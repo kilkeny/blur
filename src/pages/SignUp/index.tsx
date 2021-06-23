@@ -5,8 +5,8 @@ import {
   FormInput,
   NameInput,
 } from '@components/FormInput';
-import { PathEnum } from '@components/Routing/Routing.types';
-import { makeLinks } from '../../utils/makeLinks';
+import { ROUTES } from '@components/Routing/Routing.data';
+import { Linking } from '@components/Linking';
 
 export const SignUp = () => {
   const inputNames: NameInput[] = [
@@ -41,7 +41,7 @@ export const SignUp = () => {
               >
                 Зарегистрироваться
               </Button>
-              {makeLinks({ name: 'login', path: PathEnum.LOGIN })}
+              <Linking routes={{ ...ROUTES.signin }} />
             </Box>
           </form>
         </Box>
