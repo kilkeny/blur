@@ -1,4 +1,5 @@
 /* eslint-disable import/no-cycle */
+import hexRgb from 'hex-rgb';
 import { SizeProps } from '@core/hooks';
 import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
@@ -27,14 +28,15 @@ export class Ball implements BallParams {
 
   radius: number;
 
-  constructor (position: Point) {
-    const { speed, radius, color, length } = CONFIG.BALL;
+  constructor (position: Point, kt: number, color: string) {
+    const { speed, radius, length } = CONFIG.BALL;
     this.position = position;
     const start = new Point(0, 0);
-    const end = new Point(speed, speed);
+    const end = new Point(speed / kt, speed / kt);
     this.speed = new Vector(start, end);
-    this.radius = radius;
+    this.radius = radius / kt;
     this.color = color;
+    console.log(color);
     this.length = length;
     this.blur = [];
   }
@@ -114,11 +116,15 @@ export class Ball implements BallParams {
   draw (options: DrawCanvasProps) {
     const { ctx } = options;
 
+    const color = hexRgb(this.color);
     this.blur.forEach((pos, index) => {
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
+
       // TODO: эта история будет решаться после того как у нас будет тема
-      ctx.fillStyle = `rgba(66, 0, 255, ${(1 / this.length) * index})`;
+      ctx.fillStyle = `rgba(${color.red}, ${color.green}, ${
+        color.blue
+      }, ${(1 / this.length) * index})`;
       ctx.fill();
       ctx.closePath();
     });

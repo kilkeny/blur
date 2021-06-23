@@ -18,16 +18,28 @@ export class GamePainter {
 
   size: SizeProps;
 
-  constructor (size: SizeProps) {
+  id: string;
+
+  color: string;
+
+  kt: number;
+
+  constructor (size: SizeProps, id: string, color: string) {
     this.drawCanvas = this.drawCanvas.bind(this);
 
+    this.id = id;
     this.size = size;
+
+    this.kt = CONFIG.LEVELS.width / this.size.width;
+
     this.ball = new Ball(
       new Point(this.size.width * 0.2, this.size.height * 0.3),
+      this.kt,
+      color,
     );
     this.borders = [];
     this.barriers = [];
-
+    this.color = color;
     const shapes = Object.values(CONFIG.LEVELS.LEVEL1);
 
     shapes.forEach((shape) => {
@@ -68,7 +80,7 @@ export class GamePainter {
         const start = line[0];
         const end = line[line.length - 1];
         const barrier = new Border(
-          CONFIG.BARRIER.lineColor,
+          this.color,
           CONFIG.BARRIER.fillColor,
         );
         barrier.addLine(start, end);
