@@ -1,6 +1,4 @@
 import React, { FC, memo } from 'react';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -23,25 +21,3 @@ export const App: FC = memo(() => {
     </ThemeProvider>
   );
 });
-=======
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { UserPage } from '@pages/UserPage';
-
-=======
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { UserPage } from '@pages/UserPage';
-
->>>>>>> 5dd8ed8c66308e71c901f429230c887394c558ba
-export const App: FC = memo(() => (
-  <Router>
-    <Switch>
-      <Route path="/user">
-        <UserPage />
-      </Route>
-    </Switch>
-  </Router>
-));
-<<<<<<< HEAD
->>>>>>> 5dd8ed8 (BL-7 Подключить роутинг и для теста сделать заготовку страницы пользователя)
-=======
->>>>>>> 5dd8ed8c66308e71c901f429230c887394c558ba
