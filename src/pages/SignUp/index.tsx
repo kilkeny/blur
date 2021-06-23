@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Button, Link, Paper } from '@material-ui/core';
+import { Box, Button, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import {
   FormInput,
   NameInput,
 } from '@components/FormInput';
+import { PathEnum } from '@components/Routing/Routing.types';
+import { makeLinks } from '../../utils/makeLinks';
 
 export const SignUp = () => {
   const inputNames: NameInput[] = [
@@ -39,9 +41,7 @@ export const SignUp = () => {
               >
                 Зарегистрироваться
               </Button>
-              <Link href="login">
-                Войти
-              </Link>
+              {makeLinks({ name: 'login', path: PathEnum.LOGIN })}
             </Box>
           </form>
         </Box>

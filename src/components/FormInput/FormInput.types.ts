@@ -26,15 +26,6 @@ export interface RulesObj {
   valueAsNumber?: boolean;
 }
 
-export enum DefaultInputsNamesEnum {
-  Login = 'login',
-  FirstName = 'first_name',
-  LastName = 'second_name',
-  Email = 'email',
-  Phone = 'phone',
-  Password = 'password',
-}
-
 export type FormData = {
   login: string;
   password: string;

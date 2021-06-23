@@ -1,4 +1,4 @@
-import { RulesObj, RulesOptions } from '../components/FormInput/FormInput.types';
+import { RulesObj, RulesOptions } from '@components/FormInput/FormInput.types';
 
 export const makeValidationRules = (options: RulesOptions) => {
   const { required, minLength, maxLength, pattern, valueAsNumber } = options;
