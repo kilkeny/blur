@@ -36,7 +36,6 @@ export class Ball implements BallParams {
     this.speed = new Vector(start, end);
     this.radius = radius / kt;
     this.color = color;
-    console.log(color);
     this.length = length;
     this.blur = [];
   }
