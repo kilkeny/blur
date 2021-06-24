@@ -6,7 +6,7 @@ import {
   NameInput,
 } from '@components/FormInput';
 import { ROUTES } from '@components/Routing/Routing.data';
-import { Linking } from '@components/Linking';
+import { LinkComponent } from '@components/LinkComponent';
 
 export const SignUp = () => {
   const inputNames: NameInput[] = [
@@ -41,7 +41,7 @@ export const SignUp = () => {
               >
                 Зарегистрироваться
               </Button>
-              <Linking routes={{ ...ROUTES.signin }} />
+              <LinkComponent route={ROUTES.signin} />
             </Box>
           </form>
         </Box>

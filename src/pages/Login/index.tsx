@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Paper } from '@material-ui/core';
 import { FormData, NameInput, FormInput } from '@components/FormInput';
 import { ROUTES } from '@components/Routing/Routing.data';
-import { Linking } from '@components/Linking';
+import { LinkComponent } from '@components/LinkComponent';
 
 export const Login = () => {
   const { handleSubmit, control } = useForm();
@@ -31,7 +31,7 @@ export const Login = () => {
               >
                 Войти
               </Button>
-              <Linking routes={{ ...ROUTES.signup }} />
+              <LinkComponent route={ROUTES.signup} />
             </Box>
           </form>
         </Box>
