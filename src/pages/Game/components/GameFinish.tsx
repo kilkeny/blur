@@ -1,0 +1,52 @@
+import { Button, makeStyles, Theme, Typography } from '@material-ui/core';
+import React, { FC, memo } from 'react';
+import { ColorBall, ColorVariant } from './ColorBall';
+
+type GameFinishProps = {
+  score: number;
+  handleChangeStatus: Function;
+  variant: ColorVariant;
+};
+
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    '& > div': {
+      display: 'flex',
+      alignItems: 'center',
+      '& > div': {
+        margin: theme.spacing(2),
+        '& > button': {
+          marginTop: theme.spacing(2),
+        },
+      },
+    },
+  },
+}));
+
+export const GameFinish: FC<GameFinishProps> = memo(
+  ({ score, variant, handleChangeStatus }) => {
+    const classes = useStyles();
+
+    return (
+      <div className={classes.root}>
+        <div>
+          <ColorBall variant={variant} />
+          <div>
+            <Typography variant="body1">{`your score is ${score}`}</Typography>
+            <Button
+              color="primary"
+              onClick={handleChangeStatus('game')}
+            >
+              {'play again >'}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  },
+);

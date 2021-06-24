@@ -24,15 +24,18 @@ export class Finish implements FinishParams {
 
   endTime: number;
 
-  constructor () {
-    const { x, y, length, step, radius } = CONFIG.FINISH;
-    this.position = new Point(x, y);
-    this.radius = radius;
+  color: string;
+
+  constructor (position: Point, kt: number, color: string) {
+    const { length, step, radius } = CONFIG.FINISH;
+    this.position = position;
+    this.radius = radius / kt;
     this.length = length;
-    this.step = step;
+    this.step = step / kt;
     this.startTime = 0;
     this.endTime = 0;
     this.distanse = (this.radius + this.step * this.length) ** 2;
+    this.color = color;
   }
 
   draw (options: DrawCanvasProps) {
@@ -52,7 +55,6 @@ export class Finish implements FinishParams {
           0,
           Math.PI * 2,
         );
-        // TODO: эта история будет решаться после того как у нас будет тема
         ctx.fillStyle = `rgba(255, 199, 0, ${0.1 + 1 / this.length})`;
         ctx.fill();
         ctx.closePath();
