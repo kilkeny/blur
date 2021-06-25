@@ -6,16 +6,16 @@ export const makeValidationRules = (options: RulesOptions) => {
   const rules: RulesObj = {
     minLength: {
       value: minLength,
-      message: `Пожалуйста, введите от ${minLength} до ${maxLength} символов.`,
+      message: `enter from ${minLength} to ${maxLength} characters`,
     },
     maxLength: {
       value: maxLength,
-      message: `Пожалуйста, введите от ${minLength} до ${maxLength} символов.`,
+      message: `enter from ${minLength} to ${maxLength} characters`,
     },
   };
 
   if (required) {
-    rules.required = 'Пожалуйста, заполните это поле.';
+    rules.required = 'this field is required';
   }
 
   if (pattern) {

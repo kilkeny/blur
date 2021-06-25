@@ -5,6 +5,7 @@ module.exports = {
     },
     rules: {
         'space-before-function-paren': ['off', 'always'],
+        'jsx-a11y/label-has-associated-control': 'off',
         '@typescript-eslint/space-before-function-paren': ['error'],
         'object-curly-newline': 'off',
         '@typescript-eslint/space-before-function-paren': 'off',
@@ -13,6 +14,7 @@ module.exports = {
         indent: 'off',
         'react/prop-types': 'off',
         'react/jsx-one-expression-per-line': ['off', 'always'],
+        'react/jsx-props-no-spreading': 'off',
         '@typescript-eslint/indent': [
             'warn',
             2,

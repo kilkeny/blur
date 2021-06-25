@@ -37,10 +37,10 @@ export const SignUp = () => {
                 variant="contained"
                 color="primary"
               >
-                Зарегистрироваться
+                sign up
               </Button>
               <Link href="login">
-                Войти
+                login
               </Link>
             </Box>
           </form>

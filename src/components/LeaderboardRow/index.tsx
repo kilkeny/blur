@@ -22,6 +22,8 @@ const useStyles = makeStyles({
   },
   avatar: {
     margin: ' 0 24px 0 35px',
+    width: '60px',
+    height: '60px',
   },
 });
 
@@ -33,7 +35,7 @@ export const LeaderboardRow: FC<LeaderboardRowProps> = memo(
         <div className={classes.layout}>
           <div className={classes.left}>
             <Typography variant="body1">{order}</Typography>
-            <div className={classes.avatar}><Avatar src={avatar} radius="60" /></div>
+            <Avatar src={avatar} className={classes.avatar} />
             <Typography variant="body1">{username}</Typography>
           </div>
           <Typography variant="body1">{score}</Typography>

@@ -12,19 +12,22 @@ import { NameInput } from './FormInput.types';
 interface FormInputProps {
   inputName: NameInput;
   control: Control<FieldValues>;
+  className?: string;
+  defaultValue?: string;
 }
 
-export const FormInput: FC<FormInputProps> = ({ inputName, control }) => {
+export const FormInput: FC<FormInputProps> = ({ inputName, control, defaultValue, className }) => {
   const inputInfo = defaultInputs[inputName];
   const { name, label, type, rules } = inputInfo;
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue=""
+      defaultValue={defaultValue}
       rules={rules as RegisterOptions}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
+          className={className}
           label={label}
           type={type}
           value={value}

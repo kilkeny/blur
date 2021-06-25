@@ -20,7 +20,7 @@ const NAME_VALIDATION = makeValidationRules({
   ...BASE_TEXT_VALIDATION,
   pattern: {
     value: REGEXP.NAME,
-    message: 'Имя может состоять только из букв',
+    message: 'use letters only',
   },
 });
 
@@ -29,7 +29,7 @@ const LOGIN_VALIDATION = makeValidationRules({
   pattern: {
     value: REGEXP.LOGIN,
     message:
-            'Логин может состоять только из латинских букв, цифр и символа _',
+            'use letters numbers and _',
   },
 });
 
@@ -38,7 +38,7 @@ const EMAIL_VALIDATION = makeValidationRules({
   pattern: {
     value: REGEXP.EMAIL,
     message:
-            'Введите корректный адрес электронной почты. Пример: ya@test.ru',
+            'enter a valid email address: user@mail.com',
   },
 });
 
@@ -49,7 +49,7 @@ const PHONE_VALIDATION = makeValidationRules({
   pattern: {
     value: REGEXP.PHONE,
     message:
-            'Номер должен состоять из цифр, а также может содержать символы +-(). Пример: +7(123)456-78-90',
+            'enter a valid phone number: +71234567890',
   },
 });
 
@@ -59,7 +59,7 @@ const PASSWORD_VALIDATION = makeValidationRules({
   maxLength: 30,
   pattern: {
     value: REGEXP.PASSWORD,
-    message: 'Пароль может содержать буквы, цифры и символы !@#$%^&*',
+    message: 'use letters numbers and !@#$%^&* symbols',
   },
 });
 

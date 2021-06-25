@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import { Header } from '@components/Header';
-import { Game } from '@pages/Game';
+import { Profile } from '@pages/Profile';
 import { globalThemeOverride } from './globalThemeOverride';
 
 export const App: FC = memo(() => (
@@ -11,7 +11,7 @@ export const App: FC = memo(() => (
     <CssBaseline />
     <Container fixed maxWidth={false}>
       <Header />
-      <Game />
+      <Profile />
     </Container>
   </ThemeProvider>
 ));

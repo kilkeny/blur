@@ -27,10 +27,10 @@ export const Login = () => {
                 variant="contained"
                 color="primary"
               >
-                Войти
+                login
               </Button>
               <Link href="signup">
-                Зарегистрироваться
+                sign up
               </Link>
             </Box>
           </form>

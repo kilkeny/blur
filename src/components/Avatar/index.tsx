@@ -4,15 +4,11 @@ import { AvatarPlaceholderIcon } from './icons/AvatarPlaceholderIcon';
 
 interface AvatarProps {
   src?: string;
-  radius: string;
+  className?: string;
 }
 
-export const Avatar: FC<AvatarProps> = memo(({ src, radius }) => (
-  <MaterialAvatar
-    alt="avatar"
-    sizes={radius}
-    src={src}
-  >
+export const Avatar: FC<AvatarProps> = memo(({ children, ...props }) => (
+  <MaterialAvatar alt="avatar" {...props}>
     <AvatarPlaceholderIcon />
   </MaterialAvatar>
 ));
