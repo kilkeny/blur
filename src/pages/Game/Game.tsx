@@ -37,16 +37,22 @@ export const Game: FC = memo(() => {
   const [status, setStatus] = useState<TypeStatusGame>('start');
   const [draw, setDraw] = useState<GamePainter | null>(null);
 
+  const createrDraw = () => new GamePainter(size, uuid(), theme.palette[variant].main);
+
   useEffect(() => {
-    if (!oldSize || (size.height !== oldSize?.height || size.width !== oldSize?.width)) {
+    if (
+      !oldSize
+            || size.height !== oldSize?.height
+            || size.width !== oldSize?.width
+    ) {
       setOldSize(size);
-      setDraw(new GamePainter(size, uuid(), theme.palette[variant].main));
+      setDraw(createrDraw());
     }
   }, [size]);
 
   useEffect(() => {
     setScore(0);
-    setDraw(new GamePainter(size, uuid(), theme.palette[variant].main));
+    setDraw(createrDraw());
   }, [status]);
 
   const handleGameOver = useCallback((value: number) => {
