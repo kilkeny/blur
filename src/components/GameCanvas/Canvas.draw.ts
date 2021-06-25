@@ -135,9 +135,9 @@ export class GamePainter {
       .getNextStep()
       .getAround(this.ball.radius);
 
-    const dis = new Vector(this.ball.getNextStep(), this.finish.position);
+    const distanse = new Vector(this.ball.getNextStep(), this.finish.position);
 
-    if (dis.length < this.finish.distanse) {
+    if (distanse.length < this.finish.distanse) {
       handleGameOver(
         Math.ceil(this.finish.endTime - this.finish.startTime),
       );
