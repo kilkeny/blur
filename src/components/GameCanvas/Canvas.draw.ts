@@ -1,6 +1,6 @@
 import { SizeProps } from '@core/hooks';
 import { CONFIG } from './Canvas.consts';
-import { Ball, Border, Point } from './utils';
+import { Ball, Border, Finish, Point, Vector } from './utils';
 import { DrawCanvasProps } from './Canvas.types';
 
 export type ControllerProps = {
@@ -24,6 +24,8 @@ export class GamePainter {
 
   kt: number;
 
+  finish: Finish;
+
   constructor (size: SizeProps, id: string, color: string) {
     this.drawCanvas = this.drawCanvas.bind(this);
 
@@ -38,6 +40,13 @@ export class GamePainter {
       this.kt,
       color,
     );
+
+    this.finish = new Finish(
+      new Point(width * 0.12, height * 1.05),
+      this.kt,
+      color,
+    );
+
     this.borders = [];
     this.barriers = [];
     this.color = color;
@@ -108,17 +117,16 @@ export class GamePainter {
     };
   }
 
-  drawCanvas (options: DrawCanvasProps) {
+  drawCanvas (options: DrawCanvasProps, handleGameOver: Function) {
     const { ctx, resources, controller } = options;
     const { width, height } = this.size;
     if (!resources) return;
 
     this.clearCanvas(ctx);
-
     if (resources) {
       ctx.drawImage(resources.level, 0, 0, width, height);
     }
-
+    this.finish.render(options);
     this.setBarriers(controller);
     this.ball.draw(options);
     this.ball.move(this.size);
@@ -126,6 +134,14 @@ export class GamePainter {
     const aroundPoints = this.ball
       .getNextStep()
       .getAround(this.ball.radius);
+
+    const distanse = new Vector(this.ball.getNextStep(), this.finish.position);
+
+    if (distanse.length < this.finish.distanse) {
+      handleGameOver(
+        Math.ceil(this.finish.endTime - this.finish.startTime),
+      );
+    }
 
     const updateBorder = this.updateBorder(
       options,
