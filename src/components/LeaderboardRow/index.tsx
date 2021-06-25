@@ -15,7 +15,7 @@ export const LeaderboardRow: FC<LeaderboardRowProps> = memo(
       <Box px="45px" py="20px" display="flex" justifyContent="space-between" alignItems="center">
         <Box display="flex" alignItems="center">
           <Typography variant="body1">{order}</Typography>
-          <Box ml="35px" mr="24px"><Avatar src={avatar} radius={60} /></Box>
+          <Box ml="35px" mr="24px"><Avatar src={avatar} radius="60" /></Box>
           <Typography variant="body1">{username}</Typography>
         </Box>
         <Typography variant="body1">{score}</Typography>
