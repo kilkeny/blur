@@ -1,5 +1,5 @@
 import React, { FC, memo } from 'react';
-import { Paper, Typography, Box } from '@material-ui/core';
+import { Paper, Typography, makeStyles } from '@material-ui/core';
 import { Avatar } from '@components/Avatar';
 
 interface LeaderboardRowProps {
@@ -9,17 +9,36 @@ interface LeaderboardRowProps {
   score: number;
 }
 
+const useStyles = makeStyles({
+  layout: {
+    padding: '20px 45px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  left: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: ' 0 24px 0 35px',
+  },
+});
+
 export const LeaderboardRow: FC<LeaderboardRowProps> = memo(
-  ({ order, username, avatar, score }) => (
-    <Paper elevation={22}>
-      <Box px="45px" py="20px" display="flex" justifyContent="space-between" alignItems="center">
-        <Box display="flex" alignItems="center">
-          <Typography variant="body1">{order}</Typography>
-          <Box ml="35px" mr="24px"><Avatar src={avatar} radius="60" /></Box>
-          <Typography variant="body1">{username}</Typography>
-        </Box>
-        <Typography variant="body1">{score}</Typography>
-      </Box>
-    </Paper>
-  ),
+  ({ order, username, avatar, score }) => {
+    const classes = useStyles();
+    return (
+      <Paper elevation={22}>
+        <div className={classes.layout}>
+          <div className={classes.left}>
+            <Typography variant="body1">{order}</Typography>
+            <div className={classes.avatar}><Avatar src={avatar} radius="60" /></div>
+            <Typography variant="body1">{username}</Typography>
+          </div>
+          <Typography variant="body1">{score}</Typography>
+        </div>
+      </Paper>
+    );
+  },
 );
