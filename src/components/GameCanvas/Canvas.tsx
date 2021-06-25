@@ -11,13 +11,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export type CanvasProps = {
   draw: GamePainter;
-  handleGameOver: Function
+  handleGameOver: Function;
 };
 
 export const Canvas: FC<CanvasProps> = memo(
   ({ draw, handleGameOver }: CanvasProps) => {
     const classes = useStyles();
     const canvasRef = useCanvas(draw, handleGameOver);
-    return <canvas ref={canvasRef} className={classes.root} />;
+
+    const handleSetFullScreen = () => {
+      if (canvasRef?.current) {
+        canvasRef.current.requestFullscreen();
+      }
+    };
+
+    return (
+      <canvas
+        ref={canvasRef}
+        className={classes.root}
+        onDoubleClick={handleSetFullScreen}
+      />
+    );
   },
 );

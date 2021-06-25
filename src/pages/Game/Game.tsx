@@ -4,11 +4,12 @@ import React, {
   FC,
   memo,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import { useSizeComponents } from '@core/index';
+import { SizeProps, useSizeComponents } from '@core/index';
 import { v4 as uuid } from 'uuid';
 import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
@@ -26,6 +27,7 @@ type TypeStatusGame = 'game' | 'start' | 'finish';
 export const Game: FC = memo(() => {
   const ref = useRef(null);
   const size = useSizeComponents(ref);
+  const [oldSize, setOldSize] = useState<SizeProps | null>(null);
 
   const classes = useStyles();
   const [variant, setVariant] = useState<ColorVariant>('primary');
@@ -33,11 +35,19 @@ export const Game: FC = memo(() => {
   const theme = useTheme();
 
   const [status, setStatus] = useState<TypeStatusGame>('start');
+  const [draw, setDraw] = useState<GamePainter | null>(null);
 
-  const draw = useMemo(() => {
+  useEffect(() => {
+    if (!oldSize || (size.height !== oldSize?.height || size.width !== oldSize?.width)) {
+      setOldSize(size);
+      setDraw(new GamePainter(size, uuid(), theme.palette[variant].main));
+    }
+  }, [size]);
+
+  useEffect(() => {
     setScore(0);
-    return new GamePainter(size, uuid(), theme.palette[variant].main);
-  }, [size, status]);
+    setDraw(new GamePainter(size, uuid(), theme.palette[variant].main));
+  }, [status]);
 
   const handleGameOver = useCallback((value: number) => {
     setScore(value);
@@ -55,7 +65,6 @@ export const Game: FC = memo(() => {
     setVariant(elem.id);
   }, []);
 
-  // TODO: Это затравка на завершение игры
   const controlGame = useMemo(() => {
     if (status === 'game' && draw) {
       return <Canvas {...{ handleGameOver, draw }} key={draw.id} />;
@@ -64,7 +73,7 @@ export const Game: FC = memo(() => {
       return <GameFinish {...{ score, variant, handleChangeStatus }} />;
     }
     return <GameStart {...{ handleChangeStatus, handleChangeColor }} />;
-  }, [draw]);
+  }, [draw, status]);
 
   return (
     <Paper className={classes.root} ref={ref}>
