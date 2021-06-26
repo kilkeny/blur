@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Button, Link, Paper } from '@material-ui/core';
+import { Box, Button, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import {
   FormInput,
   NameInput,
 } from '@components/FormInput';
+import { ROUTES } from '@components/Routing/Routing.data';
+import { LinkComponent } from '@components/LinkComponent';
 
 export const SignUp = () => {
   const inputNames: NameInput[] = [
@@ -39,9 +41,7 @@ export const SignUp = () => {
               >
                 Зарегистрироваться
               </Button>
-              <Link href="login">
-                Войти
-              </Link>
+              <LinkComponent route={ROUTES.signin} />
             </Box>
           </form>
         </Box>
