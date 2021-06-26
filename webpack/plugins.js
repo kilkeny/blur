@@ -31,6 +31,7 @@ const copyPlugin = new CopyWebpackPlugin({
       from: path.join('public', 'favicon.ico'),
       to: path.resolve(BUILD_DIR),
     },
+    { from: './sw', to: './' },
   ],
 });
 
