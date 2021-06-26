@@ -14,6 +14,7 @@ module.exports = {
     alias: {
       '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
       '@components': path.resolve(__dirname, SRC_DIR, 'components'),
+      '@core': path.resolve(__dirname, SRC_DIR, 'core'),
     },
   },
   devServer: {
