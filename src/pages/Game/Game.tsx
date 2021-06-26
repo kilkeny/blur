@@ -1,4 +1,4 @@
-import { Canvas, GamePainter } from '@components/index';
+import { Canvas, GamePainter } from '@components/GameCanvas';
 import { makeStyles, Paper, useTheme } from '@material-ui/core';
 import React, {
   FC,

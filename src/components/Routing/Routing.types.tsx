@@ -7,6 +7,7 @@ export type RouteType = {
 };
 
 export interface RoutesType {
+  game: RouteType,
   forum: RouteType,
   discussion: RouteType,
   signin: RouteType,
