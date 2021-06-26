@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const CACHE_NAME = 'app1-static-v2';
+const CACHE_NAME = 'PACKAGE_NAME-vPACKAGE_VERSION';
 
 const staticUrls = [];
 
