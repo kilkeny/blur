@@ -25,8 +25,15 @@ export const useCanvas = (draw: GamePainter, handleGameOver: Function) => {
           controller.push([]);
         }
         const line = controller[controller.length - 1];
-        const x = e.pageX - canvas?.offsetLeft;
-        const y = e.pageY - canvas?.offsetTop;
+        let x = e.pageX - canvas?.offsetLeft;
+        let y = e.pageY - canvas?.offsetTop;
+        if (canvas.offsetTop === 0) {
+          const fullRatio = window.innerWidth / draw.size.width;
+          const fullHeight = fullRatio * draw.size.height;
+          y -= (window.innerHeight - fullHeight) / 2;
+          y /= fullRatio;
+          x /= fullRatio;
+        }
         const point = new Point(x, y);
         line.push(point);
       }

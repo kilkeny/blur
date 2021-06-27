@@ -30,6 +30,7 @@ export const GameStart: FC<GameStartProps> = memo(({ handleChangeStatus, handleC
       <Button color="primary" onClick={handleChangeStatus('game')}>
         {'play >'}
       </Button>
+      <Typography variant="body1">double click to enter fullscreen mode</Typography>
     </div>
   );
 });
