@@ -1,51 +1,11 @@
 import React, { FC, memo } from 'react';
 import { useForm } from 'react-hook-form';
-import { makeStyles, Input, Paper, Button, Typography } from '@material-ui/core';
+import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
 import { FormData, NameInput, FormInput } from '@components/FormInput';
 import { profileData } from './profile.mock';
-
-const useStyles = makeStyles({
-  layout: {
-    padding: '70px 0',
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  avatar: {
-    marginBottom: '21px',
-    width: '210px',
-    height: '210px',
-  },
-  avatarForm: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  right: {
-    width: '900px',
-    padding: '100px',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputs: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  field: {
-    width: '283px',
-    marginBottom: '60px',
-  },
-  button: {
-    width: '130px',
-  },
-  hiddenInput: {
-    visibility: 'hidden',
-    height: 0,
-    width: 0,
-  },
-});
+import { useStyles } from './styles';
 
 export const Profile: FC = memo(() => {
   const classes = useStyles();
