@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const { BUILD_DIR } = require('./consts');
 const { isProd } = require('./env');
 const { filename } = require('./filename');
+const packageConfig = require('../package.json');
 
 const dfPlugin = new webpack.DefinePlugin({
   'process.env': {
@@ -30,6 +31,30 @@ const copyPlugin = new CopyWebpackPlugin({
     {
       from: path.join('public', 'favicon.ico'),
       to: path.resolve(BUILD_DIR),
+    },
+    { from: './sw/start_sw.js', to: './start_sw.js' },
+    {
+      from: './sw/sw.js',
+      to: './sw.js',
+
+      transform (content) {
+        let parsed = content.toString();
+        const transformations = [
+          {
+            search: 'PACKAGE_NAME',
+            replace: packageConfig.name,
+          },
+          {
+            search: 'PACKAGE_VERSION',
+            replace: packageConfig.version,
+          },
+        ];
+        transformations.forEach((obj) => {
+          parsed = parsed.replace(obj.search, obj.replace);
+        });
+
+        return Buffer.from(parsed, 'utf8');
+      },
     },
   ],
 });
