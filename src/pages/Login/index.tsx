@@ -29,7 +29,7 @@ export const Login = () => {
                 variant="contained"
                 color="primary"
               >
-                Войти
+                login
               </Button>
               <LinkComponent route={ROUTES.signup} />
             </Box>
