@@ -1,9 +1,17 @@
-import { Canvas, GamePainter } from '@components/index';
+import { Canvas, GamePainter } from '@components/GameCanvas';
 import { makeStyles, Paper, useTheme } from '@material-ui/core';
-import React, { FC, memo, useCallback, useMemo, useRef, useState } from 'react';
-import { useSizeComponents } from '@core/index';
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { SizeProps, useSizeComponents } from '@core/index';
 import { v4 as uuid } from 'uuid';
-import { GameStart } from './components';
+import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
 
 const useStyles = makeStyles({
@@ -19,17 +27,38 @@ type TypeStatusGame = 'game' | 'start' | 'finish';
 export const Game: FC = memo(() => {
   const ref = useRef(null);
   const size = useSizeComponents(ref);
+  const [oldSize, setOldSize] = useState<SizeProps | null>(null);
 
   const classes = useStyles();
   const [variant, setVariant] = useState<ColorVariant>('primary');
+  const [score, setScore] = useState(0);
   const theme = useTheme();
 
   const [status, setStatus] = useState<TypeStatusGame>('start');
+  const [draw, setDraw] = useState<GamePainter | null>(null);
 
-  const draw = useMemo(() => new GamePainter(size, uuid(), theme.palette[variant].main), [
-    size,
-    status,
-  ]);
+  const createrDraw = () => new GamePainter(size, uuid(), theme.palette[variant].main);
+
+  useEffect(() => {
+    if (
+      !oldSize
+            || size.height !== oldSize?.height
+            || size.width !== oldSize?.width
+    ) {
+      setOldSize(size);
+      setDraw(createrDraw());
+    }
+  }, [size]);
+
+  useEffect(() => {
+    setScore(0);
+    setDraw(createrDraw());
+  }, [status]);
+
+  const handleGameOver = useCallback((value: number) => {
+    setScore(value);
+    setStatus('finish');
+  }, []);
 
   const handleChangeStatus = useCallback(
     (value: TypeStatusGame) => () => setStatus(value),
@@ -42,13 +71,15 @@ export const Game: FC = memo(() => {
     setVariant(elem.id);
   }, []);
 
-  // TODO: Это затравка на завершение игры
   const controlGame = useMemo(() => {
     if (status === 'game' && draw) {
-      return <Canvas draw={draw} key={draw.id} />;
+      return <Canvas {...{ handleGameOver, draw }} key={draw.id} />;
+    }
+    if (status === 'finish') {
+      return <GameFinish {...{ score, variant, handleChangeStatus }} />;
     }
     return <GameStart {...{ handleChangeStatus, handleChangeColor }} />;
-  }, [draw]);
+  }, [draw, status]);
 
   return (
     <Paper className={classes.root} ref={ref}>

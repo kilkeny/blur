@@ -8,7 +8,7 @@ type ThemeColorBall = {
 };
 
 export type ColorBallProps = ThemeColorBall & {
-  handleChangeColor: React.MouseEventHandler<SVGSVGElement>;
+  handleChangeColor?: React.MouseEventHandler<SVGSVGElement>;
 };
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
