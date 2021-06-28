@@ -1,11 +1,15 @@
 /* eslint-disable no-undef */
+
 const CACHE_NAME = 'PACKAGE_NAME-vPACKAGE_VERSION';
 
-const staticUrls = [];
-
 this.addEventListener('install', async () => {
-  const cache = await caches.open(CACHE_NAME);
-  await cache.addAll(staticUrls);
+  const res = await fetch('/assets-manifest.json');
+  const staticNames = await res.json();
+  if (staticNames) {
+    const cache = await caches.open(CACHE_NAME);
+    staticUrls = Object.values(staticNames).map((name) => `/${name}`);
+    await cache.addAll(staticUrls);
+  }
 });
 
 this.addEventListener('activate', async () => {
@@ -23,10 +27,10 @@ async function staleWhileRevalidate (fetchRequest) {
       return response;
     }
 
-    const responseToCache = response.clone();
-    caches.open(CACHE_NAME).then((cache) => {
-      cache.put(fetchRequest, responseToCache);
-    });
+    // const responseToCache = response.clone();
+    // caches.open(CACHE_NAME).then((cache) => {
+    //   cache.put(fetchRequest, responseToCache);
+    // });
     return response;
   });
 }

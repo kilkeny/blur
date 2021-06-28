@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const webpack = require('webpack');
 const { BUILD_DIR } = require('./consts');
@@ -71,8 +72,11 @@ const checkerTsPlugin = new ForkTsCheckerWebpackPlugin({
   async: false,
 });
 
+const assetsManifest = new WebpackAssetsManifest({});
+
 const plugins = () => {
   const base = [
+    assetsManifest,
     dfPlugin,
     htmlPlugin,
     copyPlugin,
