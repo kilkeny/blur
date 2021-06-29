@@ -26,7 +26,7 @@ export interface RulesObj {
   valueAsNumber?: boolean;
 }
 
-export type FormData = {
+export type FormInputs = {
   login: string;
   password: string;
   first_name?: string;
@@ -35,7 +35,7 @@ export type FormData = {
   phone?: string;
 };
 
-export type NameInput = keyof FormData;
+export type NameInput = keyof FormInputs;
 
 export type MetaInput = {
   name: NameInput;
