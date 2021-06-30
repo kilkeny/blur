@@ -32,12 +32,13 @@ export const GameFinish: FC<GameFinishProps> = memo(
   ({ score, variant, handleChangeStatus }) => {
     const classes = useStyles();
 
+    const title = score === 0 ? 'Game over' : `your score is ${score}`;
     return (
       <div className={classes.root}>
         <div>
           <ColorBall variant={variant} />
           <div>
-            <Typography variant="body1">{`your score is ${score}`}</Typography>
+            <Typography variant="body1" align="center">{title}</Typography>
             <Button
               color="primary"
               onClick={handleChangeStatus('game')}
