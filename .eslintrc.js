@@ -34,6 +34,8 @@ module.exports = {
                 allowIndentationTabs: true,
             },
         ],
+        "class-methods-use-this": [0],
+        "consistent-return": 'off'
     },
     settings: {
         'import/resolver': {

@@ -4,23 +4,22 @@ import { Box, Button, Paper } from '@material-ui/core';
 import { NameInput, FormInput, FormInputs } from '@components/FormInput';
 import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
-import { signin } from '@core/api';
+
 import { Redirect } from 'react-router';
+import { AuthAPI } from '@core/api';
 
 export const Login = () => {
   const { handleSubmit, control } = useForm();
-
   const inputNames: NameInput[] = ['login', 'password'];
-
   const inputControl = inputNames.map((inputName) => (
     <FormInput {...{ inputName, control }} key={inputName} />
   ));
 
   const [isLogged, setLogged] = useState(false);
+  const api = new AuthAPI();
 
   const onSubmit = async (data: FormInputs) => {
-    const res = await signin(data);
-
+    const res = await api.signin(data);
     if (res && res.ok) {
       setLogged(true);
     }
