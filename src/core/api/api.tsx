@@ -75,8 +75,6 @@ export class HTTP {
     const { method, data } = options;
 
     const defaultReject = (response: Response) => {
-      console.log(4);
-      console.log(response);
       if (response.status >= 500) {
         console.error(MESSAGES.FAIL_MESSAGE_500_DEFAULT);
       } else {
@@ -97,10 +95,7 @@ export class HTTP {
         }
         return response;
       })
-      .then((resData) => {
-        console.log(resData);
-        return resData;
-      })
+      .then((resData) => resData)
       .catch(defaultReject);
   }
 }
