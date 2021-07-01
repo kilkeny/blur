@@ -34,7 +34,7 @@ export class Ball implements BallParams {
     const { speed, radius, length, deltaRadius } = CONFIG.BALL;
     this.position = position;
     const start = new Point(0, 0);
-    const end = new Point(speed / kt, speed / kt);
+    const end = new Point(speed / kt, -speed / kt);
     this.speed = new Vector(start, end);
     this.deltaRadius = deltaRadius / kt;
     this.radius = radius / kt;
