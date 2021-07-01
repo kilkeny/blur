@@ -3,8 +3,8 @@ import { Forum } from '@pages/Forum';
 import { Game } from '@pages/Game';
 import { Leaderboard } from '@pages/Leaderboard';
 import { Login } from '@pages/Login';
+import { Profile } from '@pages/Profile';
 import { SignUp } from '@pages/SignUp';
-import { UserPage } from '@pages/UserPage';
 import { RoutesType } from './Routing.types';
 
 export const ROUTES: RoutesType = {
@@ -35,7 +35,7 @@ export const ROUTES: RoutesType = {
   },
   profile: {
     path: '/profile',
-    component: UserPage,
+    component: Profile,
     name: 'profile',
   },
   leaderboard: {

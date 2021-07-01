@@ -23,14 +23,14 @@ export const FormInput: FC<FormInputProps> = ({ inputName, control, defaultValue
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue || ''}
       rules={rules as RegisterOptions}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           className={className}
           label={label}
           type={type}
-          value={value}
+          value={value || ''}
           helperText={error?.message}
           onChange={onChange}
           fullWidth

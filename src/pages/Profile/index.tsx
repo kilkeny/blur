@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
-import { FormData, NameInput, FormInput } from '@components/FormInput';
+import { FormInputs, NameInput, FormInput } from '@components/FormInput';
 import { profileData } from './profile.mock';
 import { useStyles } from './styles';
 
@@ -22,7 +22,7 @@ export const Profile: FC = memo(() => {
   ];
 
   const onSubmitAvatar = (data: { avatar: string }) => console.log(data);
-  const onSubmitForm = (data: FormData) => console.log(data);
+  const onSubmitForm = (data: FormInputs) => console.log(data);
 
   const inputControl = inputNames.map((inputName) => (
     <FormInput
