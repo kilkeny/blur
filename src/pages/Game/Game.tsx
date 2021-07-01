@@ -42,8 +42,8 @@ export const Game: FC = memo(() => {
   useEffect(() => {
     if (
       !oldSize
-            || size.height !== oldSize?.height
-            || size.width !== oldSize?.width
+      || size.height !== oldSize?.height
+      || size.width !== oldSize?.width
     ) {
       setOldSize(size);
       setDraw(createrDraw());
@@ -51,9 +51,11 @@ export const Game: FC = memo(() => {
   }, [size]);
 
   useEffect(() => {
-    setScore(0);
-    setDraw(createrDraw());
-  }, [status]);
+    if (status !== 'finish') {
+      setDraw(createrDraw());
+      setScore(0);
+    }
+  }, [status, variant]);
 
   const handleGameOver = useCallback((value: number) => {
     setScore(value);
@@ -73,13 +75,13 @@ export const Game: FC = memo(() => {
 
   const controlGame = useMemo(() => {
     if (status === 'game' && draw) {
-      return <Canvas {...{ handleGameOver, draw }} key={draw.id} />;
+      return <Canvas {...{ handleGameOver, draw }} />;
     }
     if (status === 'finish') {
       return <GameFinish {...{ score, variant, handleChangeStatus }} />;
     }
     return <GameStart {...{ handleChangeStatus, handleChangeColor }} />;
-  }, [draw, status]);
+  }, [status, score, size]);
 
   return (
     <Paper className={classes.root} ref={ref}>

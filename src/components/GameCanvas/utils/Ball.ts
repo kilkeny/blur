@@ -28,12 +28,15 @@ export class Ball implements BallParams {
 
   radius: number;
 
+  deltaRadius: number;
+
   constructor (position: Point, kt: number, color: string) {
-    const { speed, radius, length } = CONFIG.BALL;
+    const { speed, radius, length, deltaRadius } = CONFIG.BALL;
     this.position = position;
     const start = new Point(0, 0);
-    const end = new Point(speed / kt, speed / kt);
+    const end = new Point(speed / kt, -speed / kt);
     this.speed = new Vector(start, end);
+    this.deltaRadius = deltaRadius / kt;
     this.radius = radius / kt;
     this.color = color;
     this.length = length;
@@ -67,6 +70,8 @@ export class Ball implements BallParams {
     const end = new Point(reflection.x, reflection.y);
     const start = new Point(0, 0);
     this.speed = new Vector(start, end);
+
+    this.radius -= this.deltaRadius;
   }
 
   getNextStep () {
@@ -119,8 +124,6 @@ export class Ball implements BallParams {
     this.blur.forEach((pos, index) => {
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
-
-      // TODO: эта история будет решаться после того как у нас будет тема
       ctx.fillStyle = `rgba(${color.red}, ${color.green}, ${
         color.blue
       }, ${(1 / this.length) * index})`;
@@ -130,6 +133,8 @@ export class Ball implements BallParams {
   }
 
   render (options: DrawCanvasProps) {
-    this.draw(options);
+    if (this.radius > 0) {
+      this.draw(options);
+    }
   }
 }

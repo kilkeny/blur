@@ -23,6 +23,8 @@ export const CONFIG = {
   BALL: {
     speed: 7,
     radius: 7,
+    // С каждым ударом а борт шарик уменьшается в размере на 0.5
+    deltaRadius: 0.5,
     color: 'rgb(44, 0, 255)',
     // Цвет направления движения шарика
     normalColor: 'red',

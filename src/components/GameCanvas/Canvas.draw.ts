@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { SizeProps } from '@core/hooks';
 import { CONFIG } from './Canvas.consts';
 import { Ball, Border, Finish, Point, Vector } from './utils';
@@ -26,7 +27,7 @@ export class GamePainter {
 
   finish: Finish;
 
-  constructor (size: SizeProps, id: string, color: string) {
+  constructor(size: SizeProps, id: string, color: string) {
     this.drawCanvas = this.drawCanvas.bind(this);
 
     this.id = id;
@@ -78,13 +79,13 @@ export class GamePainter {
     });
   }
 
-  clearCanvas (ctx: CanvasRenderingContext2D) {
+  clearCanvas(ctx: CanvasRenderingContext2D) {
     const { width, height } = this.size;
     ctx.fillStyle = CONFIG.CANVAS.color;
     ctx.fillRect(0, 0, width, height);
   }
 
-  setBarriers (controller: Point[][]) {
+  setBarriers(controller: Point[][]) {
     const barriers: Border[] = [];
     controller.forEach((line) => {
       if (line.length > 2) {
@@ -101,7 +102,16 @@ export class GamePainter {
     this.barriers = barriers;
   }
 
-  updateBorder (
+  drawTime(options: DrawCanvasProps) {
+    const { ctx } = options;
+    const { endTime, startTime } = this.finish;
+
+    ctx.fillStyle = this.color;
+    ctx.font = '18px Comfortaa';
+    ctx.fillText(`${Math.ceil(endTime - startTime)}`, this.size.width - 100, 50);
+  }
+
+  updateBorder(
     options: DrawCanvasProps,
     startPoint: Point,
     aroundPoints: Point[],
@@ -117,7 +127,7 @@ export class GamePainter {
     };
   }
 
-  drawCanvas (options: DrawCanvasProps, handleGameOver: Function) {
+  drawCanvas(options: DrawCanvasProps, handleGameOver: Function) {
     const { ctx, resources, controller } = options;
     const { width, height } = this.size;
     if (!resources) return;
@@ -126,9 +136,15 @@ export class GamePainter {
     if (resources) {
       ctx.drawImage(resources.level, 0, 0, width, height);
     }
+
+    if (this.ball.radius < 0) {
+      handleGameOver(0);
+      return;
+    }
+
     this.finish.render(options);
     this.setBarriers(controller);
-    this.ball.draw(options);
+    this.ball.render(options);
     this.ball.move(this.size);
 
     const aroundPoints = this.ball
@@ -150,5 +166,6 @@ export class GamePainter {
     );
     updateBorder(this.borders);
     updateBorder(this.barriers);
+    this.drawTime(options);
   }
 }
