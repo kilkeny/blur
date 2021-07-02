@@ -42,8 +42,8 @@ export const Game: FC = memo(() => {
   useEffect(() => {
     if (
       !oldSize
-      || size.height !== oldSize?.height
-      || size.width !== oldSize?.width
+            || size.height !== oldSize?.height
+            || size.width !== oldSize?.width
     ) {
       setOldSize(size);
       setDraw(createrDraw());
