@@ -1,3 +1,3 @@
-export interface StoreTestProps {
-  test: string
+export interface StoreUserProps {
+  user: any
 }

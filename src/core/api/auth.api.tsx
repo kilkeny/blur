@@ -16,4 +16,8 @@ export class AuthAPI extends BaseAPI {
   ) {
     return AuthAPIInstance.post('/signup', { data });
   }
+
+  getUser() {
+    return AuthAPIInstance.get('/user');
+  }
 }

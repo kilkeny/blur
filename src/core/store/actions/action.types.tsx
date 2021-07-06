@@ -3,6 +3,6 @@ export interface ActionProps<T = any> {
   payload?: T
 }
 
-export enum TEST {
-  ACTION_NAME = 'TEST',
+export enum USER {
+  FETCH = 'FETCH',
 }
