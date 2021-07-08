@@ -1,10 +1,10 @@
-import React, { FC, memo, useEffect } from 'react';
+import React, { FC, memo } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
 import { FormInputs, NameInput, FormInput } from '@components/FormInput';
-import { thunkGetUser } from '@core/store/actions';
+import { thunkUpdateUser } from '@core/store/actions';
 import { store } from '@core/store';
 import { profileData } from './profile.mock';
 import { useStyles } from './styles';
@@ -17,14 +17,15 @@ export const Profile: FC = memo(() => {
   const inputNames: NameInput[] = [
     'first_name',
     'second_name',
+    'display_name',
     'login',
     'email',
     'phone',
-    'password',
   ];
 
   const onSubmitAvatar = (data: { avatar: string }) => console.log(data);
-  const onSubmitForm = (data: FormInputs) => console.log(data);
+  // @ts-ignore
+  const onSubmitForm = (data: FormInputs) => store.dispatch(thunkUpdateUser(data));
 
   const inputControl = inputNames.map((inputName) => (
     <FormInput
@@ -35,11 +36,6 @@ export const Profile: FC = memo(() => {
       control={control}
     />
   ));
-
-  useEffect(() => {
-    // @ts-ignore
-    store.dispatch(thunkGetUser());
-  });
 
   return (
     <>

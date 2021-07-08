@@ -86,6 +86,8 @@ export class HTTP {
 
     return await fetch(path, {
       method,
+      mode: 'cors',
+      credentials: 'include',
       body: serializeBody(method, data),
       headers: serializeHeader(method),
     })
@@ -93,7 +95,7 @@ export class HTTP {
         if (!response.ok) {
           return Promise.reject(response);
         }
-        return response;
+        return response.json();
       })
       .then((resData) => resData)
       .catch(defaultReject);

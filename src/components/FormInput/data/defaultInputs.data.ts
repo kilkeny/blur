@@ -14,9 +14,15 @@ export const defaultInputs: MetaInputs = {
     type: 'text',
     rules: VALIDATION.second_name,
   },
+  display_name: {
+    name: 'display_name',
+    label: 'display name',
+    type: 'text',
+    rules: VALIDATION.display_name,
+  },
   login: {
     name: 'login',
-    label: 'nickname',
+    label: 'login',
     type: 'text',
     rules: VALIDATION.login,
   },
