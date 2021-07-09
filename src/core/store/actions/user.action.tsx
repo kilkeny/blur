@@ -26,7 +26,7 @@ Action<string>> => async (
   dispatch({ type: USER.UPDATE, payload });
 };
 
-export const thunkUpdateAvatar = (data: FormInputs):
+export const thunkUpdateAvatar = (data: FormData):
 ThunkAction<void, any, unknown,
 Action<string>> => async (
   dispatch,

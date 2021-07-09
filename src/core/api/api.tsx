@@ -31,59 +31,43 @@ export class HTTP {
   }
 
   get(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.GET },
-    );
+    return this.request(url, { ...options, method: METHOD.GET });
   }
 
   post(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.POST },
-    );
+    return this.request(url, { ...options, method: METHOD.POST });
   }
 
   put(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.PUT },
-    );
+    return this.request(url, { ...options, method: METHOD.PUT });
   }
 
-  delete(
-    url: string,
-    options: OptionsWithoutMethodType = {},
-  ) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.DELETE },
-    );
+  delete(url: string, options: OptionsWithoutMethodType = {}) {
+    return this.request(url, { ...options, method: METHOD.DELETE });
   }
 
-  async request(
-    url: string,
-    options: OptionsType = { method: METHOD.GET },
-  ) {
-    function serializeBody(method: METHOD, data: FormInputs) {
+  async request(url: string, options: OptionsType = { method: METHOD.GET }) {
+    function serializeBody(method: METHOD, data: FormInputs | FormData) {
       if (method === METHOD.GET) {
         return;
       }
-
+      console.log(data, data instanceof FormData);
+      if (data instanceof FormData) {
+        return data;
+      }
       return JSON.stringify(data);
     }
 
-    function serializeHeader(method: METHOD) {
-      const header = { 'Set-Cookie': 'HttpOnly' };
-      if (method === METHOD.GET) {
-        return header;
+    function serializeHeader(method: METHOD, data: FormInputs | FormData) {
+      const headers = {};
+      if (method === METHOD.GET || data instanceof FormData) {
+        return headers;
       }
 
-      if (url === '/profile/avatar') {
-        return { ...header, 'Content-Type': 'multipart/form-data' };
-      }
-
-      return { ...header, 'Content-Type': 'application/json' };
+      return {
+        ...headers,
+        'Content-Type': 'application/json',
+      };
     }
 
     const { method, data } = options;
@@ -107,7 +91,7 @@ export class HTTP {
       mode: 'cors',
       credentials: 'include',
       body: serializeBody(method, data),
-      headers: serializeHeader(method),
+      headers: serializeHeader(method, data),
     })
       .then((response) => {
         if (!response.ok) {

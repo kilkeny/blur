@@ -9,7 +9,7 @@ export class UserAPI extends BaseAPI {
     return UserAPIInstance.put('/profile', { data });
   }
 
-  updateAvatar(data: FormInputs) {
+  updateAvatar(data: FormData) {
     return UserAPIInstance.put('/profile/avatar', { data });
   }
 }
