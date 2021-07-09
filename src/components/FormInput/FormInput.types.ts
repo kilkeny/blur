@@ -1,7 +1,7 @@
 export interface RulesOptions {
   required: boolean;
-  minLength: number;
-  maxLength: number;
+  minLength?: number;
+  maxLength?: number;
   pattern?: {
     value: string;
     message: string;
@@ -11,11 +11,11 @@ export interface RulesOptions {
 
 export interface RulesObj {
   required?: string;
-  minLength: {
+  minLength?: {
     value: number;
     message: string;
   };
-  maxLength: {
+  maxLength?: {
     value: number;
     message: string;
   };
@@ -27,13 +27,14 @@ export interface RulesObj {
 }
 
 export type FormInputs = {
-  login: string;
-  password: string;
+  login?: string;
+  password?: string;
   first_name?: string;
   second_name?: string;
   display_name?: string;
   email?: string;
   phone?: string;
+  avatar?: string;
 };
 
 export type NameInput = keyof FormInputs;

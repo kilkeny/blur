@@ -6,4 +6,5 @@ export interface ActionProps<T = any> {
 export enum USER {
   FETCH = 'FETCH',
   UPDATE = 'UPDATE',
+  LOAD_AVATAR = 'LOAD_AVATAR',
 }

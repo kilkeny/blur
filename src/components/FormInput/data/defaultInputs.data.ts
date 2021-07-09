@@ -44,4 +44,10 @@ export const defaultInputs: MetaInputs = {
     type: 'password',
     rules: VALIDATION.password,
   },
+  avatar: {
+    name: 'avatar',
+    label: 'avatar',
+    type: 'file',
+    rules: VALIDATION.avatar,
+  },
 };

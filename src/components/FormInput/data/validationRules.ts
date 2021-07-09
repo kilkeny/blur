@@ -63,6 +63,10 @@ const PASSWORD_VALIDATION = makeValidationRules({
   },
 });
 
+const AVATAR_VALIDATION = makeValidationRules({
+  required: true,
+});
+
 export type ValidationsProps = {
   [key in NameInput]: RulesObj;
 };
@@ -75,4 +79,5 @@ export const VALIDATION: ValidationsProps = {
   email: EMAIL_VALIDATION,
   phone: PHONE_VALIDATION,
   password: PASSWORD_VALIDATION,
+  avatar: AVATAR_VALIDATION,
 };

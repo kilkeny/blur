@@ -5,13 +5,15 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { USER } from './action.types';
 
+const authAPI = new AuthAPI();
+const userAPI = new UserAPI();
+
 export const thunkGetUser = ():
 ThunkAction<void, any, unknown,
 Action<string>> => async (
   dispatch,
 ) => {
-  const api = new AuthAPI();
-  const payload = await api.getUser();
+  const payload = await authAPI.getUser();
   dispatch({ type: USER.FETCH, payload });
 };
 
@@ -20,7 +22,15 @@ ThunkAction<void, any, unknown,
 Action<string>> => async (
   dispatch,
 ) => {
-  const api = new UserAPI();
-  const payload = await api.changeProfile(data);
+  const payload = await userAPI.changeProfile(data);
   dispatch({ type: USER.UPDATE, payload });
+};
+
+export const thunkUpdateAvatar = (data: FormInputs):
+ThunkAction<void, any, unknown,
+Action<string>> => async (
+  dispatch,
+) => {
+  const payload = await userAPI.updateAvatar(data);
+  dispatch({ type: USER.LOAD_AVATAR, payload });
 };

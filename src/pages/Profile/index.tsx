@@ -1,13 +1,12 @@
 import React, { FC, memo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Input, Paper, Button, Typography } from '@material-ui/core';
+import { Paper, Button } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
 import { FormInputs, NameInput, FormInput } from '@components/FormInput';
-import { thunkGetUser, thunkUpdateUser } from '@core/store/actions';
+import { thunkGetUser, thunkUpdateUser, thunkUpdateAvatar } from '@core/store/actions';
 import { store, userSelector } from '@core/store';
 import { useDispatch, useSelector } from 'react-redux';
-// import { profileData } from './profile.mock';
 import { useStyles } from './styles';
 
 export const Profile: FC = memo(() => {
@@ -15,7 +14,8 @@ export const Profile: FC = memo(() => {
 
   const profile = useSelector(userSelector);
   const dispatch = useDispatch();
-  const { handleSubmit, control, reset } = useForm();
+  const { handleSubmit: updateProfile, control: profileControl, reset } = useForm();
+  const { handleSubmit: updateAvatar, control: avatarControl } = useForm();
 
   useEffect(() => {
     reset(profile);
@@ -34,16 +34,17 @@ export const Profile: FC = memo(() => {
     'phone',
   ];
 
-  const onSubmitAvatar = (data: { avatar: string }) => console.log(data);
   // @ts-ignore
-  const onSubmitForm = (data: FormInputs) => store.dispatch(thunkUpdateUser(data));
+  const onSubmitProfile = (data: FormInputs) => store.dispatch(thunkUpdateUser(data));
+  // @ts-ignore
+  const onSubmitAvatar = (data: FormInputs) => store.dispatch(thunkUpdateAvatar(data));
 
   const inputControl = inputNames.map((inputName) => (
     <FormInput
       key={inputName}
       className={classes.field}
       inputName={inputName}
-      control={control}
+      control={profileControl}
     />
   ));
 
@@ -54,23 +55,31 @@ export const Profile: FC = memo(() => {
         <form
           className={classes.avatarForm}
           name="avatar_form"
-          onSubmit={handleSubmit(onSubmitAvatar)}
+          onSubmit={updateAvatar(onSubmitAvatar)}
         >
           <Avatar
             src={profile.avatar || ''}
             className={classes.avatar}
           />
-          <label>
-            <Input type="file" className={classes.hiddenInput} />
-            <Typography variant="body1" color="primary">
-              edit avatar
-            </Typography>
-          </label>
+          <FormInput
+            key="avatar"
+            className={classes.field}
+            inputName="avatar"
+            control={avatarControl}
+          />
+          <Button
+            className={classes.button}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            update
+          </Button>
         </form>
         <Paper elevation={22} className={classes.right}>
           <form
             name="profile_form"
-            onSubmit={handleSubmit(onSubmitForm)}
+            onSubmit={updateProfile(onSubmitProfile)}
           >
             <div className={classes.inputs}>{inputControl}</div>
             <Button

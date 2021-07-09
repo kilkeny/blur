@@ -5,9 +5,11 @@ import { HTTP } from './api';
 const UserAPIInstance = new HTTP('/user');
 
 export class UserAPI extends BaseAPI {
-  changeProfile(
-    data: FormInputs,
-  ) {
-    return UserAPIInstance.post('/profile', { data });
+  changeProfile(data: FormInputs) {
+    return UserAPIInstance.put('/profile', { data });
+  }
+
+  updateAvatar(data: FormInputs) {
+    return UserAPIInstance.put('/profile/avatar', { data });
   }
 }

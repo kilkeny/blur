@@ -13,6 +13,16 @@ type OptionsType = {
 
 type OptionsWithoutMethodType = Omit<OptionsType, 'method'>;
 
+export function queryStringify<T extends object>(data: T): string {
+  if (!data) return '';
+
+  const queryArr = Object.entries(data).map(
+    ([key, value]) => `${key}=${value}`,
+  );
+
+  return `?${queryArr.join('&')}`;
+}
+
 export class HTTP {
   currPath: string = BASE_URL;
 
@@ -69,6 +79,10 @@ export class HTTP {
         return header;
       }
 
+      if (url === '/profile/avatar') {
+        return { ...header, 'Content-Type': 'multipart/form-data' };
+      }
+
       return { ...header, 'Content-Type': 'application/json' };
     }
 
@@ -82,7 +96,11 @@ export class HTTP {
       }
     };
 
-    const path = `${this.currPath}${url}`;
+    const basePath = `${this.currPath}${url}`;
+
+    const path = method === METHOD.GET
+      ? `${basePath}${queryStringify(data)}`
+      : basePath;
 
     return await fetch(path, {
       method,
