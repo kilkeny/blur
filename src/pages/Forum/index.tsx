@@ -2,9 +2,10 @@ import React, { FC, memo } from 'react';
 import { Button, Box } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { ForumCard } from '@components/ForumCard';
+import { withAuth } from '@core/HOKs/withAuth';
 import { forumCardsData } from './forum.mock';
 
-export const Forum: FC = memo(() => {
+export const WrapperForum: FC = memo(() => {
   const handleFormCardClick = () => console.log('create new');
   return (
     <>
@@ -24,3 +25,5 @@ export const Forum: FC = memo(() => {
     </>
   );
 });
+
+export const Forum = withAuth(WrapperForum);

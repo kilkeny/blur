@@ -4,12 +4,15 @@ import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
 import { FormInputs, NameInput, FormInput } from '@components/FormInput';
-import { profileData } from './profile.mock';
+import { useSelector } from 'react-redux';
+import { profileSelector } from '@core/store';
+import { withAuth } from '@core/HOKs/withAuth';
 import { useStyles } from './styles';
 
-export const Profile: FC = memo(() => {
+export const WrapperProfile: FC = memo(() => {
   const classes = useStyles();
 
+  const profile = useSelector(profileSelector);
   const { handleSubmit, control } = useForm();
 
   const inputNames: NameInput[] = [
@@ -18,7 +21,6 @@ export const Profile: FC = memo(() => {
     'login',
     'email',
     'phone',
-    'password',
   ];
 
   const onSubmitAvatar = (data: { avatar: string }) => console.log(data);
@@ -28,7 +30,7 @@ export const Profile: FC = memo(() => {
     <FormInput
       key={inputName}
       className={classes.field}
-      defaultValue={profileData[inputName]}
+      defaultValue={profile[inputName]}
       inputName={inputName}
       control={control}
     />
@@ -39,7 +41,7 @@ export const Profile: FC = memo(() => {
       <PageHeader title="profile" />
       <div className={classes.layout}>
         <form className={classes.avatarForm} name="avatar_form" onSubmit={handleSubmit(onSubmitAvatar)}>
-          <Avatar src={profileData.avatar} className={classes.avatar} />
+          <Avatar src={profile.avatar} className={classes.avatar} />
           <label>
             <Input type="file" className={classes.hiddenInput} />
             <Typography variant="body1" color="primary">edit avatar</Typography>
@@ -57,3 +59,5 @@ export const Profile: FC = memo(() => {
     </>
   );
 });
+
+export const Profile = withAuth(WrapperProfile);

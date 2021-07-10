@@ -7,4 +7,5 @@ export const profileData = {
   email: 'user@mail.com',
   phone: '+79998881234',
   password: '********',
+  display_name: 'xxx',
 };

@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import { SizeProps, useSizeComponents } from '@core/index';
 import { v4 as uuid } from 'uuid';
+import { withAuth } from '@core/HOKs/withAuth';
 import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
 
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
 
 type TypeStatusGame = 'game' | 'start' | 'finish';
 
-export const Game: FC = memo(() => {
+export const WrapperGame: FC = memo(() => {
   const ref = useRef(null);
   const size = useSizeComponents(ref);
   const [oldSize, setOldSize] = useState<SizeProps | null>(null);
@@ -89,3 +90,5 @@ export const Game: FC = memo(() => {
     </Paper>
   );
 });
+
+export const Game = withAuth(WrapperGame);

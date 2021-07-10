@@ -2,9 +2,10 @@ import React, { FC, memo } from 'react';
 import { Link, Paper, Box } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Message, MessageEnum } from '@components/Message';
+import { withAuth } from '@core/HOKs/withAuth';
 import { discussionData } from './discussion.mock';
 
-export const Discussion: FC = memo(() => (
+export const WrapperDiscussion: FC = memo(() => (
   <>
     <PageHeader title="forum"><Link href="forum">&lt; back to all discussions</Link></PageHeader>
     <Paper elevation={22}>
@@ -31,3 +32,5 @@ export const Discussion: FC = memo(() => (
     </Paper>
   </>
 ));
+
+export const Discussion = withAuth(WrapperDiscussion);

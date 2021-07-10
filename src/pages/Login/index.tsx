@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Paper } from '@material-ui/core';
-import { NameInput, FormInput, FormInputs } from '@components/FormInput';
+import { NameInput, FormInput } from '@components/FormInput';
 import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
 
-import { Redirect } from 'react-router';
-import { AuthAPI } from '@core/api';
+import { SigninProps } from '@core/api';
+import { useDispatch } from 'react-redux';
+import { signinThunk } from '@core/store';
+import { withAuth } from '@core/HOKs/withAuth';
 
-export const Login = () => {
+export const WrapperLogin = () => {
   const { handleSubmit, control } = useForm();
+
+  const dispatch = useDispatch();
+
   const inputNames: NameInput[] = ['login', 'password'];
   const inputControl = inputNames.map((inputName) => (
     <FormInput {...{ inputName, control }} key={inputName} />
   ));
 
-  const [isLogged, setLogged] = useState(false);
-  const api = new AuthAPI();
-
-  const onSubmit = async (data: FormInputs) => {
-    const res = await api.signin(data);
-    if (res && res.ok) {
-      setLogged(true);
-    }
+  const onSubmit = (data: SigninProps) => {
+    dispatch(signinThunk(data));
   };
 
   return (
     <Box width="427px">
-      {isLogged && <Redirect to="/" />}
       <Paper elevation={22}>
         <Box px="72px" minHeight="580px">
           <form name="login_form" onSubmit={handleSubmit(onSubmit)}>
@@ -50,3 +48,5 @@ export const Login = () => {
     </Box>
   );
 };
+
+export const Login = withAuth(WrapperLogin);
