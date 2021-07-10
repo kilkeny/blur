@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
-import { AuthAPI, ProfileProps } from '@core/api';
+import { AuthAPI, EditDataProfileProps, ProfileAPI, ProfileProps } from '@core/api';
 import { StoreProps } from '../store.types';
 import { PROFILE } from './action.types';
 import { logoutThunk, setAuthAction } from './auth.actions';
@@ -23,5 +23,27 @@ export const getProfileThunk = (
     dispatch(setAuthAction());
   } catch (error) {
     dispatch(logoutThunk());
+  }
+};
+
+export const editDataProfileThunk = (
+  data: EditDataProfileProps,
+): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
+  try {
+    const result = await ProfileAPI.editDataProfile(data);
+    dispatch(setProfileAction(result));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editAvatarProfileThunk = (
+  data: FormData,
+): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
+  try {
+    const result = await ProfileAPI.editAvatarProfile(data);
+    dispatch(setProfileAction(result));
+  } catch (error) {
+    console.log(error);
   }
 };

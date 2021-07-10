@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+export const BASE = 'https://ya-praktikum.tech/';
+export const BASE_URL = `${BASE}api/v2`;
 
 export enum METHOD {
   GET = 'GET',

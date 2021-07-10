@@ -38,4 +38,10 @@ export const defaultInputs: MetaInputs = {
     type: 'password',
     rules: VALIDATION.password,
   },
+  display_name: {
+    name: 'display_name',
+    label: 'display_name',
+    type: 'text',
+    rules: VALIDATION.first_name,
+  },
 };

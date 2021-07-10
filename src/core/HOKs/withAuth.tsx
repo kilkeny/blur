@@ -12,21 +12,17 @@ export function withAuth<T = any>(
 ) {
   const WrappedComponent: React.FC<T> = (props) => {
     const dispatch = useDispatch();
-
     const signRoutes = [ROUTES.signin.path, ROUTES.signup.path];
     const isSignPageThere = signRoutes.some(useRouteMatch);
     const { isAuth } = useSelector(authSelector);
 
     useEffect(() => {
-      if (!isAuth) {
-        dispatch(getProfileThunk());
-      }
+      dispatch(getProfileThunk());
     }, [dispatch]);
 
     if (!isAuth && !isSignPageThere) {
       return <Redirect to={ROUTES.signin.path} />;
     }
-
     if (isAuth && isSignPageThere) {
       return <Redirect to={ROUTES.game.path} />;
     }

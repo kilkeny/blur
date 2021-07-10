@@ -1,9 +1,25 @@
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { save, load } from 'redux-localstorage-simple';
 import { rootReducer } from './reducers';
 
-export const store = createStore(
+const createStoreWithMiddleware = composeWithDevTools(
+  applyMiddleware(
+    save({
+      states: ['auth'],
+      namespace: 'BLUR',
+      namespaceSeparator: '::',
+    }),
+    thunk,
+  ),
+)(createStore);
+
+export const store = createStoreWithMiddleware(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk)),
+  load({
+    states: ['auth'],
+    namespace: 'BLUR',
+    namespaceSeparator: '::',
+  }),
 );

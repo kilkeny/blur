@@ -1,19 +1,30 @@
-import React, { FC, memo } from 'react';
+import React, { ChangeEvent, FC, memo, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
-import { FormInputs, NameInput, FormInput } from '@components/FormInput';
-import { useSelector } from 'react-redux';
-import { profileSelector } from '@core/store';
+import { NameInput, FormInput } from '@components/FormInput';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  editAvatarProfileThunk,
+  editDataProfileThunk,
+  profileSelector,
+} from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
+import { EditDataProfileProps } from '@core/api';
+import { BASE } from '@core/api/api.consts';
 import { useStyles } from './styles';
 
 export const WrapperProfile: FC = memo(() => {
   const classes = useStyles();
 
+  const { handleSubmit, control, reset } = useForm();
   const profile = useSelector(profileSelector);
-  const { handleSubmit, control } = useForm();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    reset(profile);
+  }, [profile]);
 
   const inputNames: NameInput[] = [
     'first_name',
@@ -21,38 +32,68 @@ export const WrapperProfile: FC = memo(() => {
     'login',
     'email',
     'phone',
+    'display_name',
   ];
 
-  const onSubmitAvatar = (data: { avatar: string }) => console.log(data);
-  const onSubmitForm = (data: FormInputs) => console.log(data);
+  const onSubmitForm = (data: EditDataProfileProps) => dispatch(editDataProfileThunk(data));
 
-  const inputControl = inputNames.map((inputName) => (
-    <FormInput
-      key={inputName}
-      className={classes.field}
-      defaultValue={profile[inputName]}
-      inputName={inputName}
-      control={control}
-    />
-  ));
+  const inputControl = useMemo(
+    () => inputNames.map((inputName) => (
+      <FormInput
+        key={profile[inputName] + inputName}
+        className={classes.field}
+        defaultValue={profile[inputName]}
+        inputName={inputName}
+        control={control}
+      />
+    )),
+    [profile],
+  );
+
+  const onChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+    const blob = event.target.files?.item(0);
+
+    if (blob) {
+      const data = new FormData();
+      data.append('avatar', blob);
+      dispatch(editAvatarProfileThunk(data));
+    }
+  };
 
   return (
     <>
       <PageHeader title="profile" />
       <div className={classes.layout}>
-        <form className={classes.avatarForm} name="avatar_form" onSubmit={handleSubmit(onSubmitAvatar)}>
-          <Avatar src={profile.avatar} className={classes.avatar} />
+        <div className={classes.avatarForm}>
+          <Avatar
+            src={`${BASE}${profile.avatar}`}
+            className={classes.avatar}
+          />
           <label>
-            <Input type="file" className={classes.hiddenInput} />
-            <Typography variant="body1" color="primary">edit avatar</Typography>
+            <Input
+              type="file"
+              className={classes.hiddenInput}
+              onChange={onChangeAvatar}
+            />
+            <Typography variant="body1" color="primary">
+              edit avatar
+            </Typography>
           </label>
-        </form>
+        </div>
         <Paper elevation={22} className={classes.right}>
-          <form name="profile_form" onSubmit={handleSubmit(onSubmitForm)}>
-            <div className={classes.inputs}>
-              {inputControl}
-            </div>
-            <Button className={classes.button} type="submit" variant="contained" color="primary">save</Button>
+          <form
+            name="profile_form"
+            onSubmit={handleSubmit(onSubmitForm)}
+          >
+            <div className={classes.inputs}>{inputControl}</div>
+            <Button
+              className={classes.button}
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              save
+            </Button>
           </form>
         </Paper>
       </div>

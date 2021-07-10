@@ -6,8 +6,12 @@ import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
 import { SignupProps } from '@core/api';
 import { withAuth } from '@core/HOKs/withAuth';
+import { signupThunk } from '@core/store';
+import { useDispatch } from 'react-redux';
 
 export const WrapperSignUp = () => {
+  const dispatch = useDispatch();
+
   const inputNames: NameInput[] = [
     'first_name',
     'second_name',
@@ -22,16 +26,9 @@ export const WrapperSignUp = () => {
     <FormInput {...{ inputName, control }} key={inputName} />
   ));
 
-  // const [isRegistred, setRegistred] = useState(false);
-
   const onSubmit = (data: SignupProps) => {
-    console.log(data);
+    dispatch(signupThunk(data));
   };
-    //   const res = await api.signup(data);
-    //   if (res && res.ok) {
-    //     setRegistred(true);
-    //   }
-    // };
 
   return (
     <Box maxWidth="766px">
