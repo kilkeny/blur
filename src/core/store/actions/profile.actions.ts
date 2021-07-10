@@ -5,6 +5,7 @@ import { AuthAPI, EditDataProfileProps, ProfileAPI, ProfileProps } from '@core/a
 import { StoreProps } from '../store.types';
 import { PROFILE } from './action.types';
 import { logoutThunk, setAuthAction } from './auth.actions';
+import { showSnackBarAction } from './snackbar.actions';
 
 export const clearProfileAction = () => ({
   type: PROFILE.CLEAR,
@@ -32,8 +33,9 @@ export const editDataProfileThunk = (
   try {
     const result = await ProfileAPI.editDataProfile(data);
     dispatch(setProfileAction(result));
+    dispatch(showSnackBarAction({ type: 'success', msg: 'Your personal data is changed' }));
   } catch (error) {
-    console.log(error);
+    dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }
 };
 
@@ -43,7 +45,8 @@ export const editAvatarProfileThunk = (
   try {
     const result = await ProfileAPI.editAvatarProfile(data);
     dispatch(setProfileAction(result));
+    dispatch(showSnackBarAction({ type: 'success', msg: 'Your avatar is changed' }));
   } catch (error) {
-    console.log(error);
+    dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }
 };

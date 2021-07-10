@@ -5,6 +5,7 @@ import { AuthAPI, SigninProps, SignupProps } from '@core/api';
 import { StoreProps } from '../store.types';
 import { AUTH } from './action.types';
 import { clearProfileAction, getProfileThunk } from './profile.actions';
+import { showSnackBarAction } from './snackbar.actions';
 
 export const setAuthAction = () => ({ type: AUTH.SET });
 
@@ -31,9 +32,7 @@ export const signinThunk = (
     if (!error.ok) {
       const response = await error;
       const result = await response.json();
-      if (result.reason === 'User already in system') {
-        console.log(result);
-      }
+      dispatch(showSnackBarAction({ type: 'error', msg: result.reason }));
     }
     dispatch(logoutThunk());
   }
@@ -51,9 +50,7 @@ export const signupThunk = (
     if (!error.ok) {
       const response = await error;
       const result = await response.json();
-      if (result.reason === 'User already in system') {
-        console.log(result);
-      }
+      dispatch(showSnackBarAction({ type: 'error', msg: result.reason }));
     }
     dispatch(logoutThunk());
   }

@@ -96,6 +96,7 @@
   },
   "dependencies": {
     "@material-ui/core": "4.11.4",
+    "@material-ui/lab": "4.0.0-alpha.60",
     "express": "4.17.1",
     "fork-ts-checker-webpack-plugin": "6.2.12",
     "hex-rgb": "5.0.0",
