@@ -32,7 +32,6 @@ export const WrapperProfile: FC = memo(() => {
     'login',
     'email',
     'phone',
-    'display_name',
   ];
 
   const onSubmitForm = (data: EditDataProfileProps) => dispatch(editDataProfileThunk(data));

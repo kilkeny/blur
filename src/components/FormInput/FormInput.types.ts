@@ -33,7 +33,6 @@ export type FormInputs = {
   second_name?: string;
   email?: string;
   phone?: string;
-  display_name?: string;
 };
 
 export type NameInput = keyof FormInputs;

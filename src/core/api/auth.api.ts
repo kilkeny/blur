@@ -11,7 +11,6 @@ export type SigninProps = {
 export type SignupProps = {
   first_name: string;
   second_name: string;
-  display_name: string;
   login: string;
   email: string;
   password: string;

@@ -74,5 +74,4 @@ export const VALIDATION: ValidationsProps = {
   email: EMAIL_VALIDATION,
   phone: PHONE_VALIDATION,
   password: PASSWORD_VALIDATION,
-  display_name: NAME_VALIDATION,
 };

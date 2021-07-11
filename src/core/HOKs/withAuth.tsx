@@ -2,14 +2,9 @@ import React, { useEffect } from 'react';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 import { ROUTES } from '@components/Routing';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getProfileThunk,
-  authSelector,
-} from '../store';
+import { getProfileThunk, authSelector } from '../store';
 
-export function withAuth<T = any>(
-  Component: React.FC<T>,
-) {
+export function withAuth<T = any>(Component: React.FC<T>) {
   const WrappedComponent: React.FC<T> = (props) => {
     const dispatch = useDispatch();
     const signRoutes = [ROUTES.signin.path, ROUTES.signup.path];
@@ -17,7 +12,9 @@ export function withAuth<T = any>(
     const { isAuth } = useSelector(authSelector);
 
     useEffect(() => {
-      dispatch(getProfileThunk());
+      if (!isSignPageThere) {
+        dispatch(getProfileThunk());
+      }
     }, [dispatch]);
 
     if (!isAuth && !isSignPageThere) {
