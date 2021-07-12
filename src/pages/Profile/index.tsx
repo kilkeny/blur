@@ -12,7 +12,7 @@ import {
 } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
 import { EditDataProfileProps } from '@core/api';
-import { BASE } from '@core/api/api.consts';
+import { BASE_URL } from '@core/api/api.consts';
 import { useStyles } from './styles';
 
 export const WrapperProfile: FC = memo(() => {
@@ -65,7 +65,7 @@ export const WrapperProfile: FC = memo(() => {
       <div className={classes.layout}>
         <div className={classes.avatarForm}>
           <Avatar
-            src={`${BASE}${profile.avatar}`}
+            src={profile.avatar ? `${BASE_URL}/resources${profile.avatar}` : undefined}
             className={classes.avatar}
           />
           <label>
