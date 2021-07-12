@@ -1,8 +1,19 @@
 export interface ActionProps<T = any> {
-  type: string
-  payload?: T
+  type: string;
+  payload?: T;
 }
 
-export enum TEST {
-  ACTION_NAME = 'TEST',
+export enum AUTH {
+  SET = 'AUTH/SET',
+  CLEAR = 'AUTH/CLEAR',
+}
+
+export enum PROFILE {
+  SET = 'PROFILE/SET',
+  CLEAR = 'PROFILE/CLEAR',
+}
+
+export enum SNACKBAR {
+  SHOW_SNACKBAR = 'SHOW_SNACKBAR',
+  HIDE_SNACKBAR = 'HIDE_SNACKBAR',
 }

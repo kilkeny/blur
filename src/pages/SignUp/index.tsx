@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Button, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import {
-  FormInput,
-  FormInputs,
-  NameInput,
-} from '@components/FormInput';
+import { FormInput, NameInput } from '@components/FormInput';
 import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
-import { Redirect } from 'react-router';
-import { AuthAPI } from '@core/api';
+import { SignupProps } from '@core/api';
+import { withAuth } from '@core/HOKs/withAuth';
+import { signupThunk } from '@core/store';
+import { useDispatch } from 'react-redux';
 
-export const SignUp = () => {
-  const api = new AuthAPI();
+export const WrapperSignUp = () => {
+  const dispatch = useDispatch();
+
   const inputNames: NameInput[] = [
     'first_name',
     'second_name',
@@ -27,24 +26,16 @@ export const SignUp = () => {
     <FormInput {...{ inputName, control }} key={inputName} />
   ));
 
-  const [isRegistred, setRegistred] = useState(false);
-
-  const onSubmit = async (data: FormInputs) => {
-    const res = await api.signup(data);
-    if (res && res.ok) {
-      setRegistred(true);
-    }
+  const onSubmit = (data: SignupProps) => {
+    dispatch(signupThunk(data));
   };
 
   return (
     <Box maxWidth="766px">
-      {isRegistred && <Redirect to="/signin" />}
       <Paper elevation={22} square={false}>
         <Box px="72px" minHeight="580px">
           <form name="sign_up" onSubmit={handleSubmit(onSubmit)}>
-            <Box pt="114px">
-              {inputControl}
-            </Box>
+            <Box pt="114px">{inputControl}</Box>
             <Box pt="84px">
               <Button
                 type="submit"
@@ -61,3 +52,5 @@ export const SignUp = () => {
     </Box>
   );
 };
+
+export const SignUp = withAuth(WrapperSignUp);

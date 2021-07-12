@@ -1,101 +1,117 @@
-import { FormInputs } from '@components/FormInput';
-import { MESSAGES, METHOD, BASE_URL } from './api.consts';
+import { BASE_URL, METHOD } from './api.consts';
 
 type HeadersType = {
   [key: string]: string;
 };
 
-type OptionsType = {
+export type OptionsType<T = any> = {
   method: METHOD;
-  data?: any;
+  data?: T;
   headers?: HeadersType;
+  responseFormat?: 'json' | 'text';
 };
 
-type OptionsWithoutMethodType = Omit<OptionsType, 'method'>;
+export type OptionsWithoutMethodType = Omit<OptionsType, 'method'>;
+
+export interface ResponseProps<T> extends Omit<XMLHttpRequest, 'response'> {
+  response: T;
+}
+
+export function queryStringify<T extends object>(data: T): string {
+  if (!data) {
+    return '';
+  }
+
+  const queryArr = Object.entries(data).map(
+    ([key, value]) => `${key}=${value}`,
+  );
+
+  return `?${queryArr.join('&')}`;
+}
+
+export const INTERNAL_API_HOST = '';
 
 export class HTTP {
-  currPath: string = BASE_URL;
+  basePath: string = BASE_URL;
 
   constructor(path = '') {
-    this.currPath += path;
+    this.basePath += path;
   }
 
-  get(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.GET },
-    );
-  }
-
-  post(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.POST },
-    );
-  }
-
-  put(url: string, options: OptionsWithoutMethodType = {}) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.PUT },
-    );
-  }
-
-  delete(
+  get<Req, Res>(
     url: string,
     options: OptionsWithoutMethodType = {},
-  ) {
-    return this.request(
-      url,
-      { ...options, method: METHOD.DELETE },
-    );
+  ): Promise<Res> {
+    return this.request<Req, Res>(url, { ...options, method: METHOD.GET });
   }
 
-  async request(
+  post<Req, Res>(
+    url: string,
+    options: OptionsWithoutMethodType = {},
+  ): Promise<Res> {
+    return this.request<Req, Res>(url, { ...options, method: METHOD.POST });
+  }
+
+  put<Req, Res>(
+    url: string,
+    options: OptionsWithoutMethodType = {},
+  ): Promise<Res> {
+    return this.request<Req, Res>(url, { ...options, method: METHOD.PUT });
+  }
+
+  delete<Req, Res>(
+    url: string,
+    options: OptionsWithoutMethodType = {},
+  ): Promise<Res> {
+    return this.request<Req, Res>(url, {
+      ...options,
+      method: METHOD.DELETE,
+    });
+  }
+
+  request<Req, Res>(
     url: string,
     options: OptionsType = { method: METHOD.GET },
-  ) {
-    function serializeBody(method: METHOD, data: FormInputs) {
+  ): Promise<Res> {
+    function serializeBody(method: METHOD, data: Req) {
       if (method === METHOD.GET) {
         return;
       }
-
+      if (data instanceof FormData) {
+        return data;
+      }
       return JSON.stringify(data);
     }
 
-    function serializeHeader(method: METHOD) {
-      const header = { 'Set-Cookie': 'HttpOnly' };
-      if (method === METHOD.GET) {
-        return header;
+    function serializeHeader({ data, method, headers }: OptionsType<Req>) {
+      if (method === METHOD.GET || data instanceof FormData) {
+        return headers;
       }
 
-      return { ...header, 'Content-Type': 'application/json' };
+      return {
+        ...headers,
+        'Content-Type': 'application/json',
+      };
     }
 
-    const { method, data } = options;
+    const { method, data, responseFormat = 'json' } = options;
+    const basePath = `${this.basePath}${url}`;
+    const path = method === METHOD.GET
+      ? `${basePath}${queryStringify(data)}`
+      : basePath;
 
-    const defaultReject = (response: Response) => {
-      if (response.status >= 500) {
-        console.error(MESSAGES.FAIL_MESSAGE_500_DEFAULT);
-      } else {
-        console.error(MESSAGES.FAIL_MESSAGE_DEFAULT);
-      }
-    };
-
-    const path = `${this.currPath}${url}`;
-
-    return await fetch(path, {
+    return fetch(path, {
       method,
+      mode: 'cors',
+      credentials: 'include',
       body: serializeBody(method, data),
-      headers: serializeHeader(method),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return Promise.reject(response);
-        }
-        return response;
-      })
-      .then((resData) => resData)
-      .catch(defaultReject);
+      headers: serializeHeader(options),
+    }).then((response) => {
+      if (!response.ok) {
+        return Promise.reject(response);
+      }
+
+      return response[responseFormat]();
+    });
   }
 }
