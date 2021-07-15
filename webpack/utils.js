@@ -1,6 +1,6 @@
 const { isProd, isDev } = require('./env');
 const { filename } = require('./filename');
-const { BUILD_DIR, SRC_DIR, STATIC_DIR } = require('./consts');
+const { BUILD_DIR, SRC_DIR, STATIC_DIR, SERVER_DIR } = require('./consts');
 
 module.exports = {
   isProd,
@@ -9,4 +9,5 @@ module.exports = {
   BUILD_DIR,
   SRC_DIR,
   STATIC_DIR,
+  SERVER_DIR,
 };
