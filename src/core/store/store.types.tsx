@@ -1,10 +1,11 @@
 import { SnackBarDataProps } from '@components/SnackBar';
-import { ProfileProps } from '@core/api';
+import { LeaderboardProps, ProfileProps } from '@core/api';
 
 export interface StoreProps {
   auth: StoreAuthProps;
   profile: ProfileProps;
-  snackbar: StoreSnackBarProps
+  snackbar: StoreSnackBarProps;
+  leaderboard: LeaderboardProps;
 }
 
 export type StoreAuthProps = {

@@ -33,6 +33,7 @@ export const useStyles = makeStyles({
   },
   button: {
     width: '130px',
+    marginLeft: '10px',
   },
   hiddenInput: {
     visibility: 'hidden',

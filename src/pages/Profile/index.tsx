@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   editAvatarProfileThunk,
   editDataProfileThunk,
+  logoutThunk,
   profileSelector,
 } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
@@ -59,6 +60,8 @@ export const WrapperProfile: FC = memo(() => {
     }
   };
 
+  const onLogout = () => dispatch(logoutThunk());
+
   return (
     <>
       <PageHeader title="profile" />
@@ -92,6 +95,14 @@ export const WrapperProfile: FC = memo(() => {
               color="primary"
             >
               save
+            </Button>
+            <Button
+              onClick={onLogout}
+              className={classes.button}
+              type="button"
+              color="secondary"
+            >
+              logout
             </Button>
           </form>
         </Paper>
