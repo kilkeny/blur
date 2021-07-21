@@ -1,14 +1,20 @@
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, memo, useMemo, useEffect } from 'react';
 import { Box } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { LeaderboardRow } from '@components/LeaderboardRow';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { leaderboardSelector } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
 import { LeaderboardProps } from '@core/api';
+import { getLeaderboardThunk } from '@core/store/actions/leaderboard.actions';
 
 export const WrapperLeaderboard: FC = memo(() => {
+  const dispatch = useDispatch();
   const leaderboard = useSelector(leaderboardSelector);
+
+  useEffect(() => {
+    dispatch(getLeaderboardThunk());
+  }, []);
 
   const leaderboardRows = useMemo(() => {
     const users = Object.values(leaderboard) as LeaderboardProps;

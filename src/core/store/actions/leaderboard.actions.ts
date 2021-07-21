@@ -26,7 +26,7 @@ ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
 };
 
 export const addUserToLeaderboardThunk = (data: AddUserProps):
-ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
+ThunkAction<void, StoreProps, unknown, Action<string>> => (dispatch) => {
   try {
     LeaderboardAPI.addUser(data);
   } catch (error) {

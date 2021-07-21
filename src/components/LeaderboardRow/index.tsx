@@ -6,7 +6,7 @@ import { BASE_URL } from '@core/api/api.consts';
 interface LeaderboardRowProps {
   order: number;
   username: string;
-  avatar: string | undefined;
+  avatar?: string;
   score: number;
 }
 
