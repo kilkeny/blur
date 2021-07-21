@@ -1,10 +1,10 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import shadows from '@material-ui/core/styles/shadows';
 
 const shadowsOverride = shadows;
 shadowsOverride[22] = '0px 9px 46px 8px rgba(0, 0, 0, 0.12)';
 
-export const globalThemeOverride = createMuiTheme({
+export const globalThemeOverride = createTheme({
   typography: {
     fontFamily: ['Comfortaa', 'sans-serif'].join(','),
     h3: {
@@ -32,11 +32,4 @@ export const globalThemeOverride = createMuiTheme({
     borderRadius: 30,
   },
   shadows: shadowsOverride,
-  overrides: {
-    MuiGridList: {
-      root: {
-        overflowY: 'unset',
-      },
-    },
-  },
 });

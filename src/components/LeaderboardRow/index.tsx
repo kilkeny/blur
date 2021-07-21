@@ -1,11 +1,12 @@
 import React, { FC, memo } from 'react';
-import { Paper, Typography, makeStyles } from '@material-ui/core';
+import { Paper, Typography, makeStyles, Box } from '@material-ui/core';
 import { Avatar } from '@components/Avatar';
+import { BASE_URL } from '@core/api/api.consts';
 
 interface LeaderboardRowProps {
   order: number;
   username: string;
-  avatar: string;
+  avatar?: string;
   score: number;
 }
 
@@ -31,16 +32,18 @@ export const LeaderboardRow: FC<LeaderboardRowProps> = memo(
   ({ order, username, avatar, score }) => {
     const classes = useStyles();
     return (
-      <Paper elevation={22}>
-        <div className={classes.layout}>
-          <div className={classes.left}>
-            <Typography variant="body1">{order}</Typography>
-            <Avatar src={avatar} className={classes.avatar} />
-            <Typography variant="body1">{username}</Typography>
+      <Box mb="30px">
+        <Paper elevation={22}>
+          <div className={classes.layout}>
+            <div className={classes.left}>
+              <Typography variant="body1">{order}</Typography>
+              <Avatar src={avatar ? `${BASE_URL}/resources${avatar}` : undefined} className={classes.avatar} />
+              <Typography variant="body1">{username}</Typography>
+            </div>
+            <Typography variant="body1">{score}</Typography>
           </div>
-          <Typography variant="body1">{score}</Typography>
-        </div>
-      </Paper>
+        </Paper>
+      </Box>
     );
   },
 );

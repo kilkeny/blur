@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const GameFinish: FC<GameFinishProps> = memo(
   ({ score, variant, handleChangeStatus }) => {
     const classes = useStyles();
-
     const title = score === 0 ? 'Game over' : `your score is ${score}`;
+
     return (
       <div className={classes.root}>
         <div>

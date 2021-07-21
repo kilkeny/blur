@@ -12,6 +12,9 @@ import React, {
 import { SizeProps, useSizeComponents } from '@core/index';
 import { v4 as uuid } from 'uuid';
 import { withAuth } from '@core/HOKs/withAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileSelector } from '@core/store';
+import { addUserToLeaderboardThunk } from '@core/store/actions/leaderboard.actions';
 import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
 
@@ -38,6 +41,8 @@ export const WrapperGame: FC = memo(() => {
   const [status, setStatus] = useState<TypeStatusGame>('start');
   const [draw, setDraw] = useState<GamePainter | null>(null);
 
+  const dispatch = useDispatch();
+  const { login, avatar } = useSelector(profileSelector);
   const createrDraw = () => new GamePainter(size, uuid(), theme.palette[variant].main);
 
   useEffect(() => {
@@ -57,6 +62,13 @@ export const WrapperGame: FC = memo(() => {
       setScore(0);
     }
   }, [status, variant]);
+
+  useEffect(() => {
+    if (status === 'finish' && score > 0) {
+      const data = { name: login, avatar, score };
+      dispatch(addUserToLeaderboardThunk(data));
+    }
+  }, [status]);
 
   const handleGameOver = useCallback((value: number) => {
     setScore(value);

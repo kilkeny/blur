@@ -80,6 +80,7 @@ export class HTTP {
       if (data instanceof FormData) {
         return data;
       }
+
       return JSON.stringify(data);
     }
 

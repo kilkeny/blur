@@ -5,7 +5,7 @@ import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
 
 export const Header: FC = () => {
-  const routes = [ROUTES.forum, ROUTES.leaderboard, ROUTES.profile];
+  const routes = [ROUTES.game, ROUTES.forum, ROUTES.leaderboard, ROUTES.profile];
 
   const links = routes.map((route) => (
     <LinkComponent key={route.path} route={route} />
