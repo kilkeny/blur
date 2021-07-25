@@ -1,4 +1,5 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 const { BUILD_DIR, SRC_DIR, SERVER_DIR } = require('./webpack/utils');
 
 const { Loaders } = require('./webpack');
@@ -22,4 +23,5 @@ module.exports = {
   module: {
     rules: [...Loaders],
   },
+  externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
 };
