@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Paper } from '@material-ui/core';
 import { NameInput, FormInput } from '@components/FormInput';
@@ -6,14 +6,17 @@ import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
 
 import { SigninProps } from '@core/api';
-import { useDispatch } from 'react-redux';
-import { signinThunk } from '@core/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { getClientIdThunk, oauthSelector, signinThunk } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
+import { YandexLogo } from '@components/YandexLogo';
+import { Link } from 'react-router-dom';
 
 export const WrapperLogin = () => {
   const { handleSubmit, control } = useForm();
 
   const dispatch = useDispatch();
+  const oauth = useSelector(oauthSelector);
 
   const inputNames: NameInput[] = ['login', 'password'];
   const inputControl = inputNames.map((inputName) => (
@@ -23,6 +26,10 @@ export const WrapperLogin = () => {
   const onSubmit = (data: SigninProps) => {
     dispatch(signinThunk(data));
   };
+
+  useEffect(() => {
+    dispatch(getClientIdThunk(oauth.callbackURL));
+  }, []);
 
   return (
     <Box width="427px">
@@ -41,6 +48,9 @@ export const WrapperLogin = () => {
                 login
               </Button>
               <LinkComponent route={ROUTES.signup} />
+              <Link to={{ pathname: oauth.oauthURL }} target="_blank">
+                <YandexLogo />
+              </Link>
             </Box>
           </form>
         </Box>

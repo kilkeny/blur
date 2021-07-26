@@ -6,11 +6,19 @@ export interface StoreProps {
   profile: ProfileProps;
   snackbar: StoreSnackBarProps;
   leaderboard: LeaderboardProps;
+  oauth: OAuthProps;
 }
 
 export type StoreAuthProps = {
   isAuth: boolean
 };
+
+export type OAuthProps = {
+  service_id: string;
+  callbackURL: string;
+  oauthURL: string
+};
+
 export interface StoreSnackBarProps extends SnackBarDataProps {
   isVisible: boolean;
 }
