@@ -16,7 +16,8 @@ export type StoreAuthProps = {
 export type OAuthProps = {
   service_id: string;
   callbackURL: string;
-  oauthURL: string
+  oauthURL: string;
+  code: string;
 };
 
 export interface StoreSnackBarProps extends SnackBarDataProps {

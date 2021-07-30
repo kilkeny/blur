@@ -15,6 +15,15 @@ export const setOAuthUrlAction = (payload: { oauthURL: string }) => ({
   payload,
 });
 
+export const setCodeAction = (payload: { code: string }) => ({
+  type: OAUTH.SET_CODE,
+  payload,
+});
+
+export const clearCodeAction = () => ({
+  type: OAUTH.CLEAR_CODE,
+});
+
 export const createOAuthURL = (id: string, url: string) => (
   `https://oauth.yandex.ru/authorize?response_type=code&client_id=${id}&redirect_uri=${url}`
 );
@@ -26,6 +35,15 @@ ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
     dispatch(setClietnIdAction(result));
     const oauthURL = createOAuthURL(result.service_id, url);
     dispatch(setOAuthUrlAction({ oauthURL }));
+  } catch (error) {
+    dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
+  }
+};
+
+export const signInWithOAuthThunk = (code: string, url: string):
+ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
+  try {
+    await OAuthAPI.signIn({ code, redirect_uri: url });
   } catch (error) {
     dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }

@@ -7,6 +7,7 @@ import { AUTH } from './action.types';
 import { clearProfileAction, getProfileThunk } from './profile.actions';
 import { showSnackBarAction } from './snackbar.actions';
 import { clearLeaderboardAction } from './leaderboard.actions';
+import { clearCodeAction } from './oauth.actions';
 
 export const setAuthAction = () => ({ type: AUTH.SET });
 
@@ -19,6 +20,7 @@ export const logoutThunk = (
   dispatch(clearAuthAction());
   dispatch(clearProfileAction());
   dispatch(clearLeaderboardAction());
+  dispatch(clearCodeAction());
   await AuthAPI.logout();
 };
 

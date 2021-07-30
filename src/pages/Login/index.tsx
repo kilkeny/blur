@@ -7,7 +7,7 @@ import { LinkComponent } from '@components/LinkComponent';
 
 import { SigninProps } from '@core/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClientIdThunk, oauthSelector, signinThunk } from '@core/store';
+import { getClientIdThunk, oauthSelector, signinThunk, signInWithOAuthThunk } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
 import { YandexLogo } from '@components/YandexLogo';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ export const WrapperLogin = () => {
   const { handleSubmit, control } = useForm();
 
   const dispatch = useDispatch();
-  const oauth = useSelector(oauthSelector);
+  const { code, callbackURL, oauthURL } = useSelector(oauthSelector);
 
   const inputNames: NameInput[] = ['login', 'password'];
   const inputControl = inputNames.map((inputName) => (
@@ -28,7 +28,11 @@ export const WrapperLogin = () => {
   };
 
   useEffect(() => {
-    dispatch(getClientIdThunk(oauth.callbackURL));
+    dispatch(getClientIdThunk(callbackURL));
+
+    if (code) {
+      dispatch(signInWithOAuthThunk(code, callbackURL));
+    }
   }, []);
 
   return (
@@ -48,7 +52,7 @@ export const WrapperLogin = () => {
                 login
               </Button>
               <LinkComponent route={ROUTES.signup} />
-              <Link to={{ pathname: oauth.oauthURL }} target="_blank">
+              <Link to={{ pathname: oauthURL }} target="_blank">
                 <YandexLogo />
               </Link>
             </Box>

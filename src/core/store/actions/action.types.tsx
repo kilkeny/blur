@@ -26,4 +26,6 @@ export enum LEADERBOARD {
 export enum OAUTH {
   SET_ID = 'OAUTH/SET_ID',
   SET_URL = 'OAUTH/SET_URL',
+  SET_CODE = 'OAUTH/SET_CODE',
+  CLEAR_CODE = 'OAUTH/CLEAR_CODE',
 }
