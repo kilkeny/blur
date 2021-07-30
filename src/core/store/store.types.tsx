@@ -6,6 +6,7 @@ export interface StoreProps {
   profile: ProfileProps;
   snackbar: StoreSnackBarProps;
   leaderboard: LeaderboardProps;
+  notification: NotificationProps
 }
 
 export type StoreAuthProps = {
@@ -14,3 +15,7 @@ export type StoreAuthProps = {
 export interface StoreSnackBarProps extends SnackBarDataProps {
   isVisible: boolean;
 }
+
+export type NotificationProps = {
+  notificationsAllowed: boolean;
+};
