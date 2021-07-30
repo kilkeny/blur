@@ -21,19 +21,25 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
+            "client/*": [
+                "./client/*"
+            ],
+            "server/*": [
+                "./server/*"
+            ],
             "@components/*": [
-              "./src/components/*"
+                "./client/components/*"
             ],
             "@core/*": [
-              "./src/core/*"
+                "./client/core/*"
             ],
             "@pages/*": [
-                "./src/pages/*"
+                "./client/pages/*"
             ],
         }
     },
     "include": [
-        "src",
-        "index.d.ts"
+        "client",
+        "server",
     ]
 }

@@ -11,7 +11,7 @@ export const clearProfileAction = () => ({
   type: PROFILE.CLEAR,
 });
 
-const setProfileAction = (payload: ProfileProps) => ({
+export const setProfileAction = (payload: ProfileProps) => ({
   type: PROFILE.SET,
   payload,
 });
