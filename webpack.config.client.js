@@ -4,7 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const { isDev } = require('./webpack/env');
+const { isDev, STATIC_DIR, BUILD_DIR } = require('./env');
 const babelLoader = require('./webpack.babel.loader');
 
 module.exports = {
@@ -16,8 +16,8 @@ module.exports = {
     './client/index.tsx',
   ].filter(Boolean),
   output: {
-    filename: '[name].js',
-    path: isDev ? __dirname : path.join(__dirname, './build'),
+    filename: `${STATIC_DIR}/[name].js`,
+    path: isDev ? __dirname : path.resolve(__dirname, BUILD_DIR),
     publicPath: '/',
   },
   resolve: {

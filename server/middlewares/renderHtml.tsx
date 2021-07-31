@@ -6,6 +6,7 @@ import { Helmet, HelmetData } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { Store } from 'redux';
+import { STATIC_DIR } from '../../env';
 
 interface PageHtmlProps {
   html: string;
@@ -33,7 +34,7 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
                         )}`,
                     }}
         />
-        <script src="/main.js" />
+        <script src={`/${STATIC_DIR}/main.js`} />
         <script src="/start_sw.js" />
 
       </body>
