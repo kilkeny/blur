@@ -17,16 +17,14 @@ if (!global.fetch) {
 
 export function renderBundle(req: Request, res: Response, next: NextFunction) {
   res.renderBundle = async (url: string) => {
-    console.log(url);
     const store = composeStore(defaultState);
     const dispatch = store.dispatch as ThunkDispatch<StoreProps, void, AnyAction>;
 
     await dispatch(getCurrentUserInfoThunk(req));
 
     const state = store.getState();
-    console.log(state);
     const { html } = renderHtml(url, state, store);
-
+    console.log(url);
     res.send(html);
   };
 

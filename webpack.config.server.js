@@ -1,11 +1,11 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const { IS_DEV } = require('./env');
+const { isDev } = require('./webpack/env');
 const babelLoader = require('./webpack.babel.loader');
 
 module.exports = {
-  mode: IS_DEV ? 'development' : 'production',
+  mode: isDev ? 'development' : 'production',
   target: 'node',
   externals: [nodeExternals()],
   entry: './server/start.ts',

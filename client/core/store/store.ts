@@ -44,7 +44,7 @@ export const defaultState = {
   auth: { isAuth: false },
 } as StoreProps;
 
-export const composeStore = (initialState: StoreProps) => createStore(
+export const composeStore = (initialState: {}) => createStore(
   rootReducer,
   initialState,
   composeWithDevTools(

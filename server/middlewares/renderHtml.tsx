@@ -34,7 +34,8 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
                     }}
         />
         <script src="/main.js" />
-        <script src="/start-sw.js" />
+        <script src="/start_sw.js" />
+
       </body>
     </html>,
   );
@@ -52,7 +53,7 @@ export const renderHtml = (reqUrl: string, state: StoreProps, store: Store) => {
   );
 
   const helmet = Helmet.rewind();
-  console.log(state);
+
   return {
     html: getPageHtml({ html, state, helmet }),
   };

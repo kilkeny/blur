@@ -21,6 +21,7 @@ export const WrapperLogin = () => {
   ));
 
   const onSubmit = (data: SigninProps) => {
+    console.log(data);
     dispatch(signinThunk(data));
   };
 
