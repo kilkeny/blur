@@ -4,6 +4,7 @@ import React from 'react';
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { Helmet, HelmetData } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
+import { StaticRouter } from 'react-router-dom';
 import { Store } from 'redux';
 
 interface PageHtmlProps {
@@ -21,8 +22,6 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {helmet.script.toComponent()}
-        <link rel="icon" type="image/png" href="./idea.png" />
-        <link rel="stylesheet" href="/main.css" type="text/css" />
       </head>
 
       <body>
@@ -46,12 +45,14 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
 export const renderHtml = (reqUrl: string, state: StoreProps, store: Store) => {
   const html = renderToString(
     <ReduxProvider store={store}>
-      <App />
+      <StaticRouter context={{}} location={reqUrl}>
+        <App />
+      </StaticRouter>
     </ReduxProvider>,
   );
 
   const helmet = Helmet.rewind();
-
+  console.log(state);
   return {
     html: getPageHtml({ html, state, helmet }),
   };

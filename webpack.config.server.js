@@ -1,28 +1,43 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
-const { BUILD_DIR, SRC_DIR, SERVER_DIR } = require('./webpack/utils');
-const { Loaders } = require('./webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { IS_DEV } = require('./env');
+const babelLoader = require('./webpack.babel.loader');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
+  mode: IS_DEV ? 'development' : 'production',
   target: 'node',
-  entry: path.resolve(__dirname, SERVER_DIR, 'start.ts'),
   externals: [nodeExternals()],
+  entry: './server/start.ts',
   output: {
     filename: 'server.js',
-    path: path.resolve(__dirname, BUILD_DIR),
+    path: path.resolve(__dirname, './build'),
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts', '.tsx'],
-    alias: {
-      server: path.resolve(__dirname, SERVER_DIR),
-      client: path.resolve(__dirname, SRC_DIR),
-      '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
-      '@components': path.resolve(__dirname, SRC_DIR, 'components'),
-      '@core': path.resolve(__dirname, SRC_DIR, 'core'),
-    },
+    extensions: ['.tsx', '.ts', '.js'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   module: {
-    rules: [...Loaders],
+    rules: [
+      babelLoader,
+      {
+        test: /\.css$/,
+        use: [
+          'css-loader',
+          {
+            loader: 'null-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'null-loader',
+          },
+        ],
+      },
+    ],
   },
+  plugins: [],
 };

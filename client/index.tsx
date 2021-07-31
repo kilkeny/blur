@@ -1,20 +1,27 @@
-import { composeStore } from '@core/store';
+import { composeStore, history } from '@core/store';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { hot } from 'react-hot-loader/root';
+import { ConnectedRouter } from 'connected-react-router';
 import { App } from './App';
 // import { startServiceWorker } from '../sw/start_sw';
 
 // eslint-disable-next-line no-underscore-dangle
 const store = composeStore(window.__INITIAL_STATE__);
-// eslint-disable-next-line no-underscore-dangle
-console.log(window.__INITIAL_STATE__);
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
+
+const RootComponent = () => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </ConnectedRouter>
+  </Provider>
+);
+
+const RootComponentWithHot = hot(RootComponent);
+
+ReactDOM.hydrate(
+  <RootComponentWithHot />,
   document.getElementById('root'),
 );
 

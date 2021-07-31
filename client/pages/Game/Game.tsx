@@ -15,6 +15,7 @@ import { withAuth } from '@core/HOKs/withAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileSelector } from '@core/store';
 import { addUserToLeaderboardThunk } from '@core/store/actions/leaderboard.actions';
+import { isServer } from 'client/core/store';
 import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
 
@@ -103,4 +104,6 @@ export const WrapperGame: FC = memo(() => {
   );
 });
 
-export const Game = withAuth(WrapperGame);
+const NullFC: FC = () => <></>;
+
+export const Game = withAuth(!isServer ? WrapperGame : NullFC);

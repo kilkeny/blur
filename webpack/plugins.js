@@ -18,6 +18,7 @@ const dfPlugin = new webpack.DefinePlugin({
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const htmlPlugin = new HTMLWebpackPlugin({
   template: path.join('public', 'index.html'),
   minify: {
@@ -78,7 +79,7 @@ const plugins = () => {
   const base = [
     assetsManifest,
     dfPlugin,
-    htmlPlugin,
+    // htmlPlugin,
     copyPlugin,
     minicssPlugin,
     checkerTsPlugin,

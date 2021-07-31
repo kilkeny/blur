@@ -1,7 +1,9 @@
 import { SnackBarDataProps } from '@components/SnackBar';
 import { LeaderboardProps, ProfileProps } from '@core/api';
+import { RouterState } from 'connected-react-router';
 
 export interface StoreProps {
+  router: RouterState
   auth: StoreAuthProps;
   profile: ProfileProps;
   snackbar: StoreSnackBarProps;

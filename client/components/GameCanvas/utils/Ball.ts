@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import hexRgb from 'hex-rgb';
 import { SizeProps } from '@core/hooks';
 import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
@@ -120,7 +119,7 @@ export class Ball implements BallParams {
   draw (options: DrawCanvasProps) {
     const { ctx } = options;
 
-    const color = hexRgb(this.color);
+    const color = { red: 34, green: 123, blue: 255 };
     this.blur.forEach((pos, index) => {
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
