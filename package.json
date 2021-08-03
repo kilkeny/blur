@@ -6,6 +6,7 @@
     "scripts": {
         "ssr-start:server": "nodemon ./build/server.js --watch ./build/server.js",
         "ssr-start:webpack": "cross-env NODE_ENV=development webpack --config webpack.config.server.js --watch",
+        "ssr-start": "cross-env NODE_ENV=development npm-run-all --print-label --parallel ssr-start:*",
         "test": "jest",
         "lint": "eslint . --fix"
     },
