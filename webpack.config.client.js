@@ -1,33 +1,81 @@
 const path = require('path');
-const { Loaders, Plugins, Optimization } = require('./webpack');
-const { filename, isDev, BUILD_DIR, SRC_DIR } = require('./webpack/utils');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { isDev, STATIC_DIR, BUILD_DIR } = require('./env');
+const babelLoader = require('./webpack.babel.loader');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, SRC_DIR, 'index.tsx'),
+  mode: isDev ? 'development' : 'production',
+  entry: [
+    isDev && 'webpack-hot-middleware/client?noInfo=true',
+    isDev && 'react-hot-loader/patch',
+    isDev && 'css-hot-loader/hotModuleReplacement',
+    './client/index.tsx',
+  ].filter(Boolean),
   output: {
-    filename: filename('js'),
-    path: path.resolve(__dirname, BUILD_DIR),
+    filename: `${STATIC_DIR}/[name].js`,
+    path: isDev ? __dirname : path.resolve(__dirname, BUILD_DIR),
+    publicPath: '/',
   },
   resolve: {
-    extensions: ['.js', '.json', '.ts', '.tsx'],
-    alias: {
-      '@pages': path.resolve(__dirname, SRC_DIR, 'pages'),
-      '@components': path.resolve(__dirname, SRC_DIR, 'components'),
-      '@core': path.resolve(__dirname, SRC_DIR, 'core'),
-    },
+    extensions: ['.tsx', '.ts', '.js'],
+    alias: { 'react-dom': '@hot-loader/react-dom' },
+    plugins: [new TsconfigPathsPlugin()],
   },
-  devServer: {
-    contentBase: path.join(__dirname, BUILD_DIR),
-    open: true,
-    port: 3000,
-    historyApiFallback: true,
-    hot: isDev,
-  },
-  devtool: isDev ? 'source-map' : false,
-  plugins: [...Plugins],
-  optimization: Optimization,
   module: {
-    rules: [...Loaders],
+    rules: [
+      babelLoader,
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'postcss-preset-env',
+                  'postcss-nested',
+                  'postcss-simple-vars',
+                  'postcss-color-mod-function',
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      },
+    ],
   },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin(),
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: './sw', to: './' }],
+      options: {
+        concurrency: 100,
+      },
+    }),
+    isDev ? new webpack.HotModuleReplacementPlugin() : '',
+  ].filter(Boolean),
 };
+
+console.info(
+  '--------------- Enviroment "mode" is:',
+  process.env.NODE_ENV,
+  '---------------',
+);
