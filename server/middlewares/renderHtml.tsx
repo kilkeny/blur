@@ -29,10 +29,10 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
         <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
         <script
           dangerouslySetInnerHTML={{
-                        __html: `window.__INITIAL_STATE__ = ${JSON.stringify(
-                            state,
-                        )}`,
-                    }}
+                __html: `window.__INITIAL_STATE__ = ${JSON.stringify(
+                    state,
+                )}`,
+            }}
         />
         <script src={`/${STATIC_DIR}/main.js`} />
         <script src="/start_sw.js" />

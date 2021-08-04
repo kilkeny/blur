@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, useRouteMatch } from 'react-router-dom';
+import { Redirect, useLocation, useRouteMatch } from 'react-router-dom';
 import { ROUTES } from '@components/Routing';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfileThunk, authSelector, setCodeAction } from '../store';
@@ -11,10 +11,9 @@ export function withAuth<T = any>(Component: React.FC<T>) {
     const isSignPageThere = signRoutes.some(useRouteMatch);
     const { isAuth } = useSelector(authSelector);
 
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
+    const location = useLocation();
+    const params = new URLSearchParams(location.pathname);
     const code = params.get('code');
-
     useEffect(() => {
       if (!isSignPageThere) {
         dispatch(getProfileThunk());
