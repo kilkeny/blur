@@ -2,7 +2,7 @@ import { BaseAPI } from './base.api';
 import { HTTP } from './api';
 import { ProfileProps } from './auth.api';
 
-const ProfileAPIInstance = new HTTP('/user');
+const ProfileAPIInstance = new HTTP('/user', '/api/v2');
 
 export type EditDataProfileProps = Omit<ProfileProps, 'id' | 'password' | 'avatar'>;
 
