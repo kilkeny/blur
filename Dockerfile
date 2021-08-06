@@ -5,8 +5,8 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run ssr-build
 
 EXPOSE 8000
 
-CMD npm run serve
+CMD npm run ssr-serve
