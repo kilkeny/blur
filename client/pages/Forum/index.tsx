@@ -47,6 +47,7 @@ export const WrapperForum: FC = memo(() => {
     const targetId = target.dataset.id;
     const filteredTopics = topics.filter((el) => el.id !== targetId);
     setTopics(filteredTopics);
+    e.stopPropagation();
   };
 
   useEffect(() => {

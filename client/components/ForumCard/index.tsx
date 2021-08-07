@@ -16,12 +16,8 @@ export const ForumCard: FC<ForumCardProps> = memo((
   { date, title, text, author, answers, id, handleDelete },
 ) => {
   const history = useHistory();
-  const handleClick = (e: React.SyntheticEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-    const isButton = target.className.split(' ').some((c) => /MuiButton-.*/.test(c));
-    if (!isButton) {
-      history.push(generatePath('/discussion/:id', { id }));
-    }
+  const handleClick = () => {
+    history.push(generatePath('/discussion/:id', { id }));
   };
 
   return (
