@@ -2,6 +2,7 @@
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
 import { AuthAPI, SigninProps, SignupProps } from '@core/api';
+import Cookies from 'js-cookie';
 import { StoreProps } from '../store.types';
 import { AUTH } from './action.types';
 import { clearProfileAction, getProfileThunk } from './profile.actions';
@@ -21,6 +22,9 @@ export const logoutThunk = (
   dispatch(clearProfileAction());
   dispatch(clearLeaderboardAction());
   dispatch(clearCodeAction());
+  Cookies.remove('uuid');
+  Cookies.remove('authCookie');
+
   await AuthAPI.logout();
 };
 

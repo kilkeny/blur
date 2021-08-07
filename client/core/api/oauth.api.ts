@@ -11,14 +11,14 @@ export type RespClientIdProps = {
   service_id: string;
 };
 
-const OAuthAPIInstance = new HTTP('/oauth');
+const OAuthAPIInstance = new HTTP('/oauth/yandex', '/api/v2');
 
 export class OAuthAPI extends BaseAPI {
   static getClientId(data: ClientIdProps) {
-    return OAuthAPIInstance.get<string, RespClientIdProps>('/yandex/service-id', { data });
+    return OAuthAPIInstance.get<string, RespClientIdProps>('/service-id', { data });
   }
 
-  static signIn(data: SignInProps) {
-    return OAuthAPIInstance.post<string, RespClientIdProps>('/yandex', { data });
+  static OAuthSignin(data: SignInProps) {
+    return OAuthAPIInstance.post<string, RespClientIdProps>('', { data, responseFormat: 'text' });
   }
 }

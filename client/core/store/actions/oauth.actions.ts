@@ -3,6 +3,8 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { StoreProps } from '../store.types';
 import { OAUTH } from './action.types';
+// eslint-disable-next-line import/no-cycle
+import { getProfileThunk } from './profile.actions';
 import { showSnackBarAction } from './snackbar.actions';
 
 export const setClietnIdAction = (payload: RespClientIdProps) => ({
@@ -43,7 +45,8 @@ ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
 export const signInWithOAuthThunk = (code: string, url: string):
 ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
   try {
-    await OAuthAPI.signIn({ code, redirect_uri: url });
+    await OAuthAPI.OAuthSignin({ code, redirect_uri: url });
+    dispatch(getProfileThunk());
   } catch (error) {
     dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }

@@ -29,6 +29,7 @@ export interface RulesObj {
 export type FormInputs = {
   login: string;
   password: string;
+  display_name: string;
   first_name?: string;
   second_name?: string;
   email?: string;
