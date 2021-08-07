@@ -30,6 +30,7 @@ export const WrapperProfile: FC = memo(() => {
   const inputNames: NameInput[] = [
     'first_name',
     'second_name',
+    'display_name',
     'login',
     'email',
     'phone',

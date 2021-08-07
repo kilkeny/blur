@@ -7,6 +7,6 @@ const ServerProfileAPIInstance = new ServerHTTP('/user');
 
 export class ServerProfileAPI extends BaseAPI {
   static editDataProfile(data: EditDataProfileProps, options: OptionsWithoutMethodType) {
-    return ServerProfileAPIInstance.put<EditDataProfileProps, Promise<Response>>('/profile', { data, ...options });
+    return ServerProfileAPIInstance.put<EditDataProfileProps, any>('/profile', { data, ...options });
   }
 }

@@ -11,7 +11,7 @@ export class ProfileController {
       headers: getHeadersWithCookies(req),
     })
       .then(async (response) => {
-        res.send((await response).json());
+        res.send(await response.json());
       })
       .catch((error) => {
         res.status(error.status).send(error.statusText);
