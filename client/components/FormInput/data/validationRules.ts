@@ -82,6 +82,7 @@ export type ValidationsProps = {
 export const VALIDATION: ValidationsProps = {
   first_name: NAME_VALIDATION,
   second_name: NAME_VALIDATION,
+  display_name: NAME_VALIDATION,
   login: LOGIN_VALIDATION,
   email: EMAIL_VALIDATION,
   phone: PHONE_VALIDATION,

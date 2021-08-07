@@ -14,6 +14,12 @@ export const defaultInputs: Record<NameInput, MetaInput> = {
     type: 'text',
     rules: VALIDATION.second_name,
   },
+  display_name: {
+    name: 'display_name',
+    label: 'display_name',
+    type: 'text',
+    rules: VALIDATION.display_name,
+  },
   login: {
     name: 'login',
     label: 'nickname',
