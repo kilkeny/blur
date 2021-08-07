@@ -26,24 +26,11 @@ export interface RulesObj {
   valueAsNumber?: boolean;
 }
 
-export type FormInputs = {
-  login: string;
-  password: string;
-  first_name?: string;
-  second_name?: string;
-  email?: string;
-  phone?: string;
-};
+export type NameInput = 'login' | 'password' | 'first_name' | 'second_name' | 'email' | 'phone' | 'title' | 'text';
+export type ProfileNames = Exclude<NameInput, 'title' | 'text'>;
 
-export type NameInput = keyof FormInputs;
-
-export type MetaInput = {
-  name: NameInput;
+export type MetaInput = { name: NameInput;
   label: string;
   type: string;
   rules: RulesObj;
-};
-
-export type MetaInputs = {
-  [key in NameInput]: MetaInput;
 };

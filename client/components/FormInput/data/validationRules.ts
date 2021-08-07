@@ -53,6 +53,18 @@ const PHONE_VALIDATION = makeValidationRules({
   },
 });
 
+const TOPIC_TITLE_VALIDATION = makeValidationRules({
+  required: true,
+  minLength: 1,
+  maxLength: 50,
+});
+
+const TOPIC_BODY_VALIDATION = makeValidationRules({
+  required: true,
+  minLength: 1,
+  maxLength: 500,
+});
+
 const PASSWORD_VALIDATION = makeValidationRules({
   required: true,
   minLength: 8,
@@ -73,5 +85,7 @@ export const VALIDATION: ValidationsProps = {
   login: LOGIN_VALIDATION,
   email: EMAIL_VALIDATION,
   phone: PHONE_VALIDATION,
+  title: TOPIC_TITLE_VALIDATION,
+  text: TOPIC_BODY_VALIDATION,
   password: PASSWORD_VALIDATION,
 };

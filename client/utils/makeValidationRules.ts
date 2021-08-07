@@ -2,15 +2,14 @@ import { RulesObj, RulesOptions } from '@components/FormInput/FormInput.types';
 
 export const makeValidationRules = (options: RulesOptions) => {
   const { required, minLength, maxLength, pattern, valueAsNumber } = options;
-
   const rules: RulesObj = {
     minLength: {
       value: minLength,
-      message: `enter from ${minLength} to ${maxLength} characters`,
+      message: `enter min ${minLength} characters`,
     },
     maxLength: {
       value: maxLength,
-      message: `enter from ${minLength} to ${maxLength} characters`,
+      message: `enter max ${maxLength} characters`,
     },
   };
 

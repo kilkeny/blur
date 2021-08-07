@@ -31,13 +31,14 @@ export const FormInput: FC<FormInputProps> = ({
         <TextField
           className={className}
           label={label}
+          multiline={inputName === 'text'}
           type={type}
           value={value || ''}
           helperText={error?.message}
           onChange={onChange}
           fullWidth
         />
-            )}
+      )}
     />
   );
 };
