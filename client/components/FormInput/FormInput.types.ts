@@ -38,13 +38,8 @@ export type FormInputs = {
 
 export type NameInput = keyof FormInputs;
 
-export type MetaInput = {
-  name: NameInput;
+export type MetaInput = { name: NameInput;
   label: string;
   type: string;
   rules: RulesObj;
-};
-
-export type MetaInputs = {
-  [key in NameInput]: MetaInput;
 };

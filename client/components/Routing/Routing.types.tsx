@@ -1,17 +1,5 @@
 import { FC } from 'react';
 
-export type RouteType = {
-  name: keyof RoutesType,
-  path: string,
-  component: FC,
-};
+export type PAGES = 'game' | 'forum' | 'discussion' | 'signin' | 'signup' | 'profile' | 'leaderboard';
 
-export interface RoutesType {
-  game: RouteType,
-  forum: RouteType,
-  discussion: RouteType,
-  signin: RouteType,
-  signup: RouteType,
-  profile: RouteType,
-  leaderboard: RouteType
-}
+export type RouteType = { path: string, component: FC, name: PAGES };

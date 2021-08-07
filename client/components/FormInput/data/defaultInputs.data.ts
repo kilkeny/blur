@@ -1,7 +1,7 @@
 import { VALIDATION } from './validationRules';
-import { MetaInputs } from '../FormInput.types';
+import { MetaInput, NameInput } from '../FormInput.types';
 
-export const defaultInputs: MetaInputs = {
+export const defaultInputs: Record<NameInput, MetaInput> = {
   first_name: {
     name: 'first_name',
     label: 'first name',
@@ -43,5 +43,17 @@ export const defaultInputs: MetaInputs = {
     label: 'password',
     type: 'password',
     rules: VALIDATION.password,
+  },
+  title: {
+    name: 'title',
+    label: 'title',
+    type: 'text',
+    rules: VALIDATION.title,
+  },
+  text: {
+    name: 'text',
+    label: 'text',
+    type: 'textarea',
+    rules: VALIDATION.text,
   },
 };

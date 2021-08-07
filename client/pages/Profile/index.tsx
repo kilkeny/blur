@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Input, Paper, Button, Typography } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { Avatar } from '@components/Avatar';
-import { NameInput, FormInput } from '@components/FormInput';
+import { FormInput, ProfileNames } from '@components/FormInput';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   editAvatarProfileThunk,
@@ -27,7 +27,7 @@ export const WrapperProfile: FC = memo(() => {
     reset(profile);
   }, [profile]);
 
-  const inputNames: NameInput[] = [
+  const inputNames: ProfileNames[] = [
     'first_name',
     'second_name',
     'display_name',

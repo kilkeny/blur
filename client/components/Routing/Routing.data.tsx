@@ -5,9 +5,9 @@ import { Leaderboard } from '@pages/Leaderboard';
 import { Login } from '@pages/Login';
 import { Profile } from '@pages/Profile';
 import { SignUp } from '@pages/SignUp';
-import { RoutesType } from './Routing.types';
+import { PAGES, RouteType } from './Routing.types';
 
-export const ROUTES: RoutesType = {
+export const ROUTES: Record<PAGES, RouteType> = {
   game: {
     path: '/',
     component: Game,
@@ -19,7 +19,7 @@ export const ROUTES: RoutesType = {
     name: 'forum',
   },
   discussion: {
-    path: '/discussion',
+    path: '/discussion/:id',
     component: Discussion,
     name: 'discussion',
   },
