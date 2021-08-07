@@ -1,5 +1,5 @@
 import { SnackBarDataProps } from '@components/SnackBar';
-import { LeaderboardProps, ProfileProps } from '@core/api';
+import { LeaderboardProps, ProfileProps, ThemeProps } from '@core/api';
 import { RouterState } from 'connected-react-router';
 
 export interface StoreProps {
@@ -10,6 +10,7 @@ export interface StoreProps {
   leaderboard: LeaderboardProps;
   oauth: OAuthProps;
   notification: NotificationProps
+  theme: ThemeProps;
 }
 
 export type StoreAuthProps = {
