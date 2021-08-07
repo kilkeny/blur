@@ -1,10 +1,12 @@
+import { PaletteType } from '@material-ui/core';
+import { lightBlue } from '@material-ui/core/colors';
 import { createTheme } from '@material-ui/core/styles';
 import shadows from '@material-ui/core/styles/shadows';
 
 const shadowsOverride = shadows;
 shadowsOverride[22] = '0px 9px 46px 8px rgba(0, 0, 0, 0.12)';
 
-export const globalThemeOverride = createTheme({
+export const globalThemeOverride = (type: PaletteType = 'light') => createTheme({
   typography: {
     fontFamily: ['Comfortaa', 'sans-serif'].join(','),
     h3: {
@@ -21,11 +23,9 @@ export const globalThemeOverride = createTheme({
     },
   },
   palette: {
+    type,
     primary: {
-      main: '#4200FF',
-    },
-    background: {
-      default: '#FFFFFF',
+      main: type === 'light' ? '#4200FF' : lightBlue[500],
     },
   },
   shape: {
