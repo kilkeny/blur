@@ -34,8 +34,8 @@ export const INTERNAL_API_HOST = '';
 export class HTTP {
   basePath: string = BASE_URL;
 
-  constructor(path = '') {
-    this.basePath += path;
+  constructor(path = '', basePath = BASE_URL) {
+    this.basePath = basePath + path;
   }
 
   get<Req, Res>(

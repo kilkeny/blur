@@ -3,10 +3,10 @@ import { BASE_URL, METHOD } from 'client/core/api/api.consts';
 import fetch from 'node-fetch';
 
 export class ServerHTTP {
-  basePath: string = BASE_URL;
+  basePath: string;
 
-  constructor(path = '') {
-    this.basePath += path;
+  constructor(path = '', basePath = BASE_URL) {
+    this.basePath = basePath + path;
   }
 
   get<Req, Res>(
@@ -63,7 +63,7 @@ export class ServerHTTP {
       };
     }
 
-    const { method, data, responseFormat = 'json' } = options;
+    const { method, data } = options;
     const basePath = `${this.basePath}${url}`;
     const path = method === METHOD.GET
       ? `${basePath}${queryStringify(data)}`
@@ -73,12 +73,12 @@ export class ServerHTTP {
       method,
       body: serializeBody(method, data),
       headers: serializeHeader(options),
-    }).then((response) => {
+    }).then((response: any) => {
       if (!response.ok) {
         return Promise.reject(response);
       }
 
-      return response[responseFormat]();
+      return response;
     });
   }
 }

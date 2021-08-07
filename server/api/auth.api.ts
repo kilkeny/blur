@@ -1,4 +1,4 @@
-import { ProfileProps, RespSigninProps, SigninProps, SignupProps } from 'client/core/api';
+import { SigninProps, SignupProps } from 'client/core/api';
 import { OptionsWithoutMethodType } from 'client/core/api/api';
 import { BaseAPI } from 'client/core/api/base.api';
 import { ServerHTTP } from './api';
@@ -7,18 +7,18 @@ const ServerAuthAPIInstance = new ServerHTTP('/auth');
 
 export class ServerAuthAPI extends BaseAPI {
   static signin(data: SigninProps) {
-    return ServerAuthAPIInstance.post<SigninProps, string>('/signin', { data, responseFormat: 'text' });
+    return ServerAuthAPIInstance.post<SigninProps, any>('/signin', { data, responseFormat: 'text' });
   }
 
   static signup(data: SignupProps) {
-    return ServerAuthAPIInstance.post<SignupProps, RespSigninProps>('/signup', { data });
+    return ServerAuthAPIInstance.post<SignupProps, any>('/signup', { data });
   }
 
-  static logout() {
-    return ServerAuthAPIInstance.post('/logout', { responseFormat: 'text' });
+  static logout(options: OptionsWithoutMethodType) {
+    return ServerAuthAPIInstance.post<null, any>('/logout', { responseFormat: 'text', ...options });
   }
 
   static profile(options: OptionsWithoutMethodType) {
-    return ServerAuthAPIInstance.get<null, ProfileProps>('/user', { ...options });
+    return ServerAuthAPIInstance.get<null, any>('/user', { ...options });
   }
 }

@@ -1,7 +1,7 @@
 import { BaseAPI } from './base.api';
 import { HTTP } from './api';
 
-const AuthAPIInstance = new HTTP('/auth');
+const AuthAPIInstance = new HTTP('/auth', '/api/v2');
 
 export type SigninProps = {
   login: string;
@@ -10,6 +10,7 @@ export type SigninProps = {
 
 export type SignupProps = {
   first_name: string;
+  display_name: string;
   second_name: string;
   login: string;
   email: string;
