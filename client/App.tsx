@@ -11,6 +11,7 @@ import { globalThemeOverride } from './globalThemeOverride';
 export const App: FC = memo(() => {
   const snackBar = useSelector(snackbarSelector);
   const { type } = useSelector(themeSelector);
+
   React.useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles?.parentElement) {
