@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { SizeProps } from '@core/hooks';
+import { hexToRgb } from 'client/utils/hexToRgb';
 import { DrawCanvasProps } from '../Canvas.types';
 import { CONFIG } from '../Canvas.consts';
 import { Point } from './Point';
@@ -29,7 +30,7 @@ export class Ball implements BallParams {
 
   deltaRadius: number;
 
-  constructor (position: Point, kt: number, color: string) {
+  constructor(position: Point, kt: number, color: string) {
     const { speed, radius, length, deltaRadius } = CONFIG.BALL;
     this.position = position;
     const start = new Point(0, 0);
@@ -42,7 +43,7 @@ export class Ball implements BallParams {
     this.blur = [];
   }
 
-  move (size: SizeProps) {
+  move(size: SizeProps) {
     const { width, height } = size;
     if (this.left() < 0 || this.right() > width) {
       this.speed = this.speed.reflectionX();
@@ -58,7 +59,7 @@ export class Ball implements BallParams {
     this.blur.push(this.position);
   }
 
-  reflection (border: Vector) {
+  reflection(border: Vector) {
     const normal = border.getNormal();
     const nextStep = new Vector(this.position, this.getNextStep());
 
@@ -73,35 +74,35 @@ export class Ball implements BallParams {
     this.radius -= this.deltaRadius;
   }
 
-  getNextStep () {
+  getNextStep() {
     const x = this.position.x + this.speed.x;
     const y = this.position.y + this.speed.y;
     return new Point(x, y);
   }
 
-  setNewPosition (position: Point) {
+  setNewPosition(position: Point) {
     const { x } = position;
     const { y } = position;
     this.position = new Point(x, y);
   }
 
-  left () {
+  left() {
     return this.position.x - this.radius;
   }
 
-  right () {
+  right() {
     return this.position.x + this.radius;
   }
 
-  top () {
+  top() {
     return this.position.y - this.radius;
   }
 
-  bottom () {
+  bottom() {
     return this.position.y + this.radius;
   }
 
-  drawNormal (ctx: CanvasRenderingContext2D) {
+  drawNormal(ctx: CanvasRenderingContext2D) {
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(this.position.x, this.position.y);
@@ -116,22 +117,23 @@ export class Ball implements BallParams {
     ctx.restore();
   }
 
-  draw (options: DrawCanvasProps) {
+  draw(options: DrawCanvasProps) {
     const { ctx } = options;
 
-    const color = { red: 34, green: 123, blue: 255 };
-    this.blur.forEach((pos, index) => {
-      ctx.beginPath();
-      ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${color.red}, ${color.green}, ${
-        color.blue
-      }, ${(1 / this.length) * index})`;
-      ctx.fill();
-      ctx.closePath();
-    });
+    const color = hexToRgb(this.color);
+    if (color) {
+      this.blur.forEach((pos, index) => {
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, this.radius * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b
+        }, ${(1 / this.length) * index})`;
+        ctx.fill();
+        ctx.closePath();
+      });
+    }
   }
 
-  render (options: DrawCanvasProps) {
+  render(options: DrawCanvasProps) {
     if (this.radius > 0) {
       this.draw(options);
     }
