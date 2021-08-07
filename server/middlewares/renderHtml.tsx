@@ -1,3 +1,4 @@
+import { ServerStyleSheets } from '@material-ui/core';
 import { App } from 'client/App';
 import { StoreProps } from 'client/core/store';
 import React from 'react';
@@ -12,9 +13,10 @@ interface PageHtmlProps {
   html: string;
   state: StoreProps;
   helmet: HelmetData;
+  css: string;
 }
 
-function getPageHtml({ html, state, helmet }: PageHtmlProps) {
+function getPageHtml({ html, state, helmet, css }: PageHtmlProps) {
   const staticMarkup = renderToStaticMarkup(
     <html lang="ru">
       <base href="/" />
@@ -23,20 +25,20 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
         {helmet.meta.toComponent()}
         {helmet.link.toComponent()}
         {helmet.script.toComponent()}
+        <style id="jss-server-side">${css}</style>
       </head>
 
       <body>
         <div id="root" dangerouslySetInnerHTML={{ __html: html }} />
         <script
           dangerouslySetInnerHTML={{
-                __html: `window.__INITIAL_STATE__ = ${JSON.stringify(
-                    state,
-                )}`,
-            }}
+                        __html: `window.__INITIAL_STATE__ = ${JSON.stringify(
+                            state,
+                        )}`,
+                    }}
         />
         <script src={`/${STATIC_DIR}/main.js`} />
         <script src="/start_sw.js" />
-
       </body>
     </html>,
   );
@@ -45,17 +47,23 @@ function getPageHtml({ html, state, helmet }: PageHtmlProps) {
 }
 
 export const renderHtml = (reqUrl: string, state: StoreProps, store: Store) => {
+  const sheets = new ServerStyleSheets();
+
   const html = renderToString(
-    <ReduxProvider store={store}>
-      <StaticRouter context={{}} location={reqUrl}>
-        <App />
-      </StaticRouter>
-    </ReduxProvider>,
+    sheets.collect(
+      <ReduxProvider store={store}>
+        <StaticRouter context={{}} location={reqUrl}>
+          <App />
+        </StaticRouter>
+      </ReduxProvider>,
+    ),
   );
+
+  const css = sheets.toString();
 
   const helmet = Helmet.rewind();
 
   return {
-    html: getPageHtml({ html, state, helmet }),
+    html: getPageHtml({ html, state, helmet, css }),
   };
 };

@@ -10,6 +10,7 @@ import { profileReducer } from './reducers/profile.reducer';
 import { leaderboardReducer } from './reducers/leaderboard.reducer';
 import { notificationReducer } from './reducers/notification.reducer';
 import { oauthReducer } from './reducers/oauth.reducer';
+import { initialStateTheme, themeReducer } from './reducers/theme.reducer';
 
 export const isServer = !(
   typeof window !== 'undefined'
@@ -36,6 +37,7 @@ export const rootReducer = combineReducers({
   snackbar: snackbarReducer,
   oauth: oauthReducer,
   notification: notificationReducer,
+  theme: themeReducer,
 });
 
 export const defaultState = {
@@ -45,6 +47,7 @@ export const defaultState = {
   notification: { notificationsAllowed: false },
   auth: { isAuth: false },
   oauth: { callbackURL: 'http://localhost:8000' },
+  theme: initialStateTheme,
 } as StoreProps;
 
 export const composeStore = (initialState: {}) => createStore(

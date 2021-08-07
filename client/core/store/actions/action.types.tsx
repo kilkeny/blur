@@ -8,6 +8,10 @@ export enum AUTH {
   CLEAR = 'AUTH/CLEAR',
 }
 
+export enum THEME {
+  CHANGE_TYPE = 'THEME/CHANGE_TYPE',
+}
+
 export enum PROFILE {
   SET = 'PROFILE/SET',
   CLEAR = 'PROFILE/CLEAR',
