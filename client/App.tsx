@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -12,7 +12,7 @@ export const App: FC = memo(() => {
   const snackBar = useSelector(snackbarSelector);
   const { type } = useSelector(themeSelector);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles?.parentElement) {
       jssStyles.parentElement.removeChild(jssStyles);

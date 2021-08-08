@@ -1,7 +1,6 @@
 import express, { Express } from 'express';
 import path from 'path';
 import { AuthController, ProfileController, ThemeController } from 'server/controllers';
-import { checkAuth } from '../middlewares/checkAuth';
 import { BUILD_DIR } from '../../env';
 
 export function routing(app: Express) {
@@ -18,7 +17,7 @@ export function routing(app: Express) {
 
   app.put('/api/v2/user/profile', jsonParser, ProfileController.change);
 
-  app.put('/api/v2/theme', checkAuth, jsonParser, ThemeController.change);
+  app.put('/api/v2/theme', jsonParser, ThemeController.change);
 
   app.get('*', (req, res) => {
     res.renderBundle(req.url);

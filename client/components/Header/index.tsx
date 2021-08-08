@@ -4,15 +4,16 @@ import { Logo } from '@components/Logo';
 import { ROUTES } from '@components/Routing/Routing.data';
 import { LinkComponent } from '@components/LinkComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { themeSelector } from 'client/core/store';
+import { authSelector, themeSelector } from 'client/core/store';
 import { changeTypeThemeThunk } from 'client/core/store/actions/theme.actions';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
 
 export const Header: FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const { type } = useSelector(themeSelector);
+  const { isAuth } = useSelector(authSelector);
 
   const routes = [
     ROUTES.game,
@@ -41,13 +42,13 @@ export const Header: FC = () => {
       <Typography color="primary" variant="h6">
         blur
       </Typography>
-      <Box width="25%" display="flex" justifyContent="space-between">
-        {links}
+      <Box width={isAuth ? '25%' : ''} display="flex" justifyContent="space-between">
+        {isAuth ? links : null}
         <IconButton onClick={handleChangeTypeTheme} size="small">
-          {type === 'dark' ? (
-            <Brightness4Icon fontSize="inherit" />
+          {type === 'light' ? (
+            <Brightness2Icon fontSize="inherit" />
                     ) : (
-                      <Brightness7Icon fontSize="inherit" />
+                      <WbSunnyIcon fontSize="inherit" />
                     )}
         </IconButton>
       </Box>
