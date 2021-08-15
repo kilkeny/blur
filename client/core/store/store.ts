@@ -11,6 +11,7 @@ import { leaderboardReducer } from './reducers/leaderboard.reducer';
 import { notificationReducer } from './reducers/notification.reducer';
 import { oauthReducer } from './reducers/oauth.reducer';
 import { initialStateTheme, themeReducer } from './reducers/theme.reducer';
+import { forumReducer } from './reducers/forum.reducer';
 
 export const isServer = !(
   typeof window !== 'undefined'
@@ -38,6 +39,7 @@ export const rootReducer = combineReducers({
   oauth: oauthReducer,
   notification: notificationReducer,
   theme: themeReducer,
+  forum: forumReducer,
 });
 
 export const defaultState = {

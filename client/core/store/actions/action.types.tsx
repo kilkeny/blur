@@ -37,3 +37,7 @@ export enum OAUTH {
 export enum NOTIFICATION {
   ALLOWED = 'NOTIFICATION/ALLOWED',
 }
+
+export enum FORUM {
+  CREATE_TOPIC = 'FORUM/CREATE_TOPIC',
+}

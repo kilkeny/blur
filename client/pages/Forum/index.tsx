@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { allowNotifications } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
+import { createTopicThunk } from 'client/core/store/actions/forum.actions';
 import { topicData } from './forum.mock';
 
 export const WrapperForum: FC = memo(() => {
@@ -36,8 +37,8 @@ export const WrapperForum: FC = memo(() => {
       date,
       answers: 10,
     };
-
     setTopics([...topics, newCard]);
+    dispatch(createTopicThunk(newCard));
     reset();
     setShowForm(false);
   };
