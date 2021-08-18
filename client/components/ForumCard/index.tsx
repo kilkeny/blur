@@ -6,14 +6,14 @@ interface ForumCardProps {
   id: string;
   date: string;
   title: string;
-  text: string;
+  content: string;
   author: string;
   answers: number;
   handleDelete: any;
 }
 
 export const ForumCard: FC<ForumCardProps> = memo((
-  { date, title, text, author, answers, id, handleDelete },
+  { date, title, content, author, answers, id, handleDelete },
 ) => {
   const history = useHistory();
   const handleClick = () => {
@@ -26,7 +26,7 @@ export const ForumCard: FC<ForumCardProps> = memo((
         <Typography variant="body1">{date}</Typography>
         <Box my="33px" height="118px">
           <Typography variant="h6">{title}</Typography>
-          <Typography variant="body1">{text}</Typography>
+          <Typography variant="body1">{content}</Typography>
         </Box>
         <Typography variant="body1">created by {author}</Typography>
         <Typography variant="body1">{answers} answers</Typography>

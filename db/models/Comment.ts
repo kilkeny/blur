@@ -17,7 +17,7 @@ export class Comment extends Model {
   @AllowNull(false)
   @ForeignKey(() => Topic)
   @Column(DataType.INTEGER)
-  topicId!: number;
+  id!: number;
 
   @BelongsTo(() => Topic)
   topic!: Topic;
@@ -31,5 +31,5 @@ export class Comment extends Model {
   author!: string;
 
   @CreatedAt
-  creationDate!: Date;
+  creation!: Date;
 }

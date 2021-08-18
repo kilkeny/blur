@@ -26,8 +26,17 @@ export interface RulesObj {
   valueAsNumber?: boolean;
 }
 
-export type NameInput = 'login' | 'password' | 'first_name' | 'second_name' | 'email' | 'phone' | 'title' | 'text' | 'display_name';
-export type ProfileNames = Exclude<NameInput, 'title' | 'text'>;
+export type NameInput = 'login'
+| 'password'
+| 'first_name'
+| 'second_name'
+| 'email'
+| 'phone'
+| 'title'
+| 'content'
+| 'display_name';
+
+export type ProfileNames = Exclude<NameInput, 'title' | 'content'>;
 
 export type MetaInput = { name: NameInput;
   label: string;

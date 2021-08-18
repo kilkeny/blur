@@ -9,7 +9,7 @@ import { topicData } from '../Forum/forum.mock';
 export const WrapperDiscussion: FC = memo(() => {
   const { id } = useParams<{ id: string }>();
   const mockTopic = topicData.find((topic) => topic.id === id);
-  const { date, title, text, author } = mockTopic || topicData[0];
+  const { date, title, content, author } = mockTopic || topicData[0];
 
   return (
     <>
@@ -18,7 +18,7 @@ export const WrapperDiscussion: FC = memo(() => {
           <Typography variant="body1">{date}</Typography>
           <Box my="33px" height="118px">
             <Typography variant="h6">{title}</Typography>
-            <Typography variant="body1">{text}</Typography>
+            <Typography variant="body1">{content}</Typography>
           </Box>
           <Typography variant="body1">created by {author}</Typography>
         </Box>

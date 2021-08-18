@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { Topic } from '../../db/models/tables';
+import { Topic } from '../../db/models/Topic';
 
 export class ForumController {
   public static getTopics(req: Request, res: Response) {
@@ -10,21 +10,24 @@ export class ForumController {
         res.send(data);
       })
       .catch((error) => {
-        res.status(error.status).send(error.statusText);
+        console.log(error);
       });
   }
 
   public static createTopic(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
+    const { title, content, author } = req.body;
+
     const topic = {
-      title: req.body.title,
-      text: req.body.text,
-      author: req.body.author,
+      title,
+      content,
+      author,
     };
 
     Topic.create(topic)
       .then((data) => {
+        console.log(data);
         res.send(data);
       })
       .catch((error) => {

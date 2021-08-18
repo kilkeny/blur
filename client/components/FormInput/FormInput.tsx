@@ -31,7 +31,7 @@ export const FormInput: FC<FormInputProps> = ({
         <TextField
           className={className}
           label={label}
-          multiline={inputName === 'text'}
+          multiline={inputName === 'content'}
           type={type}
           value={value || ''}
           helperText={error?.message}

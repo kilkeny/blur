@@ -5,7 +5,7 @@ const ForumAPIInstance = new HTTP('/forum', '/api/v2');
 
 export type CreateTopicProps = {
   title: string;
-  text: string;
+  content: string;
   author: string;
 };
 
@@ -15,7 +15,7 @@ export type DeleteTopicProps = {
 
 export class ForumAPI extends BaseAPI {
   static getTopics() {
-    return ForumAPIInstance.get('/topics');
+    return ForumAPIInstance.get('/all');
   }
 
   static createTopic(data: CreateTopicProps) {

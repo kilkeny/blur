@@ -19,7 +19,9 @@ export function routing(app: Express) {
 
   app.put('/api/v2/theme', jsonParser, ThemeController.change);
 
+  app.get('/api/v2/forum/all', jsonParser, ForumController.getTopics);
   app.post('/api/v2/forum/new', jsonParser, ForumController.createTopic);
+  app.delete('/api/v2/forum/delete', jsonParser, ForumController.deleteTopic);
 
   app.get('*', (req, res) => {
     res.renderBundle(req.url);

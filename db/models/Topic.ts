@@ -13,7 +13,12 @@ import {
 
 import { Comment } from './Comment';
 
-@Table
+@Table({
+  freezeTableName: true,
+  tableName: 'topic',
+  timestamps: true,
+  updatedAt: false,
+})
 export class Topic extends Model {
   @AutoIncrement
   @PrimaryKey
@@ -26,7 +31,7 @@ export class Topic extends Model {
 
   @AllowNull(false)
   @Column(DataType.STRING(500))
-  text!: string;
+  content!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(20))
@@ -36,5 +41,5 @@ export class Topic extends Model {
   comments!: Comment[];
 
   @CreatedAt
-  creationDate!: Date;
+  created?: Date;
 }

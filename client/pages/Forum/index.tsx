@@ -7,7 +7,8 @@ import { useDispatch } from 'react-redux';
 import { allowNotifications } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
-import { createTopicThunk } from 'client/core/store/actions/forum.actions';
+// import { createTopicThunk } from 'client/core/store/actions/forum.actions';
+import { ForumAPI } from 'client/core/api';
 import { topicData } from './forum.mock';
 
 export const WrapperForum: FC = memo(() => {
@@ -17,7 +18,7 @@ export const WrapperForum: FC = memo(() => {
   const [topics, setTopics] = useState(topicData);
 
   const { handleSubmit, control, reset } = useForm();
-  const inputNames: NameInput[] = ['title', 'text'];
+  const inputNames: NameInput[] = ['title', 'content'];
 
   const inputControl = inputNames.map((inputName) => (
     <FormInput
@@ -27,18 +28,19 @@ export const WrapperForum: FC = memo(() => {
     />
   ));
 
-  const onSubmit = ({ title, text }: { [key: string]: string }) => {
-    const date = new Date().toLocaleDateString('en-gb');
-    const newCard = {
-      id: Date.now().toString(),
-      title,
-      text,
-      author: 'username',
-      date,
-      answers: 10,
-    };
-    setTopics([...topics, newCard]);
-    dispatch(createTopicThunk(newCard));
+  const onSubmit = async ({ title, content }: { [key: string]: string }) => {
+    await ForumAPI.getTopics();
+    console.log(title, content);
+    // const newCard = {
+    //   id: Date.now().toString(),
+    //   title,
+    //   content,
+    //   author: 'username',
+    //   date,
+    //   answers: 10,
+    // };
+    // setTopics([...topics, newCard]);
+    // dispatch(createTopicThunk(newCard));
     reset();
     setShowForm(false);
   };

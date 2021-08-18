@@ -4,7 +4,7 @@ export const topicData = [
     title: 'lorem ipsum',
     date: '07/08/2021',
     author: 'username',
-    text: 'lorem ipsum',
+    content: 'lorem ipsum',
     answers: 10,
   },
 ];
