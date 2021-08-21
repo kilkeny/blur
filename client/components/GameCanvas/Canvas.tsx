@@ -1,7 +1,7 @@
 import { useTheme } from '@material-ui/core';
 import { SizeProps } from 'client/core';
 import { ColorVariant } from 'client/pages/Game/components/ColorBall';
-import React, { memo, FC, useRef, useEffect, useState, useMemo } from 'react';
+import React, { memo, FC, useRef, useEffect, useMemo, useState } from 'react';
 import { Point } from './utils';
 
 export type CanvasProps = {
@@ -11,10 +11,16 @@ export type CanvasProps = {
   id?: string;
 };
 
+function fib(n:number): any {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+}
+
 export const Canvas: FC<CanvasProps> = memo(
   ({ handleGameOver, variant, size, id }: CanvasProps) => {
     const theme = useTheme();
 
+    const [state, setState] = useState(20);
     const ref = useRef<HTMLCanvasElement>(null);
     const [controller, setController] = useState<Point[][]>([]);
     const [isDraw, setIsDraw] = useState(false);
@@ -98,15 +104,22 @@ export const Canvas: FC<CanvasProps> = memo(
       setController([...controller, []]);
     };
 
+    setInterval(() => {
+      setState(state + 1);
+    }, 10);
+
     return (
-      <canvas
-        ref={ref}
-        {...size}
-        onDoubleClick={handleSetFullScreen}
-        onMouseDown={handleStartBarrier}
-        onMouseUp={handleEndBarrier}
-        onMouseMove={handleDrawBarrier}
-      />
+      <>
+        <span style={{ position: 'absolute' }}>{fib(state)}</span>
+        <canvas
+          ref={ref}
+          {...size}
+          onDoubleClick={handleSetFullScreen}
+          onMouseDown={handleStartBarrier}
+          onMouseUp={handleEndBarrier}
+          onMouseMove={handleDrawBarrier}
+        />
+      </>
     );
   },
 );
