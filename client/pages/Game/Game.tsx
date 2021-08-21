@@ -38,7 +38,7 @@ export const WrapperGame: FC = memo(() => {
   const [variant, setVariant] = useState<ColorVariant>('primary');
   const [score, setScore] = useState(0);
 
-  const [status, setStatus] = useState<TypeStatusGame>('finish');
+  const [status, setStatus] = useState<TypeStatusGame>('start');
 
   const dispatch = useDispatch();
   const { login, avatar } = useSelector(profileSelector);

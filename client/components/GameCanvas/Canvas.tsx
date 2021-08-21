@@ -12,12 +12,13 @@ export type CanvasProps = {
 };
 
 export const Canvas: FC<CanvasProps> = memo(
-  ({ handleGameOver, variant, size }: CanvasProps) => {
+  ({ handleGameOver, variant, size, id }: CanvasProps) => {
     const theme = useTheme();
 
     const ref = useRef<HTMLCanvasElement>(null);
     const [controller, setController] = useState<Point[][]>([]);
     const [isDraw, setIsDraw] = useState(false);
+
     const newWorker = useMemo(() => new Worker(new URL('worker.ts', import.meta.url)), []);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ export const Canvas: FC<CanvasProps> = memo(
         newWorker.postMessage({
           event: 'createPointer',
           color: theme.palette[variant].main,
+          id,
         });
         newWorker.postMessage({ event: 'start' });
       }

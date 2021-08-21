@@ -1,12 +1,12 @@
-import { v4 as uuid } from 'uuid';
+import { SizeProps } from 'client/core';
 import { GamePainter } from './Canvas.draw';
 import { Point } from './utils';
 
+const size: SizeProps = { width: 0, height: 0 };
 let canvas: OffscreenCanvas | null = null;
-let width = 0;
-let height = 0;
 let pointer: GamePainter | undefined;
-let intervalLoop: any;
+
+let intervalLoop: NodeJS.Timer | undefined;
 let controller: Point[][] = [];
 
 const stop = (result: number) => {
@@ -22,7 +22,6 @@ const start = () => {
     clearInterval(intervalLoop);
   }
   intervalLoop = undefined;
-  console.log('start', pointer);
   intervalLoop = setInterval(() => {
     if (canvas && pointer) {
       const ctx = canvas.getContext('2d');
@@ -34,9 +33,9 @@ const start = () => {
 };
 onmessage = (event) => {
   if (event.data.event === 'createPointer') {
-    const { color } = event.data;
+    const { color, id } = event.data;
 
-    pointer = new GamePainter({ width, height }, uuid(), color);
+    pointer = new GamePainter(size, id, color);
   }
   if (event.data.event === 'start' && pointer) {
     start();
@@ -49,9 +48,7 @@ onmessage = (event) => {
 
   if (event.data?.canvas) {
     canvas = event.data.canvas as OffscreenCanvas;
-    width = canvas.width;
-    height = canvas.height;
+    size.width = canvas.width;
+    size.height = canvas.height;
   }
-
-  console.log(event.data);
 };
