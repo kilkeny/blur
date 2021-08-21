@@ -1,9 +1,8 @@
 /* eslint-disable import/no-cycle */
 import {
   AllowNull,
-  BelongsTo,
+  AutoIncrement,
   Column,
-  CreatedAt,
   DataType,
   ForeignKey,
   Model,
@@ -12,15 +11,19 @@ import {
 
 import { Topic } from './Topic';
 
-@Table
+@Table({
+  freezeTableName: true,
+  tableName: 'comment',
+  timestamps: false,
+})
 export class Comment extends Model {
-  @AllowNull(false)
   @ForeignKey(() => Topic)
   @Column(DataType.INTEGER)
   id!: number;
 
-  @BelongsTo(() => Topic)
-  topic!: Topic;
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  comment_id!: number;
 
   @AllowNull(false)
   @Column(DataType.STRING(100))
@@ -30,6 +33,7 @@ export class Comment extends Model {
   @Column(DataType.STRING(20))
   author!: string;
 
-  @CreatedAt
-  creation!: Date;
+  @AllowNull(false)
+  @Column(DataType.STRING(25))
+  created!: string;
 }

@@ -33,4 +33,13 @@ export type NotificationProps = {
   notificationsAllowed: boolean;
 };
 
-export type ForumProps = any;
+export type TopicType = {
+  id: number,
+  title: string,
+  content: string,
+  author: string,
+  created: string,
+  comments: [],
+};
+
+export type ForumProps = TopicType[];

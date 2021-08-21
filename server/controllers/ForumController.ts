@@ -17,17 +17,18 @@ export class ForumController {
   public static createTopic(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
-    const { title, content, author } = req.body;
+    const { title, content, author, comments, created } = req.body;
 
     const topic = {
       title,
       content,
       author,
+      comments,
+      created,
     };
 
     Topic.create(topic)
       .then((data) => {
-        console.log(data);
         res.send(data);
       })
       .catch((error) => {
@@ -37,8 +38,7 @@ export class ForumController {
 
   public static deleteTopic(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
-
-    const { id } = req.params;
+    const { id } = req.body;
 
     Topic.destroy({
       where: { id },

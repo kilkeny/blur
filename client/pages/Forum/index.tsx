@@ -1,21 +1,21 @@
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useState, useMemo } from 'react';
 import { Button, Box, Paper } from '@material-ui/core';
 import { PageHeader } from '@components/PageHeader';
 import { ForumCard } from '@components/ForumCard';
 import { withAuth } from '@core/HOKs/withAuth';
-import { useDispatch } from 'react-redux';
-import { allowNotifications } from '@core/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { allowNotifications, ForumProps, forumSelector, profileSelector } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
-// import { createTopicThunk } from 'client/core/store/actions/forum.actions';
-import { ForumAPI } from 'client/core/api';
-import { topicData } from './forum.mock';
+import { createTopicThunk, getTopicsThunk } from 'client/core/store/actions/forum.actions';
 
 export const WrapperForum: FC = memo(() => {
   const dispatch = useDispatch();
 
+  const forum = useSelector(forumSelector);
+  const { login } = useSelector(profileSelector);
+
   const [showForm, setShowForm] = useState(false);
-  const [topics, setTopics] = useState(topicData);
 
   const { handleSubmit, control, reset } = useForm();
   const inputNames: NameInput[] = ['title', 'content'];
@@ -28,34 +28,10 @@ export const WrapperForum: FC = memo(() => {
     />
   ));
 
-  const onSubmit = async ({ title, content }: { [key: string]: string }) => {
-    await ForumAPI.getTopics();
-    console.log(title, content);
-    // const newCard = {
-    //   id: Date.now().toString(),
-    //   title,
-    //   content,
-    //   author: 'username',
-    //   date,
-    //   answers: 10,
-    // };
-    // setTopics([...topics, newCard]);
-    // dispatch(createTopicThunk(newCard));
-    reset();
-    setShowForm(false);
-  };
-
-  const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget as HTMLElement;
-    const targetId = target.dataset.id;
-    const filteredTopics = topics.filter((el) => el.id !== targetId);
-    setTopics(filteredTopics);
-    e.stopPropagation();
-  };
-
   useEffect(() => {
-    Notification.requestPermission();
+    dispatch(getTopicsThunk());
 
+    Notification.requestPermission();
     if (Notification.permission === 'granted') {
       dispatch(allowNotifications());
       // eslint-disable-next-line
@@ -68,6 +44,32 @@ export const WrapperForum: FC = memo(() => {
       );
     }
   }, []);
+
+  const onSubmit = ({ title, content }: { [key: string]: string }) => {
+    const created = new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' });
+    const data = {
+      title,
+      content,
+      author: login,
+      comments: [],
+      created,
+    };
+    dispatch(createTopicThunk(data));
+    reset();
+    setShowForm(false);
+  };
+
+  const topicCards = useMemo(() => {
+    const topics = Object.values(forum) as ForumProps;
+    return topics.map((topic) => (
+      <Box mb="60px" key={topic.id}>
+        <ForumCard
+          key={topic.id}
+          {...topic}
+        />
+      </Box>
+    ));
+  }, [forum]);
 
   return (
     <>
@@ -98,14 +100,7 @@ export const WrapperForum: FC = memo(() => {
         )}
       </PageHeader>
       <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-        {topics.map((topic) => (
-          <Box mb="60px" key={topic.id}>
-            <ForumCard
-              {...topic}
-              handleDelete={handleDelete}
-            />
-          </Box>
-        ))}
+        {topicCards}
       </Box>
     </>
   );

@@ -3,7 +3,6 @@ import {
   AllowNull,
   AutoIncrement,
   Column,
-  CreatedAt,
   DataType,
   HasMany,
   Model,
@@ -16,8 +15,7 @@ import { Comment } from './Comment';
 @Table({
   freezeTableName: true,
   tableName: 'topic',
-  timestamps: true,
-  updatedAt: false,
+  timestamps: false,
 })
 export class Topic extends Model {
   @AutoIncrement
@@ -40,6 +38,7 @@ export class Topic extends Model {
   @HasMany(() => Comment)
   comments!: Comment[];
 
-  @CreatedAt
-  created?: Date;
+  @AllowNull(false)
+  @Column(DataType.STRING(25))
+  created!: string;
 }
