@@ -29,7 +29,6 @@ export class GamePainter {
 
   constructor(size: SizeProps, id: string, color: string) {
     this.drawCanvas = this.drawCanvas.bind(this);
-
     this.id = id;
     this.size = size;
     const { width, height } = this.size;
@@ -130,7 +129,6 @@ export class GamePainter {
   drawCanvas(options: DrawCanvasProps, handleGameOver: Function) {
     const { ctx, resources, controller } = options;
     const { width, height } = this.size;
-    if (!resources) return;
 
     this.clearCanvas(ctx);
     if (resources) {

@@ -1,53 +1,57 @@
+import { v4 as uuid } from 'uuid';
 import { GamePainter } from './Canvas.draw';
+import { Point } from './utils';
 
-let obj = 1;
 let canvas: OffscreenCanvas | null = null;
 let width = 0;
 let height = 0;
-let pointer: GamePainter | null = null;
+let pointer: GamePainter | undefined;
 let intervalLoop: any;
+let controller: Point[][] = [];
 
-const stop = () => {
-  clearInterval(intervalLoop);
+const stop = (result: number) => {
   intervalLoop = undefined;
+  pointer = undefined;
+
+  // @ts-ignore
+  postMessage({ event: 'end', result });
 };
 
 const start = () => {
+  if (intervalLoop) {
+    clearInterval(intervalLoop);
+  }
+  intervalLoop = undefined;
+  console.log('start', pointer);
   intervalLoop = setInterval(() => {
     if (canvas && pointer) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        pointer.drawCanvas({ ctx, controller: [] }, () => stop());
+        pointer.drawCanvas({ ctx, controller }, (result: number) => stop(result));
       }
     }
-  }, 15);
+  }, 16);
 };
+onmessage = (event) => {
+  if (event.data.event === 'createPointer') {
+    const { color } = event.data;
 
-onmessage = function (evt) {
-  console.log(evt);
-  if (evt.data.event === 'createPointer') {
-    pointer = new GamePainter({ width, height }, '100500', '#ff0000');
+    pointer = new GamePainter({ width, height }, uuid(), color);
   }
-  if (evt.data.event === 'start' && pointer) {
-    obj = 0;
-    console.log(intervalLoop);
-    if (intervalLoop === undefined) {
-      start();
-    }
-    // if (canvas) {
-    //     const ctx = canvas.getContext("2d");
-    //     if (ctx) {
-    //         pointer.draw(ctx, obj);
-    //     }
-    // }
+  if (event.data.event === 'start' && pointer) {
+    start();
   }
-  if (evt.data.event === 'stop' && pointer) {
-    stop();
+
+  if (event.data.event === 'controller') {
+    controller = event.data.controller;
+    start();
   }
-  if (evt.data?.canvas) {
-    canvas = evt.data.canvas as OffscreenCanvas;
+
+  if (event.data?.canvas) {
+    canvas = event.data.canvas as OffscreenCanvas;
     width = canvas.width;
     height = canvas.height;
   }
-  console.log(evt, obj);
+
+  console.log(event.data);
 };

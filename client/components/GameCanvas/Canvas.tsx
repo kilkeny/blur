@@ -1,52 +1,110 @@
-import React, { memo, FC, useRef, useEffect } from 'react';
-import { GamePainter } from './Canvas.draw';
+import { useTheme } from '@material-ui/core';
+import { SizeProps } from 'client/core';
+import { ColorVariant } from 'client/pages/Game/components/ColorBall';
+import React, { memo, FC, useRef, useEffect, useState, useMemo } from 'react';
+import { Point } from './utils';
 
 export type CanvasProps = {
-  draw: GamePainter;
   handleGameOver: Function;
+  variant: ColorVariant;
+  size: SizeProps;
+  id?: string;
 };
 
 export const Canvas: FC<CanvasProps> = memo(
-  ({ draw, handleGameOver }: CanvasProps) => {
-    const ref = useRef<HTMLCanvasElement>(null);
-    console.log(handleGameOver, draw);
-    const newWorker = new Worker(
-      new URL('worker.ts', import.meta.url),
-    );
+  ({ handleGameOver, variant, size }: CanvasProps) => {
+    const theme = useTheme();
 
-    const setCanvav = async () => {
+    const ref = useRef<HTMLCanvasElement>(null);
+    const [controller, setController] = useState<Point[][]>([]);
+    const [isDraw, setIsDraw] = useState(false);
+    const newWorker = useMemo(() => new Worker(new URL('worker.ts', import.meta.url)), []);
+
+    useEffect(() => {
       if (ref?.current) {
         const canvas = ref.current;
 
-        // const classInstance = await instance;
         const offset = canvas.transferControlToOffscreen();
         newWorker.postMessage({ canvas: offset }, [offset]);
-        newWorker.postMessage({ event: 'createPointer', color: 'red' });
+        newWorker.postMessage({
+          event: 'createPointer',
+          color: theme.palette[variant].main,
+        });
+        newWorker.postMessage({ event: 'start' });
+      }
+    }, []);
 
-        // transfer(offset, [offset]);
-        // console.log(classInstance);
+    newWorker.onmessage = (e) => {
+      const { data } = e;
+      if (data.event === 'end') {
+        newWorker.terminate();
+        handleGameOver(data.result);
+      }
+    };
+
+    const handleSetFullScreen = () => {
+      if (ref?.current) {
+        ref.current.requestFullscreen();
+      }
+    };
+
+    const getPoint = (e: MouseEvent) => {
+      if (ref.current) {
+        const canvas = ref.current;
+        if (canvas) {
+          const tempController = controller;
+          if (!tempController.length) {
+            tempController.push([]);
+          }
+          const line = tempController[tempController.length - 1];
+          let x = e.pageX - canvas?.offsetLeft;
+          let y = e.pageY - canvas?.offsetTop;
+          if (canvas.offsetTop === 0) {
+            const fullRatio = window.innerWidth / size.width;
+            const fullHeight = fullRatio * size.height;
+            y -= (window.innerHeight - fullHeight) / 2;
+            y /= fullRatio;
+            x /= fullRatio;
+          }
+          const point = new Point(x, y);
+          line.push(point);
+          setController(tempController);
+        }
       }
     };
 
     useEffect(() => {
-      setCanvav();
-    }, [ref.current]);
+      if (controller.length) {
+        newWorker.postMessage({ event: 'controller', controller });
+      }
+    }, [controller]);
 
-    const handleStop = () => newWorker.postMessage({ event: 'stop' });
+    const handleStartBarrier = (e: any) => {
+      getPoint(e);
+      setIsDraw(true);
+    };
 
-    const handleStart = () => newWorker.postMessage({ event: 'start' });
+    const handleDrawBarrier = (e: any) => {
+      if (isDraw) {
+        getPoint(e);
+      }
+    };
+
+    const handleEndBarrier = (e: any) => {
+      getPoint(e);
+      setIsDraw(false);
+      setController([...controller, []]);
+    };
 
     return (
-      <div>
-        <button type="button" onClick={handleStart}>
-          Start
-        </button>
-        <button type="button" onClick={handleStop}>
-          Stop
-        </button>
-
-        <canvas ref={ref} width={1440} height={1024} />
-      </div>
+      <canvas
+        ref={ref}
+        {...size}
+        onDoubleClick={handleSetFullScreen}
+        onMouseDown={handleStartBarrier}
+        onMouseUp={handleEndBarrier}
+        onMouseMove={handleDrawBarrier}
+      />
     );
   },
 );
