@@ -14,7 +14,8 @@ Blur — это игра-головоломка. Ваша задача помо�
 - https://www.figma.com/file/stKPjJpe6wJflnSMXGuj2y/Praktikum-Kilkenny-Blur-Game?node-id=7%3A2
 
 # deploy
-https://blur-app.herokuapp.com/
+`ya` - http://kilkeny-blur-6.ya-praktikum.tech/ | 178.154.220.143
+`heroku` -  https://blur-app.herokuapp.com/
 
 # SSR.
 Для запуска SSR в режиме dev требуется в двух терминалах запустить `ssr-start:server`, `ssr-start:webpack`
