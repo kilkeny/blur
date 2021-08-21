@@ -1,13 +1,5 @@
-import { makeStyles, Theme } from '@material-ui/core';
-import React, { memo, FC } from 'react';
+import React, { memo, FC, useRef, useEffect } from 'react';
 import { GamePainter } from './Canvas.draw';
-import { useCanvas } from './useCanvas';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    borderRadius: theme.shape.borderRadius,
-  },
-}));
 
 export type CanvasProps = {
   draw: GamePainter;
@@ -16,21 +8,45 @@ export type CanvasProps = {
 
 export const Canvas: FC<CanvasProps> = memo(
   ({ draw, handleGameOver }: CanvasProps) => {
-    const classes = useStyles();
-    const canvasRef = useCanvas(draw, handleGameOver);
+    const ref = useRef<HTMLCanvasElement>(null);
+    console.log(handleGameOver, draw);
+    const newWorker = new Worker(
+      new URL('worker.ts', import.meta.url),
+    );
 
-    const handleSetFullScreen = () => {
-      if (canvasRef?.current) {
-        canvasRef.current.requestFullscreen();
+    const setCanvav = async () => {
+      if (ref?.current) {
+        const canvas = ref.current;
+
+        // const classInstance = await instance;
+        const offset = canvas.transferControlToOffscreen();
+        newWorker.postMessage({ canvas: offset }, [offset]);
+        newWorker.postMessage({ event: 'createPointer', color: 'red' });
+
+        // transfer(offset, [offset]);
+        // console.log(classInstance);
       }
     };
 
+    useEffect(() => {
+      setCanvav();
+    }, [ref.current]);
+
+    const handleStop = () => newWorker.postMessage({ event: 'stop' });
+
+    const handleStart = () => newWorker.postMessage({ event: 'start' });
+
     return (
-      <canvas
-        ref={canvasRef}
-        className={classes.root}
-        onDoubleClick={handleSetFullScreen}
-      />
+      <div>
+        <button type="button" onClick={handleStart}>
+          Start
+        </button>
+        <button type="button" onClick={handleStop}>
+          Stop
+        </button>
+
+        <canvas ref={ref} width={1440} height={1024} />
+      </div>
     );
   },
 );

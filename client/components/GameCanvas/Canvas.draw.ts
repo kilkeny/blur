@@ -79,7 +79,7 @@ export class GamePainter {
     });
   }
 
-  clearCanvas(ctx: CanvasRenderingContext2D) {
+  clearCanvas(ctx: OffscreenCanvasRenderingContext2D) {
     const { width, height } = this.size;
     ctx.fillStyle = CONFIG.CANVAS.color;
     ctx.fillRect(0, 0, width, height);
