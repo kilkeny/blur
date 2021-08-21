@@ -27,6 +27,7 @@ export const WrapperDiscussion: FC = memo(() => {
       date: commentDate,
     };
 
+    // TODO: убрать когда появится бекенд
     console.log(newComment);
     reset();
   };
@@ -53,6 +54,7 @@ export const WrapperDiscussion: FC = memo(() => {
         <Box>
           {discussionData.answers.map((answer) => (
             <Message
+              key={answer.id}
               type={MessageEnum.Answer}
               text={answer.text}
               author={answer.author}
