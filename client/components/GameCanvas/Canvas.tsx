@@ -1,35 +1,111 @@
-import { makeStyles, Theme } from '@material-ui/core';
-import React, { memo, FC } from 'react';
-import { GamePainter } from './Canvas.draw';
-import { useCanvas } from './useCanvas';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    borderRadius: theme.shape.borderRadius,
-  },
-}));
+import { useTheme } from '@material-ui/core';
+import { SizeProps } from 'client/core';
+import { ColorVariant } from 'client/pages/Game/components/ColorBall';
+import React, { memo, FC, useRef, useEffect, useState, useMemo } from 'react';
+import { Point } from './utils';
 
 export type CanvasProps = {
-  draw: GamePainter;
   handleGameOver: Function;
+  variant: ColorVariant;
+  size: SizeProps;
+  id?: string;
 };
 
 export const Canvas: FC<CanvasProps> = memo(
-  ({ draw, handleGameOver }: CanvasProps) => {
-    const classes = useStyles();
-    const canvasRef = useCanvas(draw, handleGameOver);
+  ({ handleGameOver, variant, size, id }: CanvasProps) => {
+    const theme = useTheme();
+
+    const ref = useRef<HTMLCanvasElement>(null);
+    const [controller, setController] = useState<Point[][]>([]);
+    const [isDraw, setIsDraw] = useState(false);
+
+    const newWorker = useMemo(() => new Worker(new URL('worker.ts', import.meta.url)), []);
+
+    useEffect(() => {
+      if (ref?.current) {
+        const canvas = ref.current;
+
+        const offset = canvas.transferControlToOffscreen();
+        newWorker.postMessage({ canvas: offset }, [offset]);
+        newWorker.postMessage({
+          event: 'createPointer',
+          color: theme.palette[variant].main,
+          id,
+        });
+        newWorker.postMessage({ event: 'start' });
+      }
+    }, []);
+
+    newWorker.onmessage = (e) => {
+      const { data } = e;
+      if (data.event === 'end') {
+        newWorker.terminate();
+        handleGameOver(data.result);
+      }
+    };
 
     const handleSetFullScreen = () => {
-      if (canvasRef?.current) {
-        canvasRef.current.requestFullscreen();
+      if (ref?.current) {
+        ref.current.requestFullscreen();
       }
+    };
+
+    const getPoint = (e: MouseEvent) => {
+      if (ref.current) {
+        const canvas = ref.current;
+        if (canvas) {
+          const tempController = controller;
+          if (!tempController.length) {
+            tempController.push([]);
+          }
+          const line = tempController[tempController.length - 1];
+          let x = e.pageX - canvas?.offsetLeft;
+          let y = e.pageY - canvas?.offsetTop;
+          if (canvas.offsetTop === 0) {
+            const fullRatio = window.innerWidth / size.width;
+            const fullHeight = fullRatio * size.height;
+            y -= (window.innerHeight - fullHeight) / 2;
+            y /= fullRatio;
+            x /= fullRatio;
+          }
+          const point = new Point(x, y);
+          line.push(point);
+          setController(tempController);
+        }
+      }
+    };
+
+    useEffect(() => {
+      if (controller.length) {
+        newWorker.postMessage({ event: 'controller', controller });
+      }
+    }, [controller]);
+
+    const handleStartBarrier = (e: any) => {
+      getPoint(e);
+      setIsDraw(true);
+    };
+
+    const handleDrawBarrier = (e: any) => {
+      if (isDraw) {
+        getPoint(e);
+      }
+    };
+
+    const handleEndBarrier = (e: any) => {
+      getPoint(e);
+      setIsDraw(false);
+      setController([...controller, []]);
     };
 
     return (
       <canvas
-        ref={canvasRef}
-        className={classes.root}
+        ref={ref}
+        {...size}
         onDoubleClick={handleSetFullScreen}
+        onMouseDown={handleStartBarrier}
+        onMouseUp={handleEndBarrier}
+        onMouseMove={handleDrawBarrier}
       />
     );
   },

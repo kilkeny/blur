@@ -1,5 +1,5 @@
-import { Canvas, GamePainter } from '@components/GameCanvas';
-import { makeStyles, Paper, useTheme } from '@material-ui/core';
+import { Canvas } from '@components/GameCanvas';
+import { makeStyles, Paper } from '@material-ui/core';
 import React, {
   FC,
   memo,
@@ -10,12 +10,12 @@ import React, {
   useState,
 } from 'react';
 import { SizeProps, useSizeComponents } from '@core/index';
-import { v4 as uuid } from 'uuid';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileSelector } from '@core/store';
 import { addUserToLeaderboardThunk } from '@core/store/actions/leaderboard.actions';
 import { isServer } from 'client/core/store';
+import { v4 as uuid } from 'uuid';
 import { GameFinish, GameStart } from './components';
 import { ColorVariant } from './components/ColorBall';
 
@@ -32,19 +32,16 @@ type TypeStatusGame = 'game' | 'start' | 'finish';
 export const WrapperGame: FC = memo(() => {
   const ref = useRef(null);
   const size = useSizeComponents(ref);
-  const [oldSize, setOldSize] = useState<SizeProps | null>(null);
+  const [oldSize, setOldSize] = useState<SizeProps>({ width: 400, height: 400 });
 
   const classes = useStyles();
   const [variant, setVariant] = useState<ColorVariant>('primary');
   const [score, setScore] = useState(0);
-  const theme = useTheme();
 
   const [status, setStatus] = useState<TypeStatusGame>('start');
-  const [draw, setDraw] = useState<GamePainter | null>(null);
 
   const dispatch = useDispatch();
   const { login, avatar } = useSelector(profileSelector);
-  const createrDraw = () => new GamePainter(size, uuid(), theme.palette[variant].main);
 
   useEffect(() => {
     if (
@@ -53,13 +50,11 @@ export const WrapperGame: FC = memo(() => {
             || size.width !== oldSize?.width
     ) {
       setOldSize(size);
-      setDraw(createrDraw());
     }
   }, [size]);
 
   useEffect(() => {
     if (status !== 'finish') {
-      setDraw(createrDraw());
       setScore(0);
     }
   }, [status, variant]);
@@ -88,8 +83,9 @@ export const WrapperGame: FC = memo(() => {
   }, []);
 
   const controlGame = useMemo(() => {
-    if (status === 'game' && draw) {
-      return <Canvas {...{ handleGameOver, draw }} />;
+    console.log(status, score);
+    if (status === 'game') {
+      return <Canvas {...{ handleGameOver, variant }} size={oldSize} id={uuid()} />;
     }
     if (status === 'finish') {
       return <GameFinish {...{ score, variant, handleChangeStatus }} />;

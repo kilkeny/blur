@@ -40,7 +40,7 @@ export class Border implements BorderParams {
     return null;
   }
 
-  draw (ctx: CanvasRenderingContext2D) {
+  draw (ctx: OffscreenCanvasRenderingContext2D) {
     if (this.lines.length) {
       ctx.save();
       ctx.beginPath();
