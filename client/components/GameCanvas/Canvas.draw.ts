@@ -29,7 +29,6 @@ export class GamePainter {
 
   constructor(size: SizeProps, id: string, color: string) {
     this.drawCanvas = this.drawCanvas.bind(this);
-
     this.id = id;
     this.size = size;
     const { width, height } = this.size;
@@ -79,7 +78,7 @@ export class GamePainter {
     });
   }
 
-  clearCanvas(ctx: CanvasRenderingContext2D) {
+  clearCanvas(ctx: OffscreenCanvasRenderingContext2D) {
     const { width, height } = this.size;
     ctx.fillStyle = CONFIG.CANVAS.color;
     ctx.fillRect(0, 0, width, height);
@@ -130,7 +129,6 @@ export class GamePainter {
   drawCanvas(options: DrawCanvasProps, handleGameOver: Function) {
     const { ctx, resources, controller } = options;
     const { width, height } = this.size;
-    if (!resources) return;
 
     this.clearCanvas(ctx);
     if (resources) {

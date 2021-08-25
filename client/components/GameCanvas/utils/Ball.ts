@@ -102,7 +102,7 @@ export class Ball implements BallParams {
     return this.position.y + this.radius;
   }
 
-  drawNormal(ctx: CanvasRenderingContext2D) {
+  drawNormal(ctx: OffscreenCanvasRenderingContext2D) {
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(this.position.x, this.position.y);
