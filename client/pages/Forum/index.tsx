@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { allowNotifications, ForumProps, forumSelector, profileSelector } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
-import { createTopicThunk, getTopicsThunk } from 'client/core/store/actions/forum.actions';
+import { createTopicThunk, getTopicsThunk } from 'client/core/store/actions';
 
 export const WrapperForum: FC = memo(() => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export const WrapperForum: FC = memo(() => {
   }, []);
 
   const onSubmit = ({ title, content }: { [key: string]: string }) => {
-    const created = new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' });
+    const created = new Date().toLocaleString('ru-RU');
     const data = {
       title,
       content,
@@ -64,7 +64,6 @@ export const WrapperForum: FC = memo(() => {
     return topics.map((topic) => (
       <Box mb="60px" key={topic.id}>
         <ForumCard
-          key={topic.id}
           {...topic}
         />
       </Box>

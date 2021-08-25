@@ -8,18 +8,14 @@ export const forumReducer = (
   action: ActionProps,
 ) => {
   switch (action.type) {
-  case FORUM.SET: {
+  case FORUM.SET:
     return [...state, ...action.payload];
-  }
-  case FORUM.CREATE_TOPIC: {
+  case FORUM.CREATE_TOPIC:
     return [...state, action.payload];
-  }
-  case FORUM.DELETE_TOPIC: {
+  case FORUM.DELETE_TOPIC:
     return state.filter(({ id }) => id !== action.payload.id);
-  }
-  case FORUM.CLEAR: {
+  case FORUM.CLEAR:
     return initialStateForum;
-  }
   default:
     return state;
   }

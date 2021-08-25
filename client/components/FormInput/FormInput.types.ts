@@ -38,8 +38,10 @@ export type NameInput = 'login'
 
 export type ProfileNames = Exclude<NameInput, 'title' | 'content'>;
 
-export type MetaInput = { name: NameInput;
+export type MetaInput = {
+  name: NameInput;
   label: string;
   type: string;
   rules: RulesObj;
+  multiline?: boolean;
 };
