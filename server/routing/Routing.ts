@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 import path from 'path';
-import { AuthController, ProfileController, ThemeController } from 'server/controllers';
+import { AuthController, ForumController, ProfileController, ThemeController } from 'server/controllers';
 import { BUILD_DIR } from '../../env';
 
 export function routing(app: Express) {
@@ -18,6 +18,10 @@ export function routing(app: Express) {
   app.put('/api/v2/user/profile', jsonParser, ProfileController.change);
 
   app.put('/api/v2/theme', jsonParser, ThemeController.change);
+
+  app.get('/api/v2/forum/all', jsonParser, ForumController.getTopics);
+  app.post('/api/v2/forum/new', jsonParser, ForumController.createTopic);
+  app.delete('/api/v2/forum/delete', jsonParser, ForumController.deleteTopic);
 
   app.get('*', (req, res) => {
     res.renderBundle(req.url);

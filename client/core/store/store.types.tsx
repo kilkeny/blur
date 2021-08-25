@@ -11,6 +11,7 @@ export interface StoreProps {
   oauth: OAuthProps;
   notification: NotificationProps
   theme: ThemeProps;
+  forum: ForumProps;
 }
 
 export type StoreAuthProps = {
@@ -31,3 +32,14 @@ export interface StoreSnackBarProps extends SnackBarDataProps {
 export type NotificationProps = {
   notificationsAllowed: boolean;
 };
+
+export type TopicType = {
+  id: number,
+  title: string,
+  content: string,
+  author: string,
+  created: string,
+  comments: [],
+};
+
+export type ForumProps = TopicType[];

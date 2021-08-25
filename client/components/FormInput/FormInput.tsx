@@ -20,7 +20,7 @@ export const FormInput: FC<FormInputProps> = ({
   inputName, control, className, defaultValue,
 }) => {
   const inputInfo = defaultInputs[inputName];
-  const { name, label, type, rules } = inputInfo;
+  const { name, label, type, rules, multiline } = inputInfo;
   return (
     <Controller
       name={name}
@@ -31,7 +31,7 @@ export const FormInput: FC<FormInputProps> = ({
         <TextField
           className={className}
           label={label}
-          multiline={inputName === 'text'}
+          multiline={multiline}
           type={type}
           value={value || ''}
           helperText={error?.message}
