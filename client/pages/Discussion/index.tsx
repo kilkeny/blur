@@ -1,19 +1,49 @@
 import React, { FC, memo } from 'react';
-import { Paper, Box, Typography } from '@material-ui/core';
-import { Message, MessageEnum } from '@components/Message';
+import { Paper, Box, Typography, Button } from '@material-ui/core';
+// import { Message } from '@components/Message';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ForumProps, forumSelector } from 'client/core/store';
-import { discussionData } from './discussion.mock';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCommentThunk, ForumProps, forumSelector, profileSelector } from 'client/core/store';
+import { useForm } from 'react-hook-form';
+import { FormInput, NameInput } from 'client/components/FormInput';
 
 export const WrapperDiscussion: FC = memo(() => {
+  const dispatch = useDispatch();
+
+  const { login } = useSelector(profileSelector);
+
   const { id } = useParams<{ id: string }>();
 
   const forum = useSelector(forumSelector);
 
   const topics = Object.values(forum) as ForumProps;
   const topic = topics.find((data) => data.id === parseInt(id, 10));
+
+  const { handleSubmit, control, reset } = useForm();
+
+  const inputNames: NameInput[] = ['title', 'content'];
+
+  const inputControl = inputNames.map((inputName) => (
+    <FormInput
+      key={inputName}
+      inputName={inputName}
+      control={control}
+    />
+  ));
+
+  const onSubmit = ({ title, content }: { [key: string]: string }) => {
+    const created = new Date().toLocaleString('ru-RU');
+    const data = {
+      title,
+      content,
+      author: login,
+      comments: [],
+      created,
+    };
+    dispatch(addCommentThunk(data));
+    reset();
+  };
 
   if (topic) {
     const { created, title, content, author } = topic;
@@ -28,19 +58,25 @@ export const WrapperDiscussion: FC = memo(() => {
           <Typography variant="body1">created by {author}</Typography>
         </Box>
         <Box px="100px" py="80px">
+          <form
+            name="add_comment_form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Box py="175px">
+              {inputControl}
+            </Box>
+            <Box display="flex" justifyContent="space-around">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                add comment
+              </Button>
+            </Box>
+          </form>
           <Box>
-            <Message
-              type={MessageEnum.Question}
-              {...discussionData}
-            />
-          </Box>
-          <Box>
-            {discussionData.answers.map((answer) => (
-              <Message
-                type={MessageEnum.Answer}
-                {...answer}
-              />
-                ))}
+            Hello
           </Box>
         </Box>
       </Paper>

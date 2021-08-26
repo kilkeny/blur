@@ -16,6 +16,7 @@ import { Topic } from './Topic';
   tableName: 'comment',
   timestamps: false,
 })
+
 export class Comment extends Model {
   @ForeignKey(() => Topic)
   @Column(DataType.INTEGER)
@@ -27,7 +28,7 @@ export class Comment extends Model {
 
   @AllowNull(false)
   @Column(DataType.STRING(100))
-  comment!: string;
+  content!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(20))

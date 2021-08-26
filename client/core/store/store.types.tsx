@@ -33,13 +33,20 @@ export type NotificationProps = {
   notificationsAllowed: boolean;
 };
 
+export type CommentType = {
+  comment_id: number,
+  content: string,
+  author: string,
+  created: string,
+};
+
 export type TopicType = {
   id: number,
   title: string,
   content: string,
   author: string,
   created: string,
-  comments: [],
+  comments: CommentType[],
 };
 
 export type ForumProps = TopicType[];

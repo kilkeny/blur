@@ -23,6 +23,9 @@ export function routing(app: Express) {
   app.post('/api/v2/forum/new', jsonParser, ForumController.createTopic);
   app.delete('/api/v2/forum/delete', jsonParser, ForumController.deleteTopic);
 
+  app.post('/api/v2/forum/add-comment', jsonParser, ForumController.addComment);
+  app.delete('/api/v2/forum/remove-comment', jsonParser, ForumController.removeComment);
+
   app.get('*', (req, res) => {
     res.renderBundle(req.url);
   });
