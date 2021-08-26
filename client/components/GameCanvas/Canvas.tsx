@@ -1,4 +1,4 @@
-import { IconButton, useTheme } from '@material-ui/core';
+import { IconButton, makeStyles, useTheme } from '@material-ui/core';
 import { PauseCircleFilled, PlayCircleFilled } from '@material-ui/icons';
 import { SizeProps } from 'client/core';
 import { ColorVariant } from 'client/pages/Game/components/ColorBall';
@@ -12,9 +12,18 @@ export type CanvasProps = {
   id?: string;
 };
 
+const useStyles = makeStyles({
+  btnPause: {
+    position: 'absolute',
+    right: 0,
+    top: 20,
+  },
+});
+
 export const Canvas: FC<CanvasProps> = memo(
   ({ handleGameOver, variant, size, id }: CanvasProps) => {
     const theme = useTheme();
+    const classes = useStyles();
 
     const ref = useRef<HTMLCanvasElement>(null);
     const [controller, setController] = useState<Point[][]>([]);
@@ -126,7 +135,7 @@ export const Canvas: FC<CanvasProps> = memo(
         />
         <IconButton
           onClick={handlePauseOrStartGame}
-          style={{ position: 'absolute', right: 0, top: 20 }}
+          className={classes.btnPause}
         >
           {!isPause ? <PauseCircleFilled /> : <PlayCircleFilled />}
         </IconButton>
