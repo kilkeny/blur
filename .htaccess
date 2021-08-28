@@ -1,5 +1,0 @@
-<ifModule mod_headers.c>
-
-Header set Content-Security-Policy «default-src ‘self'»
-
-</ifModule>
