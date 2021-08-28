@@ -22,7 +22,7 @@ export const WrapperDiscussion: FC = memo(() => {
 
   const { handleSubmit, control, reset } = useForm();
 
-  const inputNames: NameInput[] = ['title', 'content'];
+  const inputNames: NameInput[] = ['content'];
 
   const inputControl = inputNames.map((inputName) => (
     <FormInput
@@ -32,15 +32,16 @@ export const WrapperDiscussion: FC = memo(() => {
     />
   ));
 
-  const onSubmit = ({ title, content }: { [key: string]: string }) => {
+  const onSubmit = ({ content }: { [key: string]: string }) => {
     const created = new Date().toLocaleString('ru-RU');
     const data = {
-      title,
+      topicid: parseInt(id, 10),
       content,
       author: login,
-      comments: [],
       created,
     };
+    console.log('in discussion');
+    console.log(data);
     dispatch(addCommentThunk(data));
     reset();
   };
@@ -70,6 +71,7 @@ export const WrapperDiscussion: FC = memo(() => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                data-id={id}
               >
                 add comment
               </Button>

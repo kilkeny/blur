@@ -2,10 +2,17 @@ CREATE DATABASE blur_db OWNER blur;
 GRANT ALL PRIVILEGES ON DATABASE blur_db TO blur;
 
 CREATE TABLE topic (
-  id SERIAL,
+  id SERIAL PRIMARY KEY,
   title VARCHAR ( 50 ) NOT NULL,
   content VARCHAR ( 500 ) NOT NULL,
   author VARCHAR ( 20 ) NOT NULL,
-  comments INTEGER DEFAULT 0,
-  created TIMESTAMP
+  created VARCHAR ( 25 ) NOT NULL
+);
+
+CREATE TABLE comment (
+  topicid INTEGER REFERENCES topic (id) ON DELETE CASCADE,
+  commentid SERIAL PRIMARY KEY,
+  content VARCHAR ( 500 ) NOT NULL,
+  author VARCHAR ( 20 ) NOT NULL,
+  created VARCHAR ( 25 ) NOT NULL
 );

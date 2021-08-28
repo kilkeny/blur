@@ -51,7 +51,6 @@ export const WrapperForum: FC = memo(() => {
       title,
       content,
       author: login,
-      comments: [],
       created,
     };
     dispatch(createTopicThunk(data));

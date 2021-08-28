@@ -34,7 +34,8 @@ export type NotificationProps = {
 };
 
 export type CommentType = {
-  comment_id: number,
+  topicid: number,
+  commentid: number,
   content: string,
   author: string,
   created: string,

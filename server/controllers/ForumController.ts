@@ -6,7 +6,7 @@ export class ForumController {
   public static getTopics(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
-    Topic.findAll()
+    Topic.findAll({ include: [Comment] })
       .then((data) => {
         res.send(data);
       })
@@ -18,13 +18,12 @@ export class ForumController {
   public static createTopic(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
-    const { title, content, author, comments, created } = req.body;
+    const { title, content, author, created } = req.body;
 
     const topic = {
       title,
       content,
       author,
-      comments,
       created,
     };
 
@@ -64,9 +63,10 @@ export class ForumController {
   public static addComment(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
-    const { author, content, created } = req.body;
+    const { topicid, author, content, created } = req.body;
 
     const comment = {
+      topicid,
       author,
       content,
       created,
@@ -74,9 +74,13 @@ export class ForumController {
 
     Comment.create(comment)
       .then((data) => {
+        console.log(('******'));
+        console.log(data);
         res.send(data);
       })
       .catch((error) => {
+        console.log('!!!!!!!!!!');
+        console.log(error);
         res.status(error.status).send(error.statusText);
       });
   }

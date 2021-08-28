@@ -7,8 +7,8 @@ const ForumAPIInstance = new HTTP('/forum', '/api/v2');
 export type CreateTopicProps = Omit<TopicType, 'id' | 'created' | 'comments'>;
 export type DeleteTopicProps = Pick<TopicType, 'id'>;
 
-export type AddCommentProps = Omit<CommentType, 'comment_id'>;
-export type RemoveCommentProps = Pick<CommentType, 'comment_id'>;
+export type AddCommentProps = Omit<CommentType, 'commentid'>;
+export type RemoveCommentProps = Pick<CommentType, 'commentid'>;
 
 export class ForumAPI extends BaseAPI {
   static getTopics() {
@@ -24,7 +24,9 @@ export class ForumAPI extends BaseAPI {
   }
 
   static addComment(data: AddCommentProps) {
-    return ForumAPIInstance.delete<AddCommentProps, any>('/add-comment', { data });
+    console.log('in api');
+    console.log(data);
+    return ForumAPIInstance.post<AddCommentProps, any>('/add-comment', { data });
   }
 
   static removeComment(data: RemoveCommentProps) {

@@ -70,9 +70,13 @@ export const addCommentThunk = (
   comment: AddCommentProps,
 ): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
   try {
+    console.log('in actions');
+    console.log(comment);
     const result = await ForumAPI.addComment(comment);
     dispatch(addCommentAction(result));
   } catch (error) {
+    console.log('in actions');
+    console.log(error);
     dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }
 };
