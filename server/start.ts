@@ -1,4 +1,5 @@
 import * as FormData from 'form-data';
+import { db } from '../db';
 import { Server } from './server';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -6,6 +7,10 @@ import 'regenerator-runtime/runtime';
 (global as any).FormData = FormData;
 
 const PORT = Number(process.env.PORT) || 8000;
+
+db.authenticate()
+  .then(() => console.log('Database connected'))
+  .catch((err) => console.log(err));
 
 const ExpressServer = new Server();
 

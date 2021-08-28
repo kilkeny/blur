@@ -87,6 +87,6 @@ export const VALIDATION: ValidationsProps = {
   email: EMAIL_VALIDATION,
   phone: PHONE_VALIDATION,
   title: TOPIC_TITLE_VALIDATION,
-  text: TOPIC_BODY_VALIDATION,
+  content: TOPIC_BODY_VALIDATION,
   password: PASSWORD_VALIDATION,
 };

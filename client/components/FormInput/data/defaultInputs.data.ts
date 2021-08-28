@@ -50,10 +50,11 @@ export const defaultInputs: Record<NameInput, MetaInput> = {
     type: 'text',
     rules: VALIDATION.title,
   },
-  text: {
-    name: 'text',
+  content: {
+    name: 'content',
     label: 'text',
     type: 'textarea',
-    rules: VALIDATION.text,
+    multiline: true,
+    rules: VALIDATION.content,
   },
 };
