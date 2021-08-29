@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     maxHeight: 1000,
     minHeight: 600,
     display: 'flex',
+    position: 'relative',
   },
 });
 
@@ -32,7 +33,10 @@ type TypeStatusGame = 'game' | 'start' | 'finish';
 export const WrapperGame: FC = memo(() => {
   const ref = useRef(null);
   const size = useSizeComponents(ref);
-  const [oldSize, setOldSize] = useState<SizeProps>({ width: 400, height: 400 });
+  const [oldSize, setOldSize] = useState<SizeProps>({
+    width: 400,
+    height: 400,
+  });
 
   const classes = useStyles();
   const [variant, setVariant] = useState<ColorVariant>('primary');
@@ -83,9 +87,14 @@ export const WrapperGame: FC = memo(() => {
   }, []);
 
   const controlGame = useMemo(() => {
-    console.log(status, score);
     if (status === 'game') {
-      return <Canvas {...{ handleGameOver, variant }} size={oldSize} id={uuid()} />;
+      return (
+        <Canvas
+          {...{ handleGameOver, variant }}
+          size={oldSize}
+          id={uuid()}
+        />
+      );
     }
     if (status === 'finish') {
       return <GameFinish {...{ score, variant, handleChangeStatus }} />;
