@@ -1,4 +1,5 @@
-import { useTheme } from '@material-ui/core';
+import { IconButton, makeStyles, useTheme } from '@material-ui/core';
+import { PauseCircleFilled, PlayCircleFilled } from '@material-ui/icons';
 import { SizeProps } from 'client/core';
 import { ColorVariant } from 'client/pages/Game/components/ColorBall';
 import React, { memo, FC, useRef, useEffect, useState, useMemo } from 'react';
@@ -11,15 +12,28 @@ export type CanvasProps = {
   id?: string;
 };
 
+const useStyles = makeStyles({
+  btnPause: {
+    position: 'absolute',
+    right: 0,
+    top: 20,
+  },
+});
+
 export const Canvas: FC<CanvasProps> = memo(
   ({ handleGameOver, variant, size, id }: CanvasProps) => {
     const theme = useTheme();
+    const classes = useStyles();
 
     const ref = useRef<HTMLCanvasElement>(null);
     const [controller, setController] = useState<Point[][]>([]);
     const [isDraw, setIsDraw] = useState(false);
+    const [isPause, setIsPause] = useState(false);
 
-    const newWorker = useMemo(() => new Worker(new URL('worker.ts', import.meta.url)), []);
+    const newWorker = useMemo(
+      () => new Worker(new URL('worker.ts', import.meta.url)),
+      [],
+    );
 
     useEffect(() => {
       if (ref?.current) {
@@ -78,6 +92,7 @@ export const Canvas: FC<CanvasProps> = memo(
     useEffect(() => {
       if (controller.length) {
         newWorker.postMessage({ event: 'controller', controller });
+        setIsPause(false);
       }
     }, [controller]);
 
@@ -98,15 +113,33 @@ export const Canvas: FC<CanvasProps> = memo(
       setController([...controller, []]);
     };
 
+    useEffect(() => {
+      if (ref?.current) {
+        newWorker.postMessage({ event: 'isPause', isPause });
+      }
+    }, [isPause]);
+
+    const handlePauseOrStartGame = () => {
+      setIsPause(!isPause);
+    };
+
     return (
-      <canvas
-        ref={ref}
-        {...size}
-        onDoubleClick={handleSetFullScreen}
-        onMouseDown={handleStartBarrier}
-        onMouseUp={handleEndBarrier}
-        onMouseMove={handleDrawBarrier}
-      />
+      <>
+        <canvas
+          ref={ref}
+          {...size}
+          onDoubleClick={handleSetFullScreen}
+          onMouseDown={handleStartBarrier}
+          onMouseUp={handleEndBarrier}
+          onMouseMove={handleDrawBarrier}
+        />
+        <IconButton
+          onClick={handlePauseOrStartGame}
+          className={classes.btnPause}
+        >
+          {!isPause ? <PauseCircleFilled /> : <PlayCircleFilled />}
+        </IconButton>
+      </>
     );
   },
 );

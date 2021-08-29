@@ -31,6 +31,7 @@ const start = () => {
     }
   }, 16);
 };
+
 onmessage = (event) => {
   if (event.data.event === 'createPointer') {
     const { color, id } = event.data;
@@ -44,6 +45,17 @@ onmessage = (event) => {
   if (event.data.event === 'controller') {
     controller = event.data.controller;
     start();
+  }
+
+  if (event.data.event === 'isPause') {
+    const { isPause } = event.data;
+    if (isPause) {
+      if (intervalLoop) {
+        clearInterval(intervalLoop);
+      }
+    } else {
+      start();
+    }
   }
 
   if (event.data?.canvas) {
