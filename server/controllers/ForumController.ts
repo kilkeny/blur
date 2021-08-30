@@ -11,7 +11,7 @@ export class ForumController {
         res.send(data);
       })
       .catch((error) => {
-        console.log(error);
+        res.status(error.status).send(error.statusText);
       });
   }
 
@@ -74,13 +74,9 @@ export class ForumController {
 
     Comment.create(comment)
       .then((data) => {
-        console.log(('******'));
-        console.log(data);
         res.send(data);
       })
       .catch((error) => {
-        console.log('!!!!!!!!!!');
-        console.log(error);
         res.status(error.status).send(error.statusText);
       });
   }
@@ -88,10 +84,10 @@ export class ForumController {
   public static removeComment(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 
-    const { comment_id: id } = req.body;
+    const { commentid } = req.body;
 
     Comment.destroy({
-      where: { id },
+      where: { commentid },
     })
       .then((num) => {
         if (num === 1) {
@@ -100,7 +96,7 @@ export class ForumController {
           });
         } else {
           res.send({
-            message: `Cannot delete Comment with id=${id}. Maybe Comment was not found!`,
+            message: `Cannot delete Comment with id=${commentid}. Maybe Comment was not found!`,
           });
         }
       })

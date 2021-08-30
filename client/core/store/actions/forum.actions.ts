@@ -1,4 +1,4 @@
-import { AddCommentProps, CreateTopicProps, DeleteTopicProps, ForumAPI, RemoveCommentProps } from 'client/core/api';
+import { AddCommentProps, CreateTopicProps, TopicId, ForumAPI, RemoveCommentProps } from 'client/core/api';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { ForumProps, StoreProps } from '../store.types';
@@ -15,7 +15,7 @@ export const createTopicAction = (payload: CreateTopicProps) => ({
   payload,
 });
 
-export const deleteForumAction = (payload: DeleteTopicProps) => ({
+export const deleteForumAction = (payload: TopicId) => ({
   type: FORUM.DELETE_TOPIC,
   payload,
 });
@@ -56,7 +56,7 @@ export const createTopicThunk = (
 };
 
 export const deleteTopicThunk = (
-  id: DeleteTopicProps,
+  id: TopicId,
 ): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
   try {
     await ForumAPI.deleteTopic(id);
@@ -70,13 +70,9 @@ export const addCommentThunk = (
   comment: AddCommentProps,
 ): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
   try {
-    console.log('in actions');
-    console.log(comment);
     const result = await ForumAPI.addComment(comment);
     dispatch(addCommentAction(result));
   } catch (error) {
-    console.log('in actions');
-    console.log(error);
     dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
   }
 };

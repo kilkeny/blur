@@ -1,10 +1,10 @@
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import { Paper, Box, Typography, Button } from '@material-ui/core';
-// import { Message } from '@components/Message';
+import { Message } from '@components/Message';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCommentThunk, ForumProps, forumSelector, profileSelector } from 'client/core/store';
+import { addCommentThunk, forumSelector, profileSelector } from 'client/core/store';
 import { useForm } from 'react-hook-form';
 import { FormInput, NameInput } from 'client/components/FormInput';
 
@@ -12,13 +12,11 @@ export const WrapperDiscussion: FC = memo(() => {
   const dispatch = useDispatch();
 
   const { login } = useSelector(profileSelector);
+  const forum = useSelector(forumSelector);
 
   const { id } = useParams<{ id: string }>();
 
-  const forum = useSelector(forumSelector);
-
-  const topics = Object.values(forum) as ForumProps;
-  const topic = topics.find((data) => data.id === parseInt(id, 10));
+  const topic = forum.find((item) => item.id === parseInt(id, 10));
 
   const { handleSubmit, control, reset } = useForm();
 
@@ -40,13 +38,19 @@ export const WrapperDiscussion: FC = memo(() => {
       author: login,
       created,
     };
-    console.log('in discussion');
-    console.log(data);
     dispatch(addCommentThunk(data));
     reset();
   };
 
   if (topic) {
+    const commentsCards = useMemo(() => topic.comments.map((item) => (
+      <Box mb="10px" key={topic.id}>
+        <Message
+          {...item}
+        />
+      </Box>
+    )), [forum]);
+
     const { created, title, content, author } = topic;
     return (
       <Paper elevation={22}>
@@ -63,10 +67,10 @@ export const WrapperDiscussion: FC = memo(() => {
             name="add_comment_form"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Box py="175px">
+            <Box py="10px">
               {inputControl}
             </Box>
-            <Box display="flex" justifyContent="space-around">
+            <Box display="flex" justifyContent="space-around" pb="10px">
               <Button
                 type="submit"
                 variant="contained"
@@ -78,7 +82,7 @@ export const WrapperDiscussion: FC = memo(() => {
             </Box>
           </form>
           <Box>
-            Hello
+            {commentsCards}
           </Box>
         </Box>
       </Paper>

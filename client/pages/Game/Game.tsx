@@ -83,7 +83,6 @@ export const WrapperGame: FC = memo(() => {
   }, []);
 
   const controlGame = useMemo(() => {
-    console.log(status, score);
     if (status === 'game') {
       return <Canvas {...{ handleGameOver, variant }} size={oldSize} id={uuid()} />;
     }

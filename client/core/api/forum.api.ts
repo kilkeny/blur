@@ -5,10 +5,10 @@ import { CommentType, ForumProps, TopicType } from '../store/store.types';
 const ForumAPIInstance = new HTTP('/forum', '/api/v2');
 
 export type CreateTopicProps = Omit<TopicType, 'id' | 'created' | 'comments'>;
-export type DeleteTopicProps = Pick<TopicType, 'id'>;
+export type TopicId = Pick<TopicType, 'id'>;
 
 export type AddCommentProps = Omit<CommentType, 'commentid'>;
-export type RemoveCommentProps = Pick<CommentType, 'commentid'>;
+export type RemoveCommentProps = Pick<CommentType, 'commentid' | 'topicid'>;
 
 export class ForumAPI extends BaseAPI {
   static getTopics() {
@@ -19,13 +19,11 @@ export class ForumAPI extends BaseAPI {
     return ForumAPIInstance.post<CreateTopicProps, any>('/new', { data });
   }
 
-  static deleteTopic(data: DeleteTopicProps) {
-    return ForumAPIInstance.delete<DeleteTopicProps, any>('/delete', { data });
+  static deleteTopic(data: TopicId) {
+    return ForumAPIInstance.delete<TopicId, any>('/delete', { data });
   }
 
   static addComment(data: AddCommentProps) {
-    console.log('in api');
-    console.log(data);
     return ForumAPIInstance.post<AddCommentProps, any>('/add-comment', { data });
   }
 

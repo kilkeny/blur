@@ -4,7 +4,7 @@ import { PageHeader } from '@components/PageHeader';
 import { ForumCard } from '@components/ForumCard';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useDispatch, useSelector } from 'react-redux';
-import { allowNotifications, ForumProps, forumSelector, profileSelector } from '@core/store';
+import { allowNotifications, forumSelector, profileSelector } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
 import { createTopicThunk, getTopicsThunk } from 'client/core/store/actions';
@@ -58,16 +58,13 @@ export const WrapperForum: FC = memo(() => {
     setShowForm(false);
   };
 
-  const topicCards = useMemo(() => {
-    const topics = Object.values(forum) as ForumProps;
-    return topics.map((topic) => (
-      <Box mb="60px" key={topic.id}>
-        <ForumCard
-          {...topic}
-        />
-      </Box>
-    ));
-  }, [forum]);
+  const topicCards = useMemo(() => forum.map((topic) => (
+    <Box mb="60px" key={topic.id}>
+      <ForumCard
+        {...topic}
+      />
+    </Box>
+  )), [forum]);
 
   return (
     <>
