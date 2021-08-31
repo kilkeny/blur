@@ -29,19 +29,26 @@ export const Header: FC = () => {
     changeTypeThemeThunk({ type: type === 'dark' ? 'light' : 'dark' }),
   );
 
+  const updateThemeOnSensor = (event: Event) => {
+    const sensor = event.target;
+    if ((sensor as any).illuminance <= 50) {
+      dispatch(changeTypeThemeThunk({ type: 'dark' }));
+    } else {
+      dispatch(changeTypeThemeThunk({ type: 'light' }));
+    }
+  };
+
   useEffect(() => {
     if ('AmbientLightSensor' in window) {
       // @ts-ignore
       const sensor = new AmbientLightSensor();
+
+      sensor.addEventListener('reading', updateThemeOnSensor);
       sensor.start();
 
-      sensor.addEventListener('reading', () => {
-        if (sensor.illuminance <= 50) {
-          dispatch(changeTypeThemeThunk({ type: 'dark' }));
-        } else {
-          dispatch(changeTypeThemeThunk({ type: 'light' }));
-        }
-      });
+      return function cleanup() {
+        sensor.removeEventListener('reading', updateThemeOnSensor);
+      };
     }
   }, []);
 
