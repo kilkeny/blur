@@ -34,14 +34,16 @@ export const Header: FC = () => {
       // @ts-ignore
       const sensor = new AmbientLightSensor();
       sensor.start();
-      if (sensor.illuminance < 50) {
-        changeTypeThemeThunk({ type: 'dark' });
-      } else {
-        changeTypeThemeThunk({ type: 'light' });
-      }
-      console.log(sensor);
+
+      sensor.addEventListener('reading', () => {
+        if (sensor.illuminance <= 50) {
+          dispatch(changeTypeThemeThunk({ type: 'dark' }));
+        } else {
+          dispatch(changeTypeThemeThunk({ type: 'light' }));
+        }
+      });
     }
-  });
+  }, []);
 
   return (
     <Box
