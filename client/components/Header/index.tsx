@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Box, IconButton, Typography, useTheme } from '@material-ui/core';
 import { Logo } from '@components/Logo';
 import { ROUTES } from '@components/Routing/Routing.data';
@@ -28,6 +28,20 @@ export const Header: FC = () => {
   const handleChangeTypeTheme = () => dispatch(
     changeTypeThemeThunk({ type: type === 'dark' ? 'light' : 'dark' }),
   );
+
+  useEffect(() => {
+    if ('AmbientLightSensor' in window) {
+      // @ts-ignore
+      const sensor = new AmbientLightSensor();
+      sensor.start();
+      if (sensor.illuminance < 50) {
+        changeTypeThemeThunk({ type: 'dark' });
+      } else {
+        changeTypeThemeThunk({ type: 'light' });
+      }
+      console.log(sensor);
+    }
+  });
 
   return (
     <Box
