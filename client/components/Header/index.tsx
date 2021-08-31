@@ -48,6 +48,7 @@ export const Header: FC = () => {
 
       return function cleanup() {
         sensor.removeEventListener('reading', updateThemeOnSensor);
+        sensor.stop();
       };
     }
   }, []);
