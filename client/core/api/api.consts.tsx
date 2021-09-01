@@ -1,5 +1,6 @@
 export const BASE = 'https://ya-praktikum.tech/';
 export const BASE_URL = `${BASE}api/v2`;
+// ts а не tsx
 
 export enum METHOD {
   GET = 'GET',

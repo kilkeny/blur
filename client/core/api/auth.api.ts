@@ -1,7 +1,7 @@
 import { BaseAPI } from './base.api';
 import { HTTP } from './api';
 
-const AuthAPIInstance = new HTTP('/auth', '/api/v2');
+const AuthAPIInstance = new HTTP('/auth', '/api/v2'); // непонятно зачем тут второй агрумент?
 
 export type SigninProps = {
   login: string;

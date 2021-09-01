@@ -12,6 +12,6 @@ export const changeTypeTheme = (payload: ThemeProps) => ({
 export const changeTypeThemeThunk = (
   theme: ThemeProps,
 ): ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
-  const result = await ThemeAPI.change(theme);
+  const result = await ThemeAPI.change(theme); // не хватает try/catch
   dispatch(changeTypeTheme(result));
 };

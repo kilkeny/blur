@@ -4,3 +4,4 @@ export const routes = {
   leaderboard: { url: '/leaderboard', name: 'leaderboard' },
   profile: { url: '/profile', name: 'profile' },
 };
+// уже где-то был объект с роутами

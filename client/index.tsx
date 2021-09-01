@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { App } from './App';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'core-js/stable'; // а эти полифилы тут точно нужны?
+import 'regenerator-runtime/runtime'; // возможно бабель настроен на какой-то древний стандарт
 // import { startServiceWorker } from '../sw/start_sw';
 
 // eslint-disable-next-line no-underscore-dangle

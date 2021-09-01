@@ -12,7 +12,10 @@ export const WrapperDiscussion: FC = memo(() => {
 
   const forum = useSelector(forumSelector);
 
-  const topics = Object.values(forum) as ForumProps;
+  const topics = Object.values(forum) as ForumProps; // А зачем в селекторе деструктуризация массива в объект? Она там точно нужна?
+  // там же всеравно в индексах будут не айдишники а числа от 0 и выше.
+  // Если была задумка сделать нормализацию данных то
+  // можно обратить внимание на https://github.com/paularmstrong/normalizr
   const topic = topics.find((data) => data.id === parseInt(id, 10));
 
   if (topic) {
@@ -40,7 +43,7 @@ export const WrapperDiscussion: FC = memo(() => {
                 type={MessageEnum.Answer}
                 {...answer}
               />
-                ))}
+            ))} // отступ поехал
           </Box>
         </Box>
       </Paper>

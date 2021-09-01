@@ -16,7 +16,12 @@ export interface BallParams {
 }
 
 export class Ball implements BallParams {
-  position!: Point;
+  position!: Point; // а зачем здесь "!"? Это как type assertion только для значения.
+  // То есть например если есть foo?: number (number | undefined)
+  // То можно указать тайпскрипту что "я точно уверен что здесь есть значение" foo!
+  // И тогда он не будет ругаться на стадии компиляции, но по факту ты на себя ответственность
+  // перекладываешь, потому что в рантайме по факту ошибка появиться может (foo может быть undefined)
+  // Надеюсь понятно объяснил
 
   speed!: Vector;
 
@@ -46,7 +51,8 @@ export class Ball implements BallParams {
   move(size: SizeProps) {
     const { width, height } = size;
     if (this.left() < 0 || this.right() > width) {
-      this.speed = this.speed.reflectionX();
+      this.speed = this.speed.reflectionX(); // Как у скорости может быть отражение?) В том смысле скорость не может быть наверх или вправо
+      // Это к вопросу нейминга... Может быть это не speed должна быть, а например movement
     }
     if (this.top() < 0 || this.bottom() > height) {
       this.speed = this.speed.reflectionY();
@@ -75,7 +81,7 @@ export class Ball implements BallParams {
   }
 
   getNextStep() {
-    const x = this.position.x + this.speed.x;
+    const x = this.position.x + this.speed.x; // тут вот тоже получается что у скорости есть "x"...
     const y = this.position.y + this.speed.y;
     return new Point(x, y);
   }

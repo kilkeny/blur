@@ -43,7 +43,7 @@ export const GameFinish: FC<GameFinishProps> = memo(
               color="primary"
               onClick={handleChangeStatus('game')}
             >
-              {'play again >'}
+              {'play again >'} // как вариант можно использовать html-код символов, они легко гуглятся -x &gt; это '>'
             </Button>
           </div>
         </div>

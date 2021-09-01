@@ -31,10 +31,10 @@ export function queryStringify<T extends object>(data: T): string {
 
 export const INTERNAL_API_HOST = '';
 
-export class HTTP {
-  basePath: string = BASE_URL;
+export class HTTP { // Так это вроде http.ts, а не api.tsx должен быть
+  basePath: string = BASE_URL; // BASE_URL в конструкторе всеравно затирается
 
-  constructor(path = '', basePath = BASE_URL) {
+  constructor(path = '', basePath = BASE_URL) { // непонятно зачем тут basePath в аргументах
     this.basePath = basePath + path;
   }
 

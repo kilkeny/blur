@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Paper } from '@material-ui/core';
-import { NameInput, FormInput } from '@components/FormInput';
-import { ROUTES } from '@components/Routing/Routing.data';
-import { LinkComponent } from '@components/LinkComponent';
 
 import { SigninProps } from '@core/api';
-import { useDispatch, useSelector } from 'react-redux';
 import { getClientIdThunk, oauthSelector, signinThunk } from '@core/store';
 import { withAuth } from '@core/HOKs/withAuth';
+import { NameInput, FormInput } from '@components/FormInput';
+import { LinkComponent } from '@components/LinkComponent';
 import { YandexLogo } from '@components/YandexLogo';
-import { Link } from 'react-router-dom';
+import { ROUTES } from '@components/Routing/Routing.data';
+// пример компоновки импортов
 
 export const WrapperLogin = () => {
   const { handleSubmit, control } = useForm();
@@ -25,7 +26,8 @@ export const WrapperLogin = () => {
 
   const onSubmit = (data: SigninProps) => {
     dispatch(signinThunk(data));
-  };
+  }; // Вот здесь кстати хорошая запись, до этого я видел const onSubmit = (data: SigninProps) => dispatch(signinThunk(data));
+  // Лучше писать в едином стиле, и полностью. так же как ифы например. Тем более что здесь функция не должна ничего возвращать
 
   useEffect(() => {
     dispatch(getClientIdThunk(callbackURL));

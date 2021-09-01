@@ -24,8 +24,8 @@ export const logoutThunk = (
   dispatch(clearLeaderboardAction());
   dispatch(clearForumAction());
   dispatch(clearCodeAction());
-  Cookies.remove('uuid');
-  Cookies.remove('authCookie');
+  Cookies.remove('uuid'); // у вас AuthAPI.logout() отвечает с респонсом set-cookie, который экспайрит куки, то есть
+  Cookies.remove('authCookie'); // в этом нет необхоидмости
 
   await AuthAPI.logout();
 };
@@ -39,7 +39,7 @@ export const signinThunk = (
     await AuthAPI.signin(data);
     dispatch(getProfileThunk());
   } catch (error) {
-    if (!error.ok) {
+    if (!error.ok) { // чтобы не повторять этот код его можно вынести в HTTP сервис
       const response = await error;
       const result = await response.json();
       dispatch(showSnackBarAction({ type: 'error', msg: result.reason }));

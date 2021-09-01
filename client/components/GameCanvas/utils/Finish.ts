@@ -18,7 +18,7 @@ export class Finish implements FinishParams {
 
   step: number;
 
-  distanse: number;
+  distanse: number; // distanCe)
 
   startTime: number;
 

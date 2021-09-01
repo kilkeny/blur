@@ -1,6 +1,12 @@
-import { makeValidationRules } from '../../../utils/makeValidationRules';
+import { makeValidationRules } from '../../../utils/makeValidationRules'; // можно ипользовать path alias
 import { NameInput, RulesObj } from '../FormInput.types';
 
+/*
+А какая нужда писать регулярки в строках?
+Если сделать тип { [key: string]: RegExp },
+то это как минимум логичней, плюс в FormInput.ts не будет ошибка типизации
+и можно будет брать type assertion (as RegisterOptions)
+ */
 const REGEXP: { [key: string]: string } = {
   EMAIL:
         '/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/i',
@@ -29,7 +35,7 @@ const LOGIN_VALIDATION = makeValidationRules({
   pattern: {
     value: REGEXP.LOGIN,
     message:
-            'use letters numbers and _',
+            'use letters numbers and _', // отступы, и ниже тоже
   },
 });
 

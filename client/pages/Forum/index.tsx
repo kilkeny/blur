@@ -31,11 +31,11 @@ export const WrapperForum: FC = memo(() => {
   useEffect(() => {
     dispatch(getTopicsThunk());
 
-    Notification.requestPermission();
-    if (Notification.permission === 'granted') {
-      dispatch(allowNotifications());
-      // eslint-disable-next-line
-      const notification = new Notification(
+    Notification.requestPermission(); // тут ТС подсказывает, что это промис,
+    if (Notification.permission === 'granted') { //  а значит это условие выполнится до того, как промис завершится
+      dispatch(allowNotifications());// то есть его нужно убрать в requestPermission().then(permission => ...)
+      // eslint-disable-next-line // А так же насколько я правильно понял, нужно сначала дождаться сообщений от сервера
+      const notification = new Notification( // то есть нужно авэйтить диспатч санки
         'Новые сообщения',
         {
           body: 'У вас 3 непрочитанных сообщения',
@@ -45,7 +45,7 @@ export const WrapperForum: FC = memo(() => {
     }
   }, []);
 
-  const onSubmit = ({ title, content }: { [key: string]: string }) => {
+  const onSubmit = ({ title, content }: { [key: string]: string }) => {  // такие часто встречающиеся интерейсы как { [key: string]: string/any } можно выносить в глобальные и переиспользовать
     const created = new Date().toLocaleString('ru-RU');
     const data = {
       title,
@@ -54,8 +54,8 @@ export const WrapperForum: FC = memo(() => {
       comments: [],
       created,
     };
-    dispatch(createTopicThunk(data));
-    reset();
+    dispatch(createTopicThunk(data)); // здесь по хорошему тоже нужно авэйтить диспатч, потому что ресет формы будет сразу
+    reset(); // независимо от того, прошел запрос успешно или нет. А возможно была ошибка в каком-то поле и нужно ее показать, не очищая поля
     setShowForm(false);
   };
 

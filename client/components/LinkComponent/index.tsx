@@ -2,6 +2,9 @@ import React, { FC } from 'react';
 import { Typography, makeStyles, Theme } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { RouteType } from '@components/Routing/Routing.types';
+// У вас где-то компоненты лежат в Component.ts, с экспортом из index.ts
+// а где-то лежат прям в index.ts
+// было бы неплохо выдержать единый стиль
 
 export const useStyles = makeStyles((theme: Theme) => ({
   root: {

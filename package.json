@@ -4,7 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "ssr-start:server": "nodemon ./build/server.js --watch ./build/server.js",
+        "ssr-start:server": "nodemon ./build/server.js --watch ./build/server.js", // помоему так будет вотчиться только один файл
+      // то есть нужно указывать папку. А вообще - почему здесь build/server.js? Нет смысла вотчить папку билда, в ней
+      // никто ничего не правит. Вотчить нужно папку server/ возможно `server/**/*.ts`, либо нужно настроить чтоб typescript вотчился
+      // но помоему из коробки он работает с тс
         "ssr-start:webpack": "cross-env NODE_ENV=development webpack --config webpack.config.server.js --watch",
         "ssr-start": "cross-env NODE_ENV=development npm-run-all --print-label --parallel ssr-start:*",
         "ssr-build": "cross-env NODE_ENV=production webpack --config webpack.config.server.js",

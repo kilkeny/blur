@@ -3,7 +3,7 @@ import { LeaderboardProps, ProfileProps, ThemeProps } from '@core/api';
 import { RouterState } from 'connected-react-router';
 
 export interface StoreProps {
-  router: RouterState
+  router: RouterState; //missed
   auth: StoreAuthProps;
   profile: ProfileProps;
   snackbar: StoreSnackBarProps;
@@ -15,7 +15,7 @@ export interface StoreProps {
 }
 
 export type StoreAuthProps = {
-  isAuth: boolean
+  isAuth: boolean; // missed
 };
 
 export type OAuthProps = {
@@ -34,7 +34,7 @@ export type NotificationProps = {
 };
 
 export type TopicType = {
-  id: number,
+  id: number, // лучше одного стиля придерживаться. Как правило используется ";"
   title: string,
   content: string,
   author: string,

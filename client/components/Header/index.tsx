@@ -8,6 +8,9 @@ import { authSelector, themeSelector } from 'client/core/store';
 import { changeTypeThemeThunk } from 'client/core/store/actions/theme.actions';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
+// Для лучшей читаемости лучше упорядочивать импорты (сначала идут импорты из node_modules, потом из своих,
+// некоторые люди еще ставят между ними перевод строки)
+// В самом конце могут идти импорты из текущей папки './'
 
 export const Header: FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +29,9 @@ export const Header: FC = () => {
   ));
 
   const handleChangeTypeTheme = () => dispatch(
-    changeTypeThemeThunk({ type: type === 'dark' ? 'light' : 'dark' }),
+    changeTypeThemeThunk({ type: type === 'dark' ? 'light' : 'dark' }), // Лучше оперировать не текстовыми наименованиями,
+     // а константами/enum с этими самыми текстовыми наименованиями. Это дает подсказки в коде, меньше шанс допустить ошибки,
+    // а так же это задел на масштабируемость
   );
 
   return (
@@ -43,12 +48,12 @@ export const Header: FC = () => {
         blur
       </Typography>
       <Box width={isAuth ? '25%' : ''} display="flex" justifyContent="space-between">
-        {isAuth ? links : null}
+        {isAuth ? links : null} // Можно сократить до {isAuth && links}
         <IconButton onClick={handleChangeTypeTheme} size="small">
           {type === 'light' ? (
             <Brightness2Icon fontSize="inherit" />
                     ) : (
-                      <WbSunnyIcon fontSize="inherit" />
+                      <WbSunnyIcon fontSize="inherit" /> // оступы
                     )}
         </IconButton>
       </Box>

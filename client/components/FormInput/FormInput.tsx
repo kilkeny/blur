@@ -26,14 +26,22 @@ export const FormInput: FC<FormInputProps> = ({
       name={name}
       control={control}
       defaultValue={defaultValue}
-      rules={rules as RegisterOptions}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      rules={rules as RegisterOptions} // про это я писал в другом комменте...
+      render={({ field: { onChange, value = '' }, fieldState: { error } }) => ( // дефолтное значение можно указать здесь.
+        /*
+          Плюс тут можно более развернуто написать, для лучшей читаемости
+          ({ field, fieldState }) => {
+            const { onChange, value = '' } = field;
+            const { error } = fieldState;
+            return (
+              <TextField
+         */
         <TextField
           className={className}
           label={label}
           multiline={multiline}
           type={type}
-          value={value || ''}
+          value={value}
           helperText={error?.message}
           onChange={onChange}
           fullWidth

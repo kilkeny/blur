@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles({ // неплохо было бы этот момент тоже привести к одному стилю
+  // где-то стили в отдельном файле, где-то нет
   layout: {
     padding: '70px 0',
     display: 'flex',

@@ -4,7 +4,7 @@ import { AuthController, ForumController, ProfileController, ThemeController } f
 import { BUILD_DIR } from '../../env';
 
 export function routing(app: Express) {
-  app.use(express.static(path.join(__dirname, BUILD_DIR)));
+  app.use(express.static(path.join(__dirname, BUILD_DIR))); // можно вынести в server.ts к другим миддлварам
 
   const jsonParser = express.json();
 

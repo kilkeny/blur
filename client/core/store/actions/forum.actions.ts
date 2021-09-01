@@ -30,7 +30,9 @@ ThunkAction<void, StoreProps, unknown, Action<string>> => async (dispatch) => {
     const result = await ForumAPI.getTopics();
     dispatch(setForumAction(result));
   } catch (error) {
-    dispatch(showSnackBarAction({ type: 'error', msg: 'Error' }));
+    dispatch(showSnackBarAction({ type: 'error', msg: 'Error' })); // а здесь и дальше в других экшенах нет обработки ошибки.
+    // может лучше показывать ошибку от сервера, чем просто 'Error'?
+    // обычно пишут error.message || '...'
   }
 };
 

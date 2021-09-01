@@ -14,7 +14,7 @@ db.authenticate()
 
 const ExpressServer = new Server();
 
-ExpressServer.start(PORT)
+ExpressServer.start(PORT)// по хорошему лучше это положить в db.authenticate().then - все таки у нас нет гарантий что сервер стартанет когда база будет поднята
   .then((port) => {
     console.info(
       `--------------- The server started on port: ${port}! ---------------`,

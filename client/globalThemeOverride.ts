@@ -3,8 +3,10 @@ import { lightBlue } from '@material-ui/core/colors';
 import { createTheme } from '@material-ui/core/styles';
 import shadows from '@material-ui/core/styles/shadows';
 
-const shadowsOverride = shadows;
-shadowsOverride[22] = '0px 9px 46px 8px rgba(0, 0, 0, 0.12)';
+const shadowsOverride = shadows; // массив по ссылке передается
+shadowsOverride[22] = '0px 9px 46px 8px rgba(0, 0, 0, 0.12)'; // то есть здесь идет мутация массива из либы
+// так что нет смысла даже перезаписывать в отдельную переменную, если оно итак норм работает
+// либо тогда уже const shadowsOverride = [...shadows];
 
 export const globalThemeOverride = (type: PaletteType = 'light') => createTheme({
   typography: {

@@ -1,4 +1,4 @@
-import { SigninProps, SignupProps } from 'client/core/api';
+import { SigninProps, SignupProps } from 'client/core/api'; // Обычно в монорепе общие типы, модели, интерфейсы, классы выносят в папку common
 import { OptionsWithoutMethodType } from 'client/core/api/api';
 import { BaseAPI } from 'client/core/api/base.api';
 import { ServerHTTP } from './api';

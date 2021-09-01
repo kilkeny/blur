@@ -2,7 +2,8 @@ export interface RulesOptions {
   required: boolean;
   minLength: number;
   maxLength: number;
-  pattern?: {
+  pattern?: { // выглядит как будто можно вынести этот интерфейс (с value и message),
+              // так как его можно переиспользовать, уже как минимум в этом файле
     value: string;
     message: string;
   };
@@ -26,7 +27,8 @@ export interface RulesObj {
   valueAsNumber?: boolean;
 }
 
-export type NameInput = 'login'
+export type NameInput = // для удобства чтения обычно пишут так
+| 'login'
 | 'password'
 | 'first_name'
 | 'second_name'
@@ -35,6 +37,17 @@ export type NameInput = 'login'
 | 'title'
 | 'content'
 | 'display_name';
+//
+// export type NameInput = 'login'
+//   | 'password'
+//   | 'first_name'
+//   | 'second_name'
+//   | 'email'
+//   | 'phone'
+//   | 'title'
+//   | 'content'
+//   | 'display_name';
+//
 
 export type ProfileNames = Exclude<NameInput, 'title' | 'content'>;
 

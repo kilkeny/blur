@@ -36,7 +36,7 @@ export const Canvas: FC<CanvasProps> = memo(
     );
 
     useEffect(() => {
-      if (ref?.current) {
+      if (ref?.current) { // ref вроде точно будет, current может не быть. То есть if (ref.current)
         const canvas = ref.current;
 
         const offset = canvas.transferControlToOffscreen();
@@ -59,7 +59,7 @@ export const Canvas: FC<CanvasProps> = memo(
     };
 
     const handleSetFullScreen = () => {
-      if (ref?.current) {
+      if (ref?.current) {// можно сократить до ref.current?.requestFullscreen();
         ref.current.requestFullscreen();
       }
     };
@@ -67,13 +67,13 @@ export const Canvas: FC<CanvasProps> = memo(
     const getPoint = (e: MouseEvent) => {
       if (ref.current) {
         const canvas = ref.current;
-        if (canvas) {
+        if (canvas) { // дубликат условия по сути (уже проверили ref.current, а canvas это ссылка на него)
           const tempController = controller;
           if (!tempController.length) {
             tempController.push([]);
           }
           const line = tempController[tempController.length - 1];
-          let x = e.pageX - canvas?.offsetLeft;
+          let x = e.pageX - canvas?.offsetLeft; // здесь уже есть canvas (мы в теле условия) то есть canvas.offsetLeft
           let y = e.pageY - canvas?.offsetTop;
           if (canvas.offsetTop === 0) {
             const fullRatio = window.innerWidth / size.width;

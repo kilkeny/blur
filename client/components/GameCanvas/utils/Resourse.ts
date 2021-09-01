@@ -11,7 +11,7 @@ interface LoadStatusesProps {
   [key: string]: boolean;
 }
 
-export class ResourcesLoader {
+export class ResourcesLoader { // Это где-нибудь используется?
   static _resources: ResourcesProps = {};
 
   static _loadStatuses: LoadStatusesProps = {};

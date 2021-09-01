@@ -13,7 +13,7 @@ import { oauthReducer } from './reducers/oauth.reducer';
 import { initialStateTheme, themeReducer } from './reducers/theme.reducer';
 import { forumReducer } from './reducers/forum.reducer';
 
-export const isServer = !(
+export const isServer = !( // isServer = typeof window === 'undefined' должно быть достаточно
   typeof window !== 'undefined'
   && window.document
   && window.document.createElement
@@ -48,7 +48,9 @@ export const defaultState = {
   leaderboard: {},
   notification: { notificationsAllowed: false },
   auth: { isAuth: false },
-  oauth: { callbackURL: 'http://localhost:8000' },
+  oauth: { callbackURL: 'http://localhost:8000' }, // если это урл на который идет переадресация после логина через социалки
+  // то его нельзя хардкодить на локалхост, потому что куда бы вы не задеплоились всегда будет на локалхост редирект.
+  // то есть это в env надо выносить
   theme: initialStateTheme,
 } as StoreProps;
 

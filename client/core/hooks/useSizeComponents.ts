@@ -5,7 +5,7 @@ export type SizeProps = {
   height: number;
 };
 
-export function useSizeComponents<T> (ref?: RefObject<T>) {
+export function useSizeComponents<T> (ref?: RefObject<T>) { // если речь идет о рефе от useRef хука, то ref не опционален,
   const initSize = {
     width: window.innerWidth,
     height: window.innerHeight,
@@ -18,7 +18,7 @@ export function useSizeComponents<T> (ref?: RefObject<T>) {
       width: window.innerWidth,
       height: window.innerHeight,
     };
-    if (ref?.current instanceof HTMLElement) {
+    if (ref?.current instanceof HTMLElement) { // и здесь
       newSize = {
         width: ref.current.offsetWidth,
         height: ref.current.offsetHeight,

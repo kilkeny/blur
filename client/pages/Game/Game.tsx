@@ -50,8 +50,8 @@ export const WrapperGame: FC = memo(() => {
   useEffect(() => {
     if (
       !oldSize
-            || size.height !== oldSize?.height
-            || size.width !== oldSize?.width
+      || size.height !== oldSize?.height // отступ
+      || size.width !== oldSize?.width
     ) {
       setOldSize(size);
     }

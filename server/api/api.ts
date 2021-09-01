@@ -2,11 +2,12 @@ import { OptionsType, OptionsWithoutMethodType, queryStringify } from 'client/co
 import { BASE_URL, METHOD } from 'client/core/api/api.consts';
 import fetch from 'node-fetch';
 
-export class ServerHTTP {
+export class ServerHTTP { // тут тоже по идее http.ts
   basePath: string;
 
-  constructor(path = '', basePath = BASE_URL) {
-    this.basePath = basePath + path;
+  constructor(path = '', basePath = BASE_URL) { // здесь basePath ниоткуда не передается
+    // что вообщем-то и не нужно. Его можно убрать из аргументов
+    this.basePath = basePath + path; // и тут BASE_URL + path
   }
 
   get<Req, Res>(

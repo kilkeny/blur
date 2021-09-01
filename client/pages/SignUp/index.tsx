@@ -28,6 +28,22 @@ export const WrapperSignUp = () => {
 
   const onSubmit = (data: SignupProps) => {
     dispatch(signupThunk(data));
+    // Я тут оставлю пример как тут лучше всего делать
+    /*
+    try {
+      await dispatch(signupThunk(data));
+    } catch (e) {
+      return { [FORM_ERROR]: e.message }; // В разных либах по-разному хэндлятся submission errors
+                                          // Это пример общей ошибки из final-form
+                                          // Можно вернуть объект типа { first_name: 'too long', email: 'Invalid email address' }
+                                          // и тогда либа прокинет эти ошибки в пропсы самих инпутов, вместе с обновленной метой (error: true)
+                                          // где их можно будет отобразить пользователю
+                                          // Я не знаком с react-hook-form поэтому не подскажу как здесь лучше быть
+                                          // Но в целом такая механика работы с формами - основополагающая
+                                          // Без обработки ошибок с сервера не живет ни одно нормальное приложение
+                                          // Поэтому знать и уметь исполнять эту технику нужно!
+    }
+     */
   };
 
   return (

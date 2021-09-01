@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable class-methods-use-this */ // тут вроде везде есть обращение к this
 import { SizeProps } from '@core/hooks';
 import { CONFIG } from './Canvas.consts';
 import { Ball, Border, Finish, Point, Vector } from './utils';
@@ -28,12 +28,28 @@ export class GamePainter {
   finish: Finish;
 
   constructor(size: SizeProps, id: string, color: string) {
-    this.drawCanvas = this.drawCanvas.bind(this);
+    this.drawCanvas = this.drawCanvas.bind(this); // а зачем это? Это тайпскрипт, тут с этим норм все)
     this.id = id;
     this.size = size;
+    /*
+    Можно сократить.
+    TS позволяет писать так:
+    class A {
+      constructor(
+        public a: string,
+        private readonly b: number,
+      ) {
+        // здесь не нужно писать this.a = a; this.b = b и тд
+      }
+    }
+
+
+     */
     const { width, height } = this.size;
 
-    this.kt = CONFIG.LEVELS.width / this.size.width;
+    this.kt = CONFIG.LEVELS.width / this.size.width; // Лучше именовать "по понятней". Я вот не понимаю что за kt)
+    // Другое дело что мне это понимать и не нужно, а вот если на ваш проект придет другой разработчик,
+    // то ему придется код читать и вникать в него
 
     this.ball = new Ball(
       new Point(width * 0.2, height * 0.3),
@@ -47,7 +63,7 @@ export class GamePainter {
       color,
     );
 
-    this.borders = [];
+    this.borders = []; // дефолтные значение можно выше указать borders: Border[] = [];
     this.barriers = [];
     this.color = color;
     const shapes = Object.values(CONFIG.LEVELS.LEVEL1);
