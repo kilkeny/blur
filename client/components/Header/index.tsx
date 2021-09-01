@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Box, IconButton, Typography, useTheme } from '@material-ui/core';
 import { Logo } from '@components/Logo';
 import { ROUTES } from '@components/Routing/Routing.data';
@@ -33,6 +33,30 @@ export const Header: FC = () => {
      // а константами/enum с этими самыми текстовыми наименованиями. Это дает подсказки в коде, меньше шанс допустить ошибки,
     // а так же это задел на масштабируемость
   );
+
+  const updateThemeOnSensor = (event: Event) => {
+    const sensor = event.target;
+    if ((sensor as any).illuminance <= 50) {
+      dispatch(changeTypeThemeThunk({ type: 'dark' }));
+    } else {
+      dispatch(changeTypeThemeThunk({ type: 'light' }));
+    }
+  };
+
+  useEffect(() => {
+    if ('AmbientLightSensor' in window) {
+      // @ts-ignore
+      const sensor = new AmbientLightSensor();
+
+      sensor.addEventListener('reading', updateThemeOnSensor);
+      sensor.start();
+
+      return function cleanup() {
+        sensor.removeEventListener('reading', updateThemeOnSensor);
+        sensor.stop();
+      };
+    }
+  }, []);
 
   return (
     <Box
