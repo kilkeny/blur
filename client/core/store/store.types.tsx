@@ -3,7 +3,7 @@ import { LeaderboardProps, ProfileProps, ThemeProps } from '@core/api';
 import { RouterState } from 'connected-react-router';
 
 export interface StoreProps {
-  router: RouterState
+  router: RouterState;
   auth: StoreAuthProps;
   profile: ProfileProps;
   snackbar: StoreSnackBarProps;
@@ -12,10 +12,11 @@ export interface StoreProps {
   notification: NotificationProps
   theme: ThemeProps;
   forum: ForumProps;
+  currentTopic: TopicType;
 }
 
 export type StoreAuthProps = {
-  isAuth: boolean
+  isAuth: boolean;
 };
 
 export type OAuthProps = {
@@ -33,13 +34,21 @@ export type NotificationProps = {
   notificationsAllowed: boolean;
 };
 
+export type CommentType = {
+  topicid: number;
+  commentid: number;
+  content: string;
+  author: string;
+  created: string;
+};
+
 export type TopicType = {
-  id: number,
-  title: string,
-  content: string,
-  author: string,
-  created: string,
-  comments: [],
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+  created: string;
+  comments: CommentType[];
 };
 
 export type ForumProps = TopicType[];

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import {
   AllowNull,
-  AutoIncrement,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -16,24 +16,29 @@ import { Topic } from './Topic';
   tableName: 'comment',
   timestamps: false,
 })
+
 export class Comment extends Model {
   @ForeignKey(() => Topic)
-  @Column(DataType.INTEGER)
-  id!: number;
+  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE' })
+  topicid: number;
 
-  @AutoIncrement
-  @Column(DataType.INTEGER)
-  comment_id!: number;
+  @BelongsTo(() => Topic, {
+    foreignKey: 'topicid',
+  })
+  topic: Topic;
+
+  @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
+  commentid: number;
 
   @AllowNull(false)
   @Column(DataType.STRING(100))
-  comment!: string;
+  content: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(20))
-  author!: string;
+  author: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(25))
-  created!: string;
+  created: string;
 }

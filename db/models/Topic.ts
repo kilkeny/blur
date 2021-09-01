@@ -1,12 +1,10 @@
 /* eslint-disable import/no-cycle */
 import {
   AllowNull,
-  AutoIncrement,
   Column,
   DataType,
   HasMany,
   Model,
-  PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 
@@ -18,27 +16,28 @@ import { Comment } from './Comment';
   timestamps: false,
 })
 export class Topic extends Model {
-  @AutoIncrement
-  @PrimaryKey
-  @Column(DataType.INTEGER)
-  id!: number;
+  @Column({ type: DataType.INTEGER, primaryKey: true, autoIncrement: true })
+  id: number;
 
   @AllowNull(false)
   @Column(DataType.STRING(50))
-  title!: string;
+  title: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(500))
-  content!: string;
+  content: string;
 
   @AllowNull(false)
   @Column(DataType.STRING(20))
-  author!: string;
+  author: string;
 
-  @HasMany(() => Comment)
-  comments!: Comment[];
+  @HasMany(() => Comment, {
+    foreignKey: 'topicid',
+    onUpdate: 'CASCADE',
+  })
+  comments: Comment[] = [];
 
   @AllowNull(false)
   @Column(DataType.STRING(25))
-  created!: string;
+  created: string;
 }

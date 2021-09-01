@@ -4,7 +4,7 @@ import { PageHeader } from '@components/PageHeader';
 import { ForumCard } from '@components/ForumCard';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useDispatch, useSelector } from 'react-redux';
-import { allowNotifications, ForumProps, forumSelector, profileSelector } from '@core/store';
+import { allowNotifications, forumSelector, profileSelector } from '@core/store';
 import { FormInput, NameInput } from 'client/components/FormInput';
 import { useForm } from 'react-hook-form';
 import { createTopicThunk, getTopicsThunk } from 'client/core/store/actions';
@@ -51,7 +51,6 @@ export const WrapperForum: FC = memo(() => {
       title,
       content,
       author: login,
-      comments: [],
       created,
     };
     dispatch(createTopicThunk(data));
@@ -59,16 +58,13 @@ export const WrapperForum: FC = memo(() => {
     setShowForm(false);
   };
 
-  const topicCards = useMemo(() => {
-    const topics = Object.values(forum) as ForumProps;
-    return topics.map((topic) => (
-      <Box mb="60px" key={topic.id}>
-        <ForumCard
-          {...topic}
-        />
-      </Box>
-    ));
-  }, [forum]);
+  const topicCards = useMemo(() => forum.map((topic) => (
+    <Box mb="60px" key={topic.id}>
+      <ForumCard
+        {...topic}
+      />
+    </Box>
+  )), [forum]);
 
   return (
     <>
@@ -76,23 +72,21 @@ export const WrapperForum: FC = memo(() => {
         <Button variant="text" color="primary" onClick={() => setShowForm(!showForm)}>+ create new topic</Button>
         {showForm && (
           <Paper elevation={22}>
-            <Box px="50px" minHeight="580px">
+            <Box px="50px" minHeight="260px">
               <form
                 name="new_topic_form"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <Box py="175px">
+                <Box py="10px">
                   {inputControl}
                 </Box>
-                <Box display="flex" justifyContent="space-around">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                  >
-                    add topic
-                  </Button>
-                </Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                >
+                  add topic
+                </Button>
               </form>
             </Box>
           </Paper>

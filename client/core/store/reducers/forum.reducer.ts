@@ -9,7 +9,7 @@ export const forumReducer = (
 ) => {
   switch (action.type) {
   case FORUM.SET:
-    return [...state, ...action.payload];
+    return [...action.payload];
   case FORUM.CREATE_TOPIC:
     return [...state, action.payload];
   case FORUM.DELETE_TOPIC:

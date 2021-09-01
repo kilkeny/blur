@@ -12,6 +12,7 @@ import { notificationReducer } from './reducers/notification.reducer';
 import { oauthReducer } from './reducers/oauth.reducer';
 import { initialStateTheme, themeReducer } from './reducers/theme.reducer';
 import { forumReducer } from './reducers/forum.reducer';
+import { currentTopicReducer } from './reducers/topic.reducer';
 
 export const isServer = !(
   typeof window !== 'undefined'
@@ -40,6 +41,7 @@ export const rootReducer = combineReducers({
   notification: notificationReducer,
   theme: themeReducer,
   forum: forumReducer,
+  currentTopic: currentTopicReducer,
 });
 
 export const defaultState = {

@@ -5,3 +5,4 @@ export * from './leaderboard.selectors';
 export * from './oauth.selector';
 export * from './theme.selector';
 export * from './forum.selector';
+export * from './topic.selector';
