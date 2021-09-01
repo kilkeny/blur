@@ -5,7 +5,7 @@ import { deleteTopicThunk, TopicType } from 'client/core/store';
 import { useDispatch } from 'react-redux';
 
 export const ForumCard: FC<TopicType> = memo((
-  { id, title, content, author, comments, created },
+  { id, title, content, author, comments = [], created },
 ) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -33,7 +33,7 @@ export const ForumCard: FC<TopicType> = memo((
           <Typography variant="body1">{content}</Typography>
         </Box>
         <Typography variant="body1">created by {author}</Typography>
-        <Typography variant="body1">comments: {comments?.length ?? 0}</Typography>
+        <Typography variant="body1">comments: {comments.length}</Typography>
         <Button data-id={id} variant="outlined" color="primary" onClick={handleDelete}>delete</Button>
       </Box>
     </Paper>
