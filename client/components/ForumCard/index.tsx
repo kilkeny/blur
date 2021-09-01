@@ -1,8 +1,7 @@
 import React, { FC, memo } from 'react';
 import { Paper, Typography, Box, Button } from '@material-ui/core';
 import { generatePath, useHistory } from 'react-router-dom';
-import { TopicType } from 'client/core/store';
-import { deleteTopicThunk } from 'client/core/store/actions/forum.actions';
+import { deleteTopicThunk, TopicType } from 'client/core/store';
 import { useDispatch } from 'react-redux';
 
 export const ForumCard: FC<TopicType> = memo((
@@ -34,7 +33,7 @@ export const ForumCard: FC<TopicType> = memo((
           <Typography variant="body1">{content}</Typography>
         </Box>
         <Typography variant="body1">created by {author}</Typography>
-        <Typography variant="body1">comments: {comments ? comments.length : 0}</Typography>
+        <Typography variant="body1">comments: {comments?.length ?? 0}</Typography>
         <Button data-id={id} variant="outlined" color="primary" onClick={handleDelete}>delete</Button>
       </Box>
     </Paper>

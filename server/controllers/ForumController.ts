@@ -15,6 +15,20 @@ export class ForumController {
       });
   }
 
+  public static getTopic(req: Request, res: Response) {
+    if (!req.body) return res.sendStatus(400);
+
+    const { id } = req.params;
+
+    Topic.findByPk(id, { include: [Comment] })
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((error) => {
+        res.status(error.status).send(error.statusText);
+      });
+  }
+
   public static createTopic(req: Request, res: Response) {
     if (!req.body) return res.sendStatus(400);
 

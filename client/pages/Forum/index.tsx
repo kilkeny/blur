@@ -72,23 +72,21 @@ export const WrapperForum: FC = memo(() => {
         <Button variant="text" color="primary" onClick={() => setShowForm(!showForm)}>+ create new topic</Button>
         {showForm && (
           <Paper elevation={22}>
-            <Box px="50px" minHeight="580px">
+            <Box px="50px" minHeight="200px">
               <form
                 name="new_topic_form"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <Box py="175px">
+                <Box py="10px">
                   {inputControl}
                 </Box>
-                <Box display="flex" justifyContent="space-around">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                  >
-                    add topic
-                  </Button>
-                </Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                >
+                  add topic
+                </Button>
               </form>
             </Box>
           </Paper>

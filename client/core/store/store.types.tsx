@@ -12,6 +12,7 @@ export interface StoreProps {
   notification: NotificationProps
   theme: ThemeProps;
   forum: ForumProps;
+  currentTopic: TopicType;
 }
 
 export type StoreAuthProps = {

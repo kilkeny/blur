@@ -10,7 +10,12 @@ export const Message: FC<CommentType> = memo(({ content, author, created, commen
     const target = e.currentTarget as HTMLElement;
     const { id } = target.dataset;
     if (id) {
-      dispatch(removeCommentThunk({ commentid: parseInt(id, 10), topicid }));
+      dispatch(removeCommentThunk(
+        {
+          commentid: parseInt(id, 10),
+          topicid,
+        },
+      ));
     }
     e.stopPropagation();
   };

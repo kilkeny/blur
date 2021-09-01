@@ -1,22 +1,24 @@
-import React, { FC, memo, useMemo } from 'react';
+import React, { FC, memo, useMemo, useEffect } from 'react';
 import { Paper, Box, Typography, Button } from '@material-ui/core';
 import { Message } from '@components/Message';
 import { withAuth } from '@core/HOKs/withAuth';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCommentThunk, forumSelector, profileSelector } from 'client/core/store';
+import {
+  addCommentThunk,
+  currentTopicSelector,
+  getTopicThunk,
+  profileSelector,
+} from 'client/core/store';
 import { useForm } from 'react-hook-form';
 import { FormInput, NameInput } from 'client/components/FormInput';
 
 export const WrapperDiscussion: FC = memo(() => {
   const dispatch = useDispatch();
-
-  const { login } = useSelector(profileSelector);
-  const forum = useSelector(forumSelector);
-
   const { id } = useParams<{ id: string }>();
 
-  const topic = forum.find((item) => item.id === parseInt(id, 10));
+  const { login } = useSelector(profileSelector);
+  const topic = useSelector(currentTopicSelector);
 
   const { handleSubmit, control, reset } = useForm();
 
@@ -42,26 +44,37 @@ export const WrapperDiscussion: FC = memo(() => {
     reset();
   };
 
-  if (topic) {
-    const commentsCards = useMemo(() => topic.comments.map((item) => (
-      <Box mb="10px" key={topic.id}>
-        <Message
-          {...item}
-        />
-      </Box>
-    )), [forum]);
+  useEffect(() => {
+    dispatch(getTopicThunk(id));
+  }, []);
 
-    const { created, title, content, author } = topic;
-    return (
-      <Paper elevation={22}>
-        <Box px="53px" py="46px" width="580px">
-          <Typography variant="body1">{created}</Typography>
-          <Box my="33px" height="118px">
-            <Typography variant="h6">{title}</Typography>
-            <Typography variant="body1">{content}</Typography>
+  const commentsCards = useMemo(() => {
+    if (topic && topic.comments) {
+      return (
+        topic.comments.map((item) => (
+          <Box mb="10px" key={topic.id}>
+            <Message
+              {...item}
+            />
           </Box>
-          <Typography variant="body1">created by {author}</Typography>
+        ))
+      );
+    }
+  }, [topic]);
+
+  return (
+    <>
+      <Paper elevation={22}>
+        <Box px="53px" py="46px" width="580px" mb="20px">
+          <Typography variant="body1">{topic.created}</Typography>
+          <Box my="33px" height="118px">
+            <Typography variant="h6">{topic.title}</Typography>
+            <Typography variant="body1">{topic.content}</Typography>
+          </Box>
+          <Typography variant="body1">created by {topic.author}</Typography>
         </Box>
+      </Paper>
+      <Paper elevation={22}>
         <Box px="100px" py="80px">
           <form
             name="add_comment_form"
@@ -70,26 +83,21 @@ export const WrapperDiscussion: FC = memo(() => {
             <Box py="10px">
               {inputControl}
             </Box>
-            <Box display="flex" justifyContent="space-around" pb="10px">
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                data-id={id}
-              >
-                add comment
-              </Button>
-            </Box>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              data-id={id}
+            >
+              add comment
+            </Button>
           </form>
-          <Box>
+          <Box mt="20px">
             {commentsCards}
           </Box>
         </Box>
       </Paper>
-    );
-  }
-  return (
-    <Typography variant="h6">Что-то пошло не так</Typography>
+    </>
   );
 });
 

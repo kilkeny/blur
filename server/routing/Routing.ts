@@ -20,11 +20,13 @@ export function routing(app: Express) {
   app.put('/api/v2/theme', jsonParser, ThemeController.change);
 
   app.get('/api/v2/forum/all', jsonParser, ForumController.getTopics);
-  app.post('/api/v2/forum/new', jsonParser, ForumController.createTopic);
-  app.delete('/api/v2/forum/delete', jsonParser, ForumController.deleteTopic);
 
-  app.post('/api/v2/forum/add-comment', jsonParser, ForumController.addComment);
-  app.delete('/api/v2/forum/remove-comment', jsonParser, ForumController.removeComment);
+  app.get('/api/v2/forum/topic/:id', jsonParser, ForumController.getTopic);
+  app.post('/api/v2/forum/topic/new', jsonParser, ForumController.createTopic);
+  app.delete('/api/v2/forum/topic/delete', jsonParser, ForumController.deleteTopic);
+
+  app.post('/api/v2/forum/comment/add', jsonParser, ForumController.addComment);
+  app.delete('/api/v2/forum/comment/remove', jsonParser, ForumController.removeComment);
 
   app.get('*', (req, res) => {
     res.renderBundle(req.url);
