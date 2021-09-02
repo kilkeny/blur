@@ -50,7 +50,7 @@ export const defaultState = {
   leaderboard: {},
   notification: { notificationsAllowed: false },
   auth: { isAuth: false },
-  oauth: { callbackURL: 'http://localhost:8000' },
+  oauth: { callbackURL: 'https://kilkeny-blur-6.ya-praktikum.tech/' },
   theme: initialStateTheme,
 } as StoreProps;
 

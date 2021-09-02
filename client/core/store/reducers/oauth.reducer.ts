@@ -1,6 +1,6 @@
 import { ActionProps, OAUTH } from '../actions';
 
-const initialState = { callbackURL: 'http://localhost:8000' };
+const initialState = { callbackURL: 'https://kilkeny-blur-6.ya-praktikum.tech/' };
 
 export const oauthReducer = (state = initialState, action: ActionProps) => {
   switch (action.type) {
