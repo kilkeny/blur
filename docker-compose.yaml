@@ -3,6 +3,7 @@ services:
   blur-app:
     build:
       context: .
+    container_name: blur-app
     depends_on:
       - postgres
     environment:
@@ -29,7 +30,7 @@ services:
       - "5432:5432"
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
-      - ./db/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+      - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
     environment:
       POSTGRES_USER: blur
@@ -58,7 +59,6 @@ services:
 
 volumes:
     pgadmin-data:
-      
 
 networks:
     awesome:
